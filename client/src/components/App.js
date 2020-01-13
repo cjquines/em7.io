@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Router } from "@reach/router";
+import NavBar from "./modules/NavBar.js";
 import Splash from "./pages/Splash.js";
 import Compose from "./pages/Compose.js";
 import Edit from "./pages/Edit.js";

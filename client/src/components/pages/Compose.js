@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
 
-import "../utilities.css";
+import "../../utilities.css";
 
 /**
  * Compose is the page where we compose stuff.

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
 
-import "../utilities.css";
+import "../../utilities.css";
 
 /**
  * Splash is the splash page of the website.

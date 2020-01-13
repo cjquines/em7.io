@@ -6,6 +6,7 @@
 - use 2 spaces for tabs
 - write state/props documentation for all components
 - sort things alphabetically when it makes sense
+- push only if nothing is broken (preferred, but not necessary)
 
 ## todo
 

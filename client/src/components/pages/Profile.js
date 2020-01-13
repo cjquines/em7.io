@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Profile } from "@reach/router";
+import { Link } from "@reach/router";
 
-import "../utilities.css";
+import "../../utilities.css";
 
 /**
  * Profile is the user's profile page.

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
 
-import "../utilities.css";
+import "../../utilities.css";
 
 /**
  * Edit is the page where we edit stuff.
