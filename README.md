@@ -11,6 +11,7 @@
 ## todo
 
 - make component tree
+- write initial compose page
 
 ## things to change in skeleton
 

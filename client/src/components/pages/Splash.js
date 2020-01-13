@@ -17,6 +17,8 @@ class Splash extends Component {
     return (
       <div className="Splash-container">
       splash page
+      <Link to="/compose">compose</Link>
+      <Link to="/listen">listen</Link>
       </div>
     );
   }
