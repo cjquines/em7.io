@@ -1,14 +1,18 @@
 import React, { Component } from "react";
 import { Router } from "@reach/router";
+import Splash from "./pages/Splash.js";
+import Compose from "./pages/Compose.js";
+import Edit from "./pages/Edit.js";
+import Listen from "./pages/Listen.js";
+import Profile from "./pages/Profile.js";
 import NotFound from "./pages/NotFound.js";
-import Skeleton from "./pages/Skeleton.js";
 
 import "../utilities.css";
 
 import { get, post } from "../utilities";
 
 /**
- * Define the "App" component as a class.
+ * App is the main container for the website.
  */
 class App extends Component {
   // makes props available in this component
@@ -43,17 +47,23 @@ class App extends Component {
 
   render() {
     return (
-      <>
-        <Router>
-          <Skeleton
-            path="/"
-            handleLogin={this.handleLogin}
-            handleLogout={this.handleLogout}
-            userId={this.state.userId}
-          />
-          <NotFound default />
-        </Router>
-      </>
+      <div className="App-container">
+        <NavBar
+          handleLogin={this.handleLogin}
+          handleLogout={this.handleLogout}
+          userId={this.state.userId}
+        />
+        <div className="App-body">
+          <Router>
+            <Splash path="/" />
+            <Compose path="/compose" />
+            <Edit path="/edit" />
+            <Listen path="/listen" />
+            <Profile path="/profile/:userId" />
+            <NotFound default />
+          </Router>
+        </div>
+      </div>
     );
   }
 }

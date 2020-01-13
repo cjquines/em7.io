@@ -5,6 +5,7 @@
 - start commit messages with verbs (like all these lists)
 - use 2 spaces for tabs
 - write state/props documentation for all components
+- sort things alphabetically when it makes sense
 
 ## todo
 
@@ -18,4 +19,3 @@
 - change the Database SRV for Atlas (server.js)
 - change the Database Name for MongoDB (server.js)
 - add a favicon to your website at the path client/dist/favicon.ico
-- update website title in client/dist/index.html
