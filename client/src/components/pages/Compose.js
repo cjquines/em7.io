@@ -18,50 +18,48 @@ class Compose extends Component {
       start: Date.now(),
       curKey: null,
       keys: ["a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'"],
-      keyMap: [60, 62, 64, 65, 67, 69, 71, 72, 74, 76, 77], // TODO: factor these out
+      pitchMap: [60, 62, 64, 65, 67, 69, 71, 72, 74, 76, 77], // TODO: factor these out
       song: new Song("C", 120),
     };
 
     this.audioContext = new AudioContext();
-    Soundfont.instrument(this.audioContext, 'acoustic_grand_piano').then((piano) => {
-      this.piano = piano;
-      console.log(this.piano);
-    });
 
-    this.addNote = this.addNote.bind(this);
     this.pressKey = this.pressKey.bind(this);
+    this.releaseKey = this.releaseKey.bind(this);
     this.noteBlock = this.noteBlock.bind(this); // TODO: factor out
   }
 
-  addNote(pitch, onset, length) {
-    this.setState({
-      song: {
-        notes: [...this.state.song.notes, new Note(pitch, onset, length)],
-      },
-    });
+  pressKey(key, pitch) {
+    this.piano.play(pitch);
+    const newCurKey = {...this.state.curKey, [key]: Date.now()};
+    this.setState({ curKey: newCurKey });
+    console.log(key + " is pressed");
   }
 
-  pressKey(key, note) {
-    let newCurKey = Object.assign({}, this.state.curKey);
-    newCurKey[key] = Date.now();
-    this.setState({ curKey: newCurKey });
-    this.piano.play(note);
+  releaseKey(key, pitch) {
+    this.piano.play(pitch).stop();
+    const onset = this.state.curKey[key] - this.state.start;
+    const length = Date.now() - this.state.curKey[key];
+    const newNotes = [...this.state.song.notes, new Note(pitch, onset, length)];
+    this.setState({ song: {...this.state.song, notes: newNotes} });
+    console.log(key + " is released");
   }
 
   componentDidMount() {
-    for (let i = 0; i < this.state.keys.length; i++) {
-      const key = this.state.keys[i];
-      const note = this.state.keyMap[i];
-      keyboardJS.bind(key, (e) => {
-        e.preventRepeat();
-        this.pressKey(key, note);
-        console.log(key + " is pressed");
-      }, (e) => {
-        this.addNote(note, this.state.curKey[key] - this.state.start, Date.now() - this.state.curKey[key]);
-        this.piano.play(note).stop();
-        console.log(key + " is released"); // factor into addNote later(?)
-      });
-    }
+    Soundfont.instrument(this.audioContext, 'acoustic_grand_piano')
+    .then((piano) => {
+      this.piano = piano;
+      for (let i = 0; i < this.state.keys.length; i++) {
+        const key = this.state.keys[i];
+        const pitch = this.state.pitchMap[i];
+        keyboardJS.bind(key, (e) => {
+          e.preventRepeat();
+          this.pressKey(key, pitch);
+        }, (e) => {
+          this.releaseKey(key, pitch);
+        });
+      }
+    });
   }
 
   noteBlock() {
