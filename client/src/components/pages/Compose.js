@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
-import Song from "../common/Song.js";
 const keyboardJS = require("keyboardJS");
+
+import Song from "../common/Song.js";
 
 import "../../utilities.css";
 

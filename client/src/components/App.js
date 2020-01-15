@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { Router } from "@reach/router";
-import NavBar from "./modules/NavBar.js";
-import Splash from "./pages/Splash.js";
+
 import Compose from "./pages/Compose.js";
 import Edit from "./pages/Edit.js";
 import Listen from "./pages/Listen.js";
-import Profile from "./pages/Profile.js";
+import NavBar from "./modules/NavBar.js";
 import NotFound from "./pages/NotFound.js";
+import Profile from "./pages/Profile.js";
+import Splash from "./pages/Splash.js";
+import { get, post } from "../utilities";
 
 import "../utilities.css";
-
-import { get, post } from "../utilities";
 
 /**
  * App is the main container for the website.
