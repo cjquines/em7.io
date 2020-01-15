@@ -12,6 +12,9 @@
 
 - make component tree
 - write initial compose page
+    - figure out how to make Song.noteBlock() and Song.addNote() synchronous
+- figure out [soundfont-player](https://www.npmjs.com/package/soundfont-player)
+    - (maybe imitate [autocomposer-js](https://github.com/rjsalvadorr/autocomposer-js/blob/master/src/melody-data.js))
 
 ## things to change in skeleton
 
