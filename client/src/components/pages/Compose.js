@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
 const keyboardJS = require("keyboardJS");
+const Soundfont = require("soundfont-player");
 
 import Note from "../common/Note.js";
 import Song from "../common/Song.js";
@@ -21,6 +22,12 @@ class Compose extends Component {
       song: new Song("C", 120),
     };
 
+    this.audioContext = new AudioContext();
+    Soundfont.instrument(this.audioContext, 'acoustic_grand_piano').then((piano) => {
+      this.piano = piano;
+      console.log(this.piano);
+    });
+
     this.addNote = this.addNote.bind(this);
     this.pressKey = this.pressKey.bind(this);
     this.noteBlock = this.noteBlock.bind(this); // TODO: factor out
@@ -34,23 +41,25 @@ class Compose extends Component {
     });
   }
 
-  pressKey(key) {
+  pressKey(key, note) {
     let newCurKey = Object.assign({}, this.state.curKey);
     newCurKey[key] = Date.now();
     this.setState({ curKey: newCurKey });
+    this.piano.play(note);
   }
 
   componentDidMount() {
     for (let i = 0; i < this.state.keys.length; i++) {
       const key = this.state.keys[i];
+      const note = this.state.keyMap[i];
       keyboardJS.bind(key, (e) => {
         e.preventRepeat();
-        this.pressKey(key);
+        this.pressKey(key, note);
         console.log(key + " is pressed");
       }, (e) => {
-        const note = this.state.keyMap[i];
         this.addNote(note, this.state.curKey[key] - this.state.start, Date.now() - this.state.curKey[key]);
-        console.log(key + " is released");
+        this.piano.play(note).stop();
+        console.log(key + " is released"); // factor into addNote later(?)
       });
     }
   }
