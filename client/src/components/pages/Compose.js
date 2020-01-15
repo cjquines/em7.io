@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
+import Song from "../common/Song.js";
 const keyboardJS = require("keyboardJS");
 
 import "../../utilities.css";
@@ -11,16 +12,13 @@ class Compose extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      start: null,
+      start: Date.now(),
       curkey: null,
-      notes: [],
+      song: new Song("C", 120),
     };
   }
 
   componentDidMount() {
-    this.setState({
-      start: Date.now(),
-    });
     keyboardJS.bind('a', (e) => {
       e.preventRepeat();
       this.setState({
@@ -29,27 +27,16 @@ class Compose extends Component {
       console.log('a is pressed');
     }, (e) => {
       console.log('a is released');
-      this.setState({
-        notes: this.state.notes.concat([
-          [
-            (this.state.curkey - this.state.start)/20,
-            (Date.now() - this.state.curkey)/20,
-          ]
-        ]),
-      });
+      this.state.song.addNote(60, this.state.curkey - this.state.start, Date.now() - this.state.curkey);
     });
   }
 
   render() {
     return (
       <div className="Compose-container">
-      compose page; press and hold a on your keyboard
+      compose page.
       
-      {
-        this.state.notes.map((l) => (
-          <div style={{position: "absolute", top: "5em", width: l[1] + "px", left: l[0] + "px", height: "20px", background: "#000",}}></div>
-        ))
-      }
+      {this.state.song.noteBlock()}
       </div>
     );
   }
