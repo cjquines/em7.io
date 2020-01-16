@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
-
+import NoteBlock from "../modules/NoteBlock.js";
 import "../../utilities.css";
 
 /**
