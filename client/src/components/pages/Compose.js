@@ -20,13 +20,24 @@ class Compose extends Component {
       keys: ["a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'"],
       pitchMap: [60, 62, 64, 65, 67, 69, 71, 72, 74, 76, 77], // TODO: factor these out
       song: new Song("C", [4, 4], 120),
+      isRecording: false,
+      beatNumber: 0,
     };
 
     this.audioContext = new AudioContext();
-
     this.pressKey = this.pressKey.bind(this);
     this.releaseKey = this.releaseKey.bind(this);
     this.noteBlock = this.noteBlock.bind(this); // TODO: factor out
+  }
+
+  auxiliaryMetronome(signature){
+    this.metronome.play(34-4*+(this.state.beatNumber%signature[0]===0));
+    this.setState({beatNumber: beatNumber+1});
+  }
+
+  playMetronome(tempo, signature){ //
+    const delay = 60000/tempo;
+    setInterval(auxiliaryMetronome(signature), delay);
   }
 
   pressKey(key, pitch) {
@@ -46,6 +57,8 @@ class Compose extends Component {
   }
 
   componentDidMount() {
+    Soundfont.instrument(this.metronomeSound, 'woodblock') //
+    .then((metronome) => this.metronome = metronome); //
     Soundfont.instrument(this.audioContext, 'acoustic_grand_piano')
     .then((piano) => {
       this.piano = piano;
