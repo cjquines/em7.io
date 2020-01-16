@@ -3,9 +3,12 @@ import { Link } from "@reach/router";
 const keyboardJS = require("keyboardJS");
 const Soundfont = require("soundfont-player");
 
+import KeyInput from "../modules/KeyInput.js";
 import Note from "../common/Note.js";
+import NoteBlock from "../modules/NoteBlock.js";
+import SignatureInput from "../modules/SignatureInput.js";
 import Song from "../common/Song.js";
-import SongParameterInput from "../modules/SongParameterInput.js";
+import TempoInput from "../modules/TempoInput.js";
 
 import "../../utilities.css";
 
@@ -18,49 +21,29 @@ class Compose extends Component {
     this.state = {
       start: Date.now(),
       curKey: null,
-      keys: ["a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'"],
-      pitchMap: [60, 62, 64, 65, 67, 69, 71, 72, 74, 76, 77], // TODO: factor these out
+      chordMap: {"I" : ["I", "ii", "ii7", "iii", "IV", "V", "V7", "vi", "vii", "vii7"],
+      "ii" : ["V", "V7", "vii", "vii7"],
+      "ii7" : ["V", "V7", "vii", "vii7"],
+      "iii" : ["vi"],
+      "IV" : ["I", "ii", "ii7", "V", "V7", "vii", "vii7"],
+      "V" : ["I", "vi"],
+      "V7" : ["I", "vi"],
+      "vi" : ["ii", "ii7", "IV"],
+      "vii" : ["I"],
+      "vii7" : ["I"]
+    },
+      keys: ["a", "w", "s", "e", "d", "f", "t", "g", "y", "h", "u", "j", "k", "o", "l", "p", ";", "'"],
+      pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77], // TODO: factor these out
       song: new Song("C", [4, 4], 120),
       isRecording: false,
-      beatNumber: 0,
     };
 
     this.audioContext = new AudioContext();
-    this.pressKey = this.pressKey.bind(this);
-    this.releaseKey = this.releaseKey.bind(this);
-    this.noteBlock = this.noteBlock.bind(this); // TODO: factor out
-    this.record = this.record.bind(this);
-  }
-
-  auxiliaryMetronome(signature){
-    this.metronome.play(34-4*+(this.state.beatNumber%signature[0]===0));
-    this.setState({beatNumber: beatNumber+1});
-  }
-
-  playMetronome(tempo, signature){ //
-    const delay = 60000/tempo;
-    setInterval(auxiliaryMetronome(signature), delay);
-  }
-
-  pressKey(key, pitch) {
-    this.piano.play(pitch);
-    const newCurKey = {...this.state.curKey, [key]: Date.now()};
-    this.setState({ curKey: newCurKey });
-    console.log(key + " is pressed");
-  }
-
-  releaseKey(key, pitch) {
-    this.piano.play(pitch).stop();
-    const onset = this.state.curKey[key] - this.state.start;
-    const length = Date.now() - this.state.curKey[key];
-    const newNotes = [...this.state.song.notes, new Note(pitch, onset, length)];
-    this.setState({ song: {...this.state.song, notes: newNotes} });
-    console.log(key + " is released");
   }
 
   componentDidMount() {
-    Soundfont.instrument(this.metronomeSound, 'woodblock') //
-    .then((metronome) => this.metronome = metronome); //
+    Soundfont.instrument(this.audioContext, 'woodblock')
+    .then((metronome) => this.metronome = metronome);
     Soundfont.instrument(this.audioContext, 'acoustic_grand_piano')
     .then((piano) => {
       this.piano = piano;
@@ -74,24 +57,55 @@ class Compose extends Component {
           this.releaseKey(key, pitch);
         });
       }
+      keyboardJS.pause();
     });
   }
 
-  noteBlock() {
-    return this.state.song.notes.map((note, index) => (
-      <div key={index}
-      style={{
-        position: "absolute",
-        top: (note.pitch - 50)*20 + "px",
-        width: (note.length / 20) + "px",
-        left: (note.onset / 20) + "px",
-        height: "20px",
-        background: "#000",
-      }}/>
-    ));
-  }
+  auxMetronome = () => {
+    if (this.beatNumber % this.state.song.signature[0] === 0) {
+      this.metronome.play(66);
+    } else {
+      this.metronome.play(59);
+    }
+    this.beatNumber = this.beatNumber + 1;
+  };
 
-  record() {
+  playMetronome = () => { 
+    const delay = 60000/this.state.song.tempo;
+    this.beatNumber = 0;
+    this.metronomeInterval = setInterval(this.auxMetronome, delay);
+  };
+
+  pressKey = (key, pitch) => {
+    this.piano.play(pitch);
+    const newCurKey = {...this.state.curKey, [key]: Date.now()};
+    this.setState({ curKey: newCurKey });
+    console.log(key + " is pressed");
+  };
+
+  releaseKey = (key, pitch) => {
+    this.piano.play(pitch).stop();
+    const onset = this.state.curKey[key] - this.state.start;
+    const length = Date.now() - this.state.curKey[key];
+    const newNotes = [...this.state.song.notes, new Note(pitch, onset, length)];
+    this.setState({ song: {...this.state.song, notes: newNotes} });
+    console.log(key + " is released");
+  };
+
+  record = () => {
+    this.setState({isRecording : true});
+    this.state.isRecording = true;
+    this.playMetronome();
+    keyboardJS.resume();
+  };
+
+  stopRecord = () => {
+    this.setState({isRecording : false});
+    clearInterval(this.metronomeInterval);
+    keyboardJS.pause();
+  };
+
+  harmonize() {
 
   }
 
@@ -100,30 +114,34 @@ class Compose extends Component {
       <div className="Compose-container">
       compose page.
 
-      <SongParameterInput
+      <KeyInput
         song={this.state.song}
-        parameter="key"
-        text="Key"
-        defaultValue="C"
+        defaultTonic="C"
+        defaultMode=""
         onChange={(song) => this.setState({song: song})}
       />
-      <SongParameterInput
+      <SignatureInput
         song={this.state.song}
-        parameter="signature"
-        text="Time Signature"
-        defaultValue="4/4"
+        defaultUpper="4"
+        defaultLower="4"
         onChange={(song) => this.setState({song: song})}
       />
-      <SongParameterInput
+      <TempoInput
         song={this.state.song}
-        parameter="tempo"
-        text="tempo"
-        defaultValue="120"
+        defaultTempo="120"
         onChange={(song) => this.setState({song: song})}
       />
       
-      <button type="button" onClick={this.record}>Record</button>
-      {this.noteBlock()}
+      {this.state.isRecording ? (
+          <button type="button" onClick={this.stopRecord}>Stop</button>
+      ) : (
+          <button type="button" onClick={this.record}>Record</button>
+      )}
+
+      <NoteBlock
+        song={this.state.song}
+        onChange={(song) => this.setState({song: song})}
+      />
       </div>
     );
   }
