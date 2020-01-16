@@ -24,7 +24,6 @@ class Compose extends Component {
     this.state = {
       start: Date.now(),
       curKey: null,
-      majorChordToKeyMap : {},
       keys: ["a", "w", "s", "e", "d", "f", "t", "g", "y", "h", "u", "j", "k", "o", "l", "p", ";", "'"],
       pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77], // TODO: factor these out
       song: new Song("C", [4, 4], 120),
