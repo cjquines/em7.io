@@ -95,8 +95,11 @@ class Compose extends Component {
   };
 
   record = () => {
-    this.setState({isRecording : true});
-    this.state.isRecording = true;
+    this.setState({
+      isRecording : true,
+      start: Date.now(),
+      song: {...this.state.song, notes: []},
+    });
     this.playMetronome();
     keyboardJS.resume();
   };
@@ -111,7 +114,7 @@ class Compose extends Component {
     const snap = this.state.snapInterval;
     const newNotes = this.state.song.notes.map((note) => {
       const newOnset = snap*Math.round(note.onset/snap);
-      const newLength = snap*Math.min(1, Math.round(note.length/snap));
+      const newLength = snap*Math.max(1, Math.round(note.length/snap));
       return new Note(note.pitch, newOnset, newLength);
     });
     this.setState({ song: {...this.state.song, notes: newNotes} });
