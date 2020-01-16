@@ -48,6 +48,7 @@ class Compose extends Component {
 
   playMetronome(stopRecording){ 
     const delay = 60000/this.state.song.tempo;
+    this.setState({beatNumber : 0});
     if(stopRecording){
       clearInterval(this.state.int);
      } 
