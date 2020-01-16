@@ -7,7 +7,8 @@ import "../../utilities.css";
  * Page where people can select harmonies.
  *
  * Proptypes
- * @param {Song} song: the song (NEEDS TO CHANGE SOON; UPLOAD AND DOWNLOAD FROM SERVER)
+ * @param {Song} song: the song (TODO CHANGE SOON; UPLOAD AND DOWNLOAD FROM SERVER)
+ * @param {(Song) => void} onChange: (function) changes song (ALSO NEEDS TO CHANGE SOON)
  */
 class Harmonize extends Component {
   constructor(props) {
@@ -57,6 +58,10 @@ class Harmonize extends Component {
     return (
       <div className="Harmonize-container">
       Harmonize page
+      <NoteBlock
+        song={this.props.song}
+        onChange={this.props.onChange}
+      />
       </div>
     );
   }

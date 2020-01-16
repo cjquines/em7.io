@@ -115,7 +115,8 @@ class Compose extends Component {
 
   render() {
     if (this.state.showHarmonize) {
-      return (<Harmonize song={this.state.song}/>);
+      return (<Harmonize song={this.state.song} 
+          onChange={(song) => this.setState({song: song})}/>);
     } else {
       return (
         <div className="Compose-container">
