@@ -113,6 +113,7 @@ h2 {
 .u-flexColumn {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .u-flex-justifyCenter {
@@ -121,11 +122,13 @@ h2 {
 }
 
 .u-flex-spaceBetween {
+  display: flex;
   justify-content: space-between;
 }
 
 
 .u-flex-alignCenter {
+  display: flex;
   align-items: center;
 }
 
@@ -161,13 +164,6 @@ h2 {
   color: black;
 }
 
-button {
-  font-family: "Montserrat", "Open Sans", sans-serif;
-  font-weight: 600 !important;
-  margin: var(--m);
-  padding: var(--m);
-  color: darkergrey;
-}
 
 .redButton {
   font-family: "Montserrat", "Open Sans", sans-serif;
@@ -182,6 +178,7 @@ button {
   box-shadow: 0px 0px 6px rgba(68, 68, 68, 0.25);
   text-align: center;
   transition: all 0.2s;
+  border: none;
 }
 
 .redButton:hover {
@@ -222,4 +219,92 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  height: calc(50vh + 80px);
+}
+
+
+.startStop {
+  font-family: "Montserrat", "Open Sans", sans-serif;
+  font-weight: 300 !important;
+  font-size: 24px;
+  text-decoration: none;
+  margin: var(--xl);
+  padding: var(--xl) var(--xxl);
+  min-width: 120px;
+  color: #ffffff !important;
+  text-shadow: 0px 0px 6px rgba(255, 255, 255, 0.2);
+  background: var(--darkred);
+  text-align: center;
+  transition: all 0.2s;
+  border: none;
+}
+
+.redButton:hover {
+  background: rgba(140, 27, 61, 1);
+  transition: all 0.2s;
+}
+
+.Timesig-block {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  vertical-align: middle;
+}
+
+.KeyInput-container,
+.SignatureInput-container,
+.TempoInput-container {
+  font-family: "Montserrat", "Open Sans", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: space-between;
+  vertical-align: middle;
+  margin-right: var(--xl);
+  background-color: var(--lightgrey);
+  padding: var(--m);
+}
+
+.NoteBlock-container {
+  min-height: 60vh;
+  margin: var(--xl);
+  background-color: #f3f3f3 !important;
+}
+
+select {
+  font-family: 'Montserrat', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
+  border: none;
+  color: var(--darkgrey);
+  background-color: transparent;
+  font-size: 14px;
+  @media (min-width: 768px) {
+    width: 70%;
+  }
+  
+  @media (min-width: 992px) {
+    width: 50%;
+  }
+  
+  @media (min-width: 1200px) {
+    width: 30%;
+  }
+}
+
+input {
+  font-family: 'Montserrat', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
+  border: none;
+  color: var(--darkgrey);
+  background-color: transparent;
+  font-size: 24px;
+  @media (min-width: 768px) {
+    width: 70%;
+  }
+  
+  @media (min-width: 992px) {
+    width: 50%;
+  }
+  
+  @media (min-width: 1200px) {
+    width: 30%;
+  }
 }
