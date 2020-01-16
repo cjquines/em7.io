@@ -14,15 +14,13 @@ class TempoInput extends Component {
     this.state = {
       tempo: this.props.defaultTempo,
     };
-
-    this.handleTempoChange = this.handleTempoChange.bind(this);
   }
 
-  handleTempoChange(event) {
+  handleTempoChange = (event) => {
     this.setState({tempo: event.target.value})
     const newSong = {...this.props.song, tempo: event.target.value};
     this.props.onChange(newSong);
-  }
+  };
 
   render() {
     return (
