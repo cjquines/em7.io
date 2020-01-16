@@ -186,6 +186,29 @@ h2 {
   transition: all 0.2s;
 }
 
+.greyButton {
+  font-family: "Montserrat", "Open Sans", sans-serif;
+  font-weight: 400 !important;
+  font-size: var(--m);
+  text-decoration: none;
+  margin: var(--m);
+  padding: var(--m) var(--xxl);
+  min-width: 120px;
+  color: #333333 !important;
+  text-shadow: 0px 0px 6px rgba(255, 255, 255, 0.2);
+  background: #e2e2e2;
+  text-align: center;
+  transition: all 0.2s;
+  border: none;
+  box-shadow: 0px 0px 4px rgba(68, 68, 68, 0.15);
+}
+
+.greyButton:hover {
+  background: #ccc;
+  transition: all 0.2s;
+}
+
+
 .title {
   font-family: "Montserrat", "Open Sans", sans-serif;
   font-style: normal;
@@ -266,7 +289,7 @@ h2 {
 }
 
 .NoteBlock-container {
-  min-height: 60vh;
+  min-height: 50vh;
   margin: var(--xl);
   background-color: #f3f3f3 !important;
 }
@@ -307,4 +330,9 @@ input {
   @media (min-width: 1200px) {
     width: 30%;
   }
+}
+
+.confirm-buttons-container {
+  margin: 0 var(--m);
+  justify-content: flex-end;
 }
