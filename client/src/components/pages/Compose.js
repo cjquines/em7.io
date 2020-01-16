@@ -5,6 +5,7 @@ const Soundfont = require("soundfont-player");
 
 import Note from "../common/Note.js";
 import Song from "../common/Song.js";
+import SongParameterInput from "../modules/SongParameterInput.js";
 
 import "../../utilities.css";
 
@@ -28,6 +29,7 @@ class Compose extends Component {
     this.pressKey = this.pressKey.bind(this);
     this.releaseKey = this.releaseKey.bind(this);
     this.noteBlock = this.noteBlock.bind(this); // TODO: factor out
+    this.record = this.record.bind(this);
   }
 
   auxiliaryMetronome(signature){
@@ -89,11 +91,38 @@ class Compose extends Component {
     ));
   }
 
+  record() {
+
+  }
+
   render() {
     return (
       <div className="Compose-container">
       compose page.
+
+      <SongParameterInput
+        song={this.state.song}
+        parameter="key"
+        text="Key"
+        defaultValue="C"
+        onChange={(song) => this.setState({song: song})}
+      />
+      <SongParameterInput
+        song={this.state.song}
+        parameter="signature"
+        text="Time Signature"
+        defaultValue="4/4"
+        onChange={(song) => this.setState({song: song})}
+      />
+      <SongParameterInput
+        song={this.state.song}
+        parameter="tempo"
+        text="tempo"
+        defaultValue="120"
+        onChange={(song) => this.setState({song: song})}
+      />
       
+      <button type="button" onClick={this.record}>Record</button>
       {this.noteBlock()}
       </div>
     );
