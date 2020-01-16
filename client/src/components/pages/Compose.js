@@ -9,6 +9,7 @@ import KeyInput from "../modules/KeyInput.js";
 import Note from "../common/Note.js";
 import NoteBlock from "../modules/NoteBlock.js";
 import SignatureInput from "../modules/SignatureInput.js";
+import SnapIntervalInput from "../modules/SnapIntervalInput.js";
 import Song from "../common/Song.js";
 import TempoInput from "../modules/TempoInput.js";
 
@@ -163,6 +164,11 @@ class Compose extends Component {
           song={this.state.song}
           defaultTempo="120"
           onChange={(song) => this.setState({song: song})}
+        />
+        <SnapIntervalInput
+          song={this.state.song}
+          defaultValue="0.25"
+          onChange={(snapInterval) => this.setState({snapInterval: snapInterval})}
         />
         
         {this.state.isRecording ? (
