@@ -30,16 +30,24 @@ class Compose extends Component {
     this.releaseKey = this.releaseKey.bind(this);
     this.noteBlock = this.noteBlock.bind(this); // TODO: factor out
     this.record = this.record.bind(this);
+    this.auxiliaryMetronome = this.auxiliaryMetronome.bind(this);
+    this.playMetronome = this.playMetronome.bind(this);
   }
 
-  auxiliaryMetronome(signature){
-    this.metronome.play(34-4*+(this.state.beatNumber%signature[0]===0));
-    this.setState({beatNumber: beatNumber+1});
+  auxiliaryMetronome(){
+    if(this.state.beatNumber%this.state.song.signature[0]===0){
+      this.metronome.play(64);
+    }
+    else{
+      this.metronome.play(60);
+    }
+    //this.metronome.play(34-4*+(this.state.beatNumber%this.state.song.signature[0]===0));
+    this.setState({beatNumber: this.state.beatNumber+1});
   }
 
-  playMetronome(tempo, signature){ //
-    const delay = 60000/tempo;
-    setInterval(auxiliaryMetronome(signature), delay);
+  playMetronome(){ //
+    const delay = 60000/this.state.song.tempo;
+    setInterval(this.auxiliaryMetronome, delay);
   }
 
   pressKey(key, pitch) {
@@ -59,7 +67,7 @@ class Compose extends Component {
   }
 
   componentDidMount() {
-    Soundfont.instrument(this.metronomeSound, 'woodblock') //
+    Soundfont.instrument(this.audioContext, 'woodblock') //
     .then((metronome) => this.metronome = metronome); //
     Soundfont.instrument(this.audioContext, 'acoustic_grand_piano')
     .then((piano) => {
@@ -122,7 +130,7 @@ class Compose extends Component {
         onChange={(song) => this.setState({song: song})}
       />
       
-      <button type="button" onClick={this.record}>Record</button>
+      <button type="button" onClick={this.playMetronome}>Record</button>
       {this.noteBlock()}
       </div>
     );
