@@ -119,45 +119,48 @@ class Compose extends Component {
           onChange={(song) => this.setState({song: song})}/>);
     } else {
       return (
-        <div className="Compose-container">
-        compose page.
+        <div className="Compose-container u-flexColumn">
 
-        <KeyInput
-          song={this.state.song}
-          defaultTonic="C"
-          defaultMode=""
-          onChange={(song) => this.setState({song: song})}
-        />
-        <SignatureInput
-          song={this.state.song}
-          defaultUpper="4"
-          defaultLower="4"
-          onChange={(song) => this.setState({song: song})}
-        />
-        <TempoInput
-          song={this.state.song}
-          defaultTempo="120"
-          onChange={(song) => this.setState({song: song})}
-        />
-        <SnapIntervalInput
-          song={this.state.song}
-          defaultValue="0.25"
-          onChange={(snapInterval) => this.setState({snapInterval: snapInterval})}
-        />
-        
-        {this.state.isRecording ? (
-            <button type="button" onClick={this.stopRecord}>Stop</button>
-        ) : (
-            <button type="button" onClick={this.record}>Record</button>
-        )}
+        <div className = "u-flex-spaceBetween">
+          <div className ="Record-button">
+            {this.state.isRecording ? (
+                <button type="button" className="startStop" onClick={this.stopRecord}>Stop</button>
+            ) : (
+                <button type="button" className="startStop" onClick={this.record}>Record</button>
+            )}
+          </div>
+          <div className = "Timesig-block">
+            <KeyInput className = "select-box"
+              song={this.state.song}
+              defaultTonic="C"
+              defaultMode=""
+              onChange={(song) => this.setState({song: song})}
+            />
+            <SignatureInput
+              song={this.state.song}
+              defaultUpper="4"
+              defaultLower="4"
+              onChange={(song) => this.setState({song: song})}
+            />
+            <TempoInput
+              song={this.state.song}
+              defaultTempo="120"
+              onChange={(song) => this.setState({song: song})}
+            />
+          </div>
+        </div>
 
-        <button type="button" onClick={this.snapNotes}>Snap notes!</button>
-        <button type="button" onClick={() => this.setState({showHarmonize: true})}>harmonize!</button>
+
 
         <NoteBlock
           song={this.state.song}
           onChange={(song) => this.setState({song: song})}
         />
+
+        <div className="u-flex confirm-buttons-container">
+          <button type="button" className="greyButton" onClick={this.snapNotes}>Snap notes!</button>
+          <button type="button" className="greyButton" onClick={() => this.setState({showHarmonize: true})}>harmonize!</button>
+        </div>
         </div>
       );
     }

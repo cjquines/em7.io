@@ -16,12 +16,18 @@ class Splash extends Component {
   render() {
     return (
       <div className="Splash-container">
-      splash page
-      <Link to="/compose">compose</Link>
-      <Link to="/listen">listen</Link>
+        <div className="logo">
+          <p className="title">em7.io</p>
+          <p className="subtitle">Create your own harmonies!</p>
+        </div>
+        <div className="u-flex-justifyCenter u-flex-grid">
+          <a href="/compose" className="redButton">Compose</a>
+          <a href="/listen" className="redButton">Listen</a>
+        </div>
       </div>
     );
   }
+
 }
 
 export default Splash;
