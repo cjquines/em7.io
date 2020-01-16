@@ -91,21 +91,6 @@ class Compose extends Component {
     console.log(key + " is released");
   };
 
-  // TODO factor out
-  noteBlock = () => {
-    return this.state.song.notes.map((note, index) => (
-      <div key={index}
-      style={{
-        position: "absolute",
-        top: (note.pitch - 50)*20 + "px",
-        width: (note.length / 20) + "px",
-        left: (note.onset / 20) + "px",
-        height: "20px",
-        background: "#000",
-      }}/>
-    ));
-  };
-
   record = () => {
     this.setState({isRecording : true});
     this.state.isRecording = true;
@@ -152,7 +137,10 @@ class Compose extends Component {
           <button type="button" onClick={this.record}>Record</button>
       )}
 
-      {this.noteBlock()}
+      <NoteBlock
+        song={this.state.song}
+        onChange={(song) => this.setState({song: song})}
+      />
       </div>
     );
   }
