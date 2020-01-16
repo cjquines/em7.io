@@ -3,10 +3,11 @@ import { Link } from "@reach/router";
 const keyboardJS = require("keyboardJS");
 const Soundfont = require("soundfont-player");
 
-import Note from "../common/Note.js";
-import Song from "../common/Song.js";
 import KeyInput from "../modules/KeyInput.js";
+import Note from "../common/Note.js";
+import NoteBlock from "../modules/NoteBlock.js";
 import SignatureInput from "../modules/SignatureInput.js";
+import Song from "../common/Song.js";
 import TempoInput from "../modules/TempoInput.js";
 
 import "../../utilities.css";
