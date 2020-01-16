@@ -3,6 +3,8 @@ import { Link } from "@reach/router";
 const keyboardJS = require("keyboardJS");
 const Soundfont = require("soundfont-player");
 
+import Harmonize from "./Harmonize.js"; // TODO: REMOVE LATER
+
 import KeyInput from "../modules/KeyInput.js";
 import Note from "../common/Note.js";
 import NoteBlock from "../modules/NoteBlock.js";
@@ -38,6 +40,7 @@ class Compose extends Component {
       song: new Song("C", [4, 4], 120),
       isRecording: false,
       snapInterval: 125, // in ms
+      showHarmonize: false,
     };
 
     this.audioContext = new AudioContext();
@@ -140,42 +143,47 @@ class Compose extends Component {
   }
 
   render() {
-    return (
-      <div className="Compose-container">
-      compose page.
+    if (this.state.showHarmonize) {
+      return (<Harmonize song={this.state.song}/>);
+    } else {
+      return (
+        <div className="Compose-container">
+        compose page.
 
-      <KeyInput
-        song={this.state.song}
-        defaultTonic="C"
-        defaultMode=""
-        onChange={(song) => this.setState({song: song})}
-      />
-      <SignatureInput
-        song={this.state.song}
-        defaultUpper="4"
-        defaultLower="4"
-        onChange={(song) => this.setState({song: song})}
-      />
-      <TempoInput
-        song={this.state.song}
-        defaultTempo="120"
-        onChange={(song) => this.setState({song: song})}
-      />
-      
-      {this.state.isRecording ? (
-          <button type="button" onClick={this.stopRecord}>Stop</button>
-      ) : (
-          <button type="button" onClick={this.record}>Record</button>
-      )}
+        <KeyInput
+          song={this.state.song}
+          defaultTonic="C"
+          defaultMode=""
+          onChange={(song) => this.setState({song: song})}
+        />
+        <SignatureInput
+          song={this.state.song}
+          defaultUpper="4"
+          defaultLower="4"
+          onChange={(song) => this.setState({song: song})}
+        />
+        <TempoInput
+          song={this.state.song}
+          defaultTempo="120"
+          onChange={(song) => this.setState({song: song})}
+        />
+        
+        {this.state.isRecording ? (
+            <button type="button" onClick={this.stopRecord}>Stop</button>
+        ) : (
+            <button type="button" onClick={this.record}>Record</button>
+        )}
 
-      <button type="button" onClick={this.snapNotes}>Snap notes!</button>
+        <button type="button" onClick={this.snapNotes}>Snap notes!</button>
+        <button type="button" onClick={() => this.setState({showHarmonize: true})}>harmonize!</button>
 
-      <NoteBlock
-        song={this.state.song}
-        onChange={(song) => this.setState({song: song})}
-      />
-      </div>
-    );
+        <NoteBlock
+          song={this.state.song}
+          onChange={(song) => this.setState({song: song})}
+        />
+        </div>
+      );
+    }
   }
 }
 

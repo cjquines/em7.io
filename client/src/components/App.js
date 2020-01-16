@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Router } from "@reach/router";
 
 import Compose from "./pages/Compose.js";
-import Edit from "./pages/Edit.js";
+import Harmonize from "./pages/Harmonize.js";
 import Listen from "./pages/Listen.js";
 import NavBar from "./modules/NavBar.js";
 import NotFound from "./pages/NotFound.js";
@@ -58,7 +58,7 @@ class App extends Component {
           <Router>
             <Splash path="/" />
             <Compose path="/compose" />
-            <Edit path="/edit" />
+            <Harmonize path="/harmonize" />
             <Listen path="/listen" />
             <Profile path="/profile/:userId" />
             <NotFound default />
