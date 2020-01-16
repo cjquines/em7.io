@@ -23,33 +23,45 @@ class NavBar extends Component {
 
   render() {
     return (
-      <nav className="NavBar-container">
-        <div className="NavBar-title u-inlineBlock">
-          <Link to="/" className="Navbar-link">em7.io</Link>
+      <nav className="navbar-container">
+        <div>
+        <div className="navbar-title u-inlineBlock">
+          <Link to="/" className="navbar-link">em7.io</Link>
         </div>
-        <div className="NavBar-linkContainer u-inlineBlock">
+        <div className="navbar-linkContainer u-inlineBlock">
           {this.props.userId && (
-            <Link to={`/profile/${this.props.userId}`} className="NavBar-link">
+            <Link to={`/profile/${this.props.userId}`} className="navbar-link">
               Profile
             </Link>
           )}
-          {this.props.userId ? (
-            <GoogleLogout
-              clientId={GOOGLE_CLIENT_ID}
-              buttonText="Logout"
-              onLogoutSuccess={this.props.handleLogout}
-              onFailure={(err) => console.log(err)}
-              className="NavBar-link NavBar-login"
-            />
-          ) : (
-            <GoogleLogin
-              clientId={GOOGLE_CLIENT_ID}
-              buttonText="Login"
-              onSuccess={this.props.handleLogin}
-              onFailure={(err) => console.log(err)}
-              className="NavBar-link NavBar-login"
-            />
-          )}
+        </div>
+        </div>
+        <div>
+          <div className="u-inlineBlock">
+            <Link to="/" className="navbar-link">Help</Link>
+          </div>
+          <div className="u-inlineBlock">
+            <Link to="/" className="navbar-link">Preferences</Link>
+          </div>
+          <div className="navbar-linkContainer u-inlineBlock">
+            {this.props.userId ? (
+              <GoogleLogout
+                clientId={GOOGLE_CLIENT_ID}
+                buttonText="Logout"
+                onLogoutSuccess={this.props.handleLogout}
+                onFailure={(err) => console.log(err)}
+                className="navbar-link navbar-login"
+              />
+            ) : (
+              <GoogleLogin
+                clientId={GOOGLE_CLIENT_ID}
+                buttonText="Login"
+                onSuccess={this.props.handleLogin}
+                onFailure={(err) => console.log(err)}
+                className="navbar-link navbar-login"
+              />
+            )}
+          </div>
         </div>
       </nav>
     );

@@ -16,9 +16,11 @@ class Splash extends Component {
   render() {
     return (
       <div className="Splash-container">
-      splash page
-      <Link to="/compose">compose</Link>
-      <Link to="/listen">listen</Link>
+      <h1>splash page</h1>
+      <div className="u-flex-justifyCenter">
+      <button><Link to="/compose" className="navbar-link">compose</Link></button>
+      <button><Link to="/listen" className="navbar-link">listen</Link></button>
+      </div>
       </div>
     );
   }
