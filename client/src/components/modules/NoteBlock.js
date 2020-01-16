@@ -18,7 +18,7 @@ class NoteBlock extends Component {
   render() {
     return (
       <div className="NoteBlock-container">
-        {this.state.song.notes.map((note, index) => (
+        {this.props.song.notes.map((note, index) => (
           <div key={index}
           className="NoteBlock-note"
           style={{
