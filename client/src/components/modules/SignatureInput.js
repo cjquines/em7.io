@@ -16,24 +16,21 @@ class SignatureInput extends Component {
       upper: this.props.defaultUpper,
       lower: this.props.defaultLower,
     };
-
-    this.handleUpperChange = this.handleUpperChange.bind(this);
-    this.handleLowerChange = this.handleLowerChange.bind(this);
   }
 
-  handleUpperChange(event) {
+  handleUpperChange = (event) => {
     this.setState({upper: event.target.value})
     const newSignature = [event.target.value, this.state.lower];
     const newSong = {...this.props.song, signature: newSignature};
     this.props.onChange(newSong);
-  }
+  };
 
-  handleLowerChange(event) {
+  handleLowerChange = (event) => {
     this.setState({lower: event.target.value})
     const newSignature = [this.state.upper, event.target.value];
     const newSong = {...this.props.song, signature: newSignature};
     this.props.onChange(newSong);
-  }
+  };
 
   render() {
     return (

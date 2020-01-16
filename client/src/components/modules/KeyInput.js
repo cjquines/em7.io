@@ -16,24 +16,21 @@ class KeyInput extends Component {
       tonic: this.props.defaultTonic,
       mode: this.props.defaultMode,
     };
-
-    this.handleTonicChange = this.handleTonicChange.bind(this);
-    this.handleModeChange = this.handleModeChange.bind(this);
   }
 
-  handleTonicChange(event) {
+  handleTonicChange = (event) => {
     this.setState({tonic: event.target.value})
     const newKey = event.target.value + this.state.mode;
     const newSong = {...this.props.song, key: newKey};
     this.props.onChange(newSong);
-  }
+  };
 
-  handleModeChange(event) {
+  handleModeChange = (event) => {
     this.setState({mode: event.target.value})
     const newKey = this.state.tonic + event.target.value;
     const newSong = {...this.props.song, key: newKey};
     this.props.onChange(newSong);
-  }
+  };
 
   render() {
     return (
