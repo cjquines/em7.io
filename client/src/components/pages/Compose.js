@@ -19,7 +19,7 @@ class Compose extends Component {
       curKey: null,
       keys: ["a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'"],
       pitchMap: [60, 62, 64, 65, 67, 69, 71, 72, 74, 76, 77], // TODO: factor these out
-      song: new Song("C", 120),
+      song: new Song("C", [4, 4], 120),
     };
 
     this.audioContext = new AudioContext();
