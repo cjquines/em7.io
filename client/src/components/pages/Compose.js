@@ -20,6 +20,17 @@ class Compose extends Component {
     this.state = {
       start: Date.now(),
       curKey: null,
+      chordMap: {"I" : ["I", "ii", "ii7", "iii", "IV", "V", "V7", "vi", "vii", "vii7"],
+      "ii" : ["V", "V7", "vii", "vii7"],
+      "ii7" : ["V", "V7", "vii", "vii7"],
+      "iii" : ["vi"],
+      "IV" : ["I", "ii", "ii7", "V", "V7", "vii", "vii7"],
+      "V" : ["I", "vi"],
+      "V7" : ["I", "vi"],
+      "vi" : ["ii", "ii7", "IV"],
+      "vii" : ["I"],
+      "vii7" : ["I"]
+    },
       keys: ["a", "w", "s", "e", "d", "f", "t", "g", "y", "h", "u", "j", "k", "o", "l", "p", ";", "'"],
       pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77], // TODO: factor these out
       song: new Song("C", [4, 4], 120),
@@ -107,6 +118,10 @@ class Compose extends Component {
     clearInterval(this.metronomeInterval);
     keyboardJS.pause();
   };
+
+  harmonize() {
+
+  }
 
   render() {
     return (
