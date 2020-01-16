@@ -5,7 +5,9 @@ const Soundfont = require("soundfont-player");
 
 import Note from "../common/Note.js";
 import Song from "../common/Song.js";
-import SongParameterInput from "../modules/SongParameterInput.js";
+import KeyInput from "../modules/KeyInput.js";
+import SignatureInput from "../modules/SignatureInput.js";
+import TempoInput from "../modules/TempoInput.js";
 
 import "../../utilities.css";
 
@@ -100,25 +102,21 @@ class Compose extends Component {
       <div className="Compose-container">
       compose page.
 
-      <SongParameterInput
+      <KeyInput
         song={this.state.song}
-        parameter="key"
-        text="Key"
-        defaultValue="C"
+        defaultTonic="C"
+        defaultMode=""
         onChange={(song) => this.setState({song: song})}
       />
-      <SongParameterInput
+      <SignatureInput
         song={this.state.song}
-        parameter="signature"
-        text="Time Signature"
-        defaultValue="4/4"
+        defaultUpper="4"
+        defaultLower="4"
         onChange={(song) => this.setState({song: song})}
       />
-      <SongParameterInput
+      <TempoInput
         song={this.state.song}
-        parameter="tempo"
-        text="tempo"
-        defaultValue="120"
+        defaultTempo="120"
         onChange={(song) => this.setState({song: song})}
       />
       
