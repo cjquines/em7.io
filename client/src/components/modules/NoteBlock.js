@@ -26,7 +26,7 @@ class NoteBlock extends Component {
             width: (note.length / 20) + "px",
             left: (note.onset / 20) + "px",
           }}/>
-        ));}
+        ))}
       </div>
     );
   }
