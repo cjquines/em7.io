@@ -33,7 +33,20 @@ class Compose extends Component {
     Soundfont.instrument(this.audioContext, 'woodblock')
     .then((metronome) => this.metronome = metronome);
     Soundfont.instrument(this.audioContext, 'acoustic_grand_piano')
-    .then((piano) => this.piano = piano);
+    .then((piano) => {
+      this.piano = piano;
+      for (let i = 0; i < this.state.keys.length; i++) {
+        const key = this.state.keys[i];
+        const pitch = this.state.pitchMap[i];
+        keyboardJS.bind(key, (e) => {
+          e.preventRepeat();
+          this.pressKey(key, pitch);
+        }, (e) => {
+          this.releaseKey(key, pitch);
+        });
+      }
+      keyboardJS.pause();
+    });
   }
 
   auxMetronome = () => {
@@ -85,21 +98,13 @@ class Compose extends Component {
   record = () => {
     this.isRecording = true;
     this.playMetronome();
-    for (let i = 0; i < this.state.keys.length; i++) {
-      const key = this.state.keys[i];
-      const pitch = this.state.pitchMap[i];
-      keyboardJS.bind(key, (e) => {
-        e.preventRepeat();
-        this.pressKey(key, pitch);
-      }, (e) => {
-        this.releaseKey(key, pitch);
-      });
-    }
+    keyboardJS.resume();
   };
 
   stopRecord = () => {
     this.isRecording = false;
     clearInterval(this.metronomeInterval);
+    keyboardJS.pause();
   };
 
   render() {
