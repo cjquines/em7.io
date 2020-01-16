@@ -74,7 +74,6 @@ class Compose extends Component {
     this.piano.play(pitch);
     const newCurKey = {...this.state.curKey, [key]: Date.now()};
     this.setState({ curKey: newCurKey });
-    console.log(key + " is pressed");
   };
 
   releaseKey = (key, pitch) => {
@@ -83,7 +82,6 @@ class Compose extends Component {
     const length = Date.now() - this.state.curKey[key];
     const newNotes = [...this.state.song.notes, new Note(pitch, onset, length)];
     this.setState({ song: {...this.state.song, notes: newNotes} });
-    console.log(key + " is released");
   };
 
   record = () => {
@@ -113,10 +111,6 @@ class Compose extends Component {
   }
 
 
-
-  harmonize() {
-
-  }
 
   render() {
     if (this.state.showHarmonize) {
