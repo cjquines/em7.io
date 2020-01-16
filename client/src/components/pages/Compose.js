@@ -36,6 +36,7 @@ class Compose extends Component {
       pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77], // TODO: factor these out
       song: new Song("C", [4, 4], 120),
       isRecording: false,
+      snapInterval: 125, // in ms
     };
 
     this.audioContext = new AudioContext();
@@ -105,6 +106,16 @@ class Compose extends Component {
     keyboardJS.pause();
   };
 
+  snapNotes = () => {
+    const snap = this.state.snapInterval;
+    const newNotes = this.state.song.notes.map((note) => {
+      const newOnset = snap*Math.round(note.onset/snap);
+      const newLength = snap*Math.min(1, Math.round(note.length/snap));
+      return new Note(note.pitch, newOnset, newLength);
+    });
+    this.setState({ song: {...this.state.song, notes: newNotes} });
+  }
+
   harmonize() {
 
   }
@@ -137,6 +148,8 @@ class Compose extends Component {
       ) : (
           <button type="button" onClick={this.record}>Record</button>
       )}
+
+      <button type="button" onClick={this.snapNotes}>Snap notes!</button>
 
       <NoteBlock
         song={this.state.song}
