@@ -35,21 +35,22 @@ class Harmonize extends Component {
     this.changeChordMap();
   }
 
-  changeChordMap() {
-    const tonicMidi = this.state.pitchMap[this.state.pitch.indexOf(this.props.song.key)]; 
-    const majorChordToKeyMap = {
-      "I" : [tonicMidi, tonicMidi+4, tonicMidi+7],
-      "ii" : [tonicMidi+2, tonicMidi+5, tonicMidi+9],
-      "ii7" : [tonicMidi+2, tonicMidi+5, tonicMidi+9, tonicMidi+12],
-      "iii" : [tonicMidi+3, tonicMidi+7, tonicMidi+11],
-      "IV" : [tonicMidi+5, tonicMidi+9, tonicMidi+12],
-      "V" : [tonicMidi+7, tonicMidi+11, tonicMidi+14],
-      "V7" : [tonicMidi+7, tonicMidi+11, tonicMidi+14, tonicMidi+17],
-      "vi" : [tonicMidi+9, tonicMidi+12, tonicMidi+16],
-      "vii" : [tonicMidi+11, tonicMidi+14, tonicMidi+17],
-      "vii7" : [tonicMidi+11, tonicMidi+14, tonicMidi+17, tonicMidi+21],
-    };
-    console.log(majorChordToKeyMap)
+  changeChordMap = () => {
+    const tonic = this.state.pitchMap[this.state.pitch.indexOf(this.props.song.key)]; 
+    const supertonic = tonic + 2;
+    const mediant = tonic + 4;
+    const subdominant = tonic + 5;
+    const dominant = tonic + 7;
+    const submediant = tonic + 9;
+    const subtonic = tonic + 11;
+    const majorChordToKeyMap = {};
+    majorChordToKeyMap[tonic] = ["I", "ii7", "IV", "vi"];
+    majorChordToKeyMap[supertonic] = ["ii", "ii7", "V", "V7", "vii", "vii7"];
+    majorChordToKeyMap[mediant] = ["I", "iii", "vi"];
+    majorChordToKeyMap[subdominant] = ["ii", "ii7", "IV", "V7", "vii", "vii7"];
+    majorChordToKeyMap[dominant] = ["I", "iii", "V", "V7"];
+    majorChordToKeyMap[submediant] = ["ii", "ii7", "IV", "vi", "vii7"];
+    majorChordToKeyMap[subtonic] = ["iii", "V", "V7", "vii", "vii7"];
     this.setState({majorChordToKeyMap : majorChordToKeyMap});
   } 
 
