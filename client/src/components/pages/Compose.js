@@ -96,13 +96,14 @@ class Compose extends Component {
   };
 
   record = () => {
-    this.isRecording = true;
+    this.setState({isRecording : true});
+    this.state.isRecording = true;
     this.playMetronome();
     keyboardJS.resume();
   };
 
   stopRecord = () => {
-    this.isRecording = false;
+    this.setState({isRecording : false});
     clearInterval(this.metronomeInterval);
     keyboardJS.pause();
   };
@@ -130,7 +131,7 @@ class Compose extends Component {
         onChange={(song) => this.setState({song: song})}
       />
       
-      {this.isRecording ? (
+      {this.state.isRecording ? (
           <button type="button" onClick={this.stopRecord}>Stop</button>
       ) : (
           <button type="button" onClick={this.record}>Record</button>
