@@ -18,8 +18,8 @@ class Compose extends Component {
     this.state = {
       start: Date.now(),
       curKey: null,
-      keys: ["a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'"],
-      pitchMap: [60, 62, 64, 65, 67, 69, 71, 72, 74, 76, 77], // TODO: factor these out
+      keys: ["a", "w", "s", "e", "d", "f", "t", "g", "y", "h", "u", "j", "k","o", "l", "p", ";", "'"],
+      pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77], // TODO: factor these out
       song: new Song("C", [4, 4], 120),
       isRecording: false,
       beatNumber: 0,
