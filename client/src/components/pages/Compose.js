@@ -23,6 +23,7 @@ class Compose extends Component {
       song: new Song("C", [4, 4], 120),
       isRecording: false,
       beatNumber: 0,
+      int: 0,
     };
 
     this.audioContext = new AudioContext();
@@ -30,24 +31,31 @@ class Compose extends Component {
     this.releaseKey = this.releaseKey.bind(this);
     this.noteBlock = this.noteBlock.bind(this); // TODO: factor out
     this.record = this.record.bind(this);
+    this.stopRecord = this.stopRecord.bind(this);
     this.auxiliaryMetronome = this.auxiliaryMetronome.bind(this);
     this.playMetronome = this.playMetronome.bind(this);
   }
 
   auxiliaryMetronome(){
     if(this.state.beatNumber%this.state.song.signature[0]===0){
-      this.metronome.play(64);
+      this.metronome.play(66);
     }
     else{
-      this.metronome.play(60);
+      this.metronome.play(59);
     }
-    //this.metronome.play(34-4*+(this.state.beatNumber%this.state.song.signature[0]===0));
     this.setState({beatNumber: this.state.beatNumber+1});
   }
 
-  playMetronome(){ //
+  playMetronome(stopRecording){ 
     const delay = 60000/this.state.song.tempo;
-    setInterval(this.auxiliaryMetronome, delay);
+    if(stopRecording){
+      clearInterval(this.state.int);
+     } 
+     else{
+      let x = setInterval(this.auxiliaryMetronome, delay);
+      this.setState({int : x});
+     }
+
   }
 
   pressKey(key, pitch) {
@@ -100,7 +108,13 @@ class Compose extends Component {
   }
 
   record() {
+    this.setState({isRecording : true});
+    this.playMetronome(false);
+  }
 
+  stopRecord() {
+    this.playMetronome(true);
+    this.setState({isRecording : false});
   }
 
   render() {
@@ -130,7 +144,15 @@ class Compose extends Component {
         onChange={(song) => this.setState({song: song})}
       />
       
-      <button type="button" onClick={this.playMetronome}>Record</button>
+    {this.state.isRecording ? (
+        <button type="button" onClick={this.stopRecord}>Stop</button>
+    ) : (
+        <button type="button" onClick={this.record}>Record</button>
+    )
+    }
+
+
+
       {this.noteBlock()}
       </div>
     );
