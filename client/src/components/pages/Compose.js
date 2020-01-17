@@ -26,6 +26,7 @@ class Compose extends Component {
       start: Date.now(),
       keys: ["a", "w", "s", "e", "d", "f", "t", "g", "y", "h", "u", "j", "k", "o", "l", "p", ";", "'"],
       pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77], // TODO: factor these out
+      originalSong: new Song("C", [4,4], 120),
       song: new Song("C", [4, 4], 120),
       isRecording: false,
       hasRecorded: false,
@@ -100,14 +101,14 @@ class Compose extends Component {
   };
 
   stopRecord = () => {
-    this.setState({isRecording : false, hasRecorded: true});
+    this.setState({isRecording : false, originalSong : this.state.song});
     clearInterval(this.metronomeInterval);
     keyboardjs.pause();
   };
 
   snapNotes = () => {
     const snap = this.state.snapInterval;
-    const newNotes = this.state.song.notes.map((note) => {
+    const newNotes = this.state.originalSong.notes.map((note) => {
       const newOnset = snap*Math.round(note.onset/snap);
       const newLength = snap*Math.max(1, Math.round(note.length/snap));
       return new Note(note.pitch, newOnset, newLength);
