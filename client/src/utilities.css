@@ -333,6 +333,7 @@ h6 {
 }
 
 .NoteBlock-container {
+  display: flex;
   height: 30vh;
   background-color: #f3f3f3 !important;
   margin: var(--l) 0;
@@ -391,4 +392,9 @@ input {
   display: flex;
   justify-content: space-between;
   margin-top: 2vh;
+}
+
+.playback-row {
+  margin: var(--m) -16px;
+  height: max-content;
 }
