@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
-const keyboardJS = require("keyboardJS");
+const keyboardjs = require("keyboardjs");
 const Soundfont = require("soundfont-player");
 
 import Harmonize from "./Harmonize.js"; // TODO: REMOVE LATER
@@ -28,6 +28,8 @@ class Compose extends Component {
       pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77], // TODO: factor these out
       song: new Song("C", [4, 4], 120),
       isRecording: false,
+      hasRecorded: false,
+      isPlayingBack: false,
       snapInterval: 125, // in ms
       showHarmonize: false,
     };
@@ -48,14 +50,14 @@ class Compose extends Component {
       for (let i = 0; i < this.state.keys.length; i++) {
         const key = this.state.keys[i];
         const pitch = this.state.pitchMap[i];
-        keyboardJS.bind(key, (e) => {
+        keyboardjs.bind(key, (e) => {
           e.preventRepeat();
           this.pressKey(key, pitch);
         }, (e) => {
           this.releaseKey(key, pitch);
         });
       }
-      keyboardJS.pause();
+      keyboardjs.pause();
     });
   }
 
@@ -94,13 +96,13 @@ class Compose extends Component {
       song: {...this.state.song, notes: []},
     });
     this.playMetronome();
-    keyboardJS.resume();
+    keyboardjs.resume();
   };
 
   stopRecord = () => {
-    this.setState({isRecording : false});
+    this.setState({isRecording : false, hasRecorded: true});
     clearInterval(this.metronomeInterval);
-    keyboardJS.pause();
+    keyboardjs.pause();
   };
 
   snapNotes = () => {
@@ -114,6 +116,7 @@ class Compose extends Component {
   };
 
   play = () => {
+    this.setState({isPlayingBack: true,});
     this.piano.schedule(this.audioContext.currentTime, [{time: 0, note: 60}]);
     this.piano.schedule(this.audioContext.currentTime, this.state.song.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
@@ -121,6 +124,7 @@ class Compose extends Component {
   };
 
   stop = () => {
+    this.setState({isPlayingBack: false,});
     this.piano.stop();
   };
 
@@ -133,14 +137,9 @@ class Compose extends Component {
         <div className="Compose-container u-flexColumn">
 
 
-        <button type="button" onClick={this.play}>play</button>
-        <button type="button" onClick={this.stop}>stop</button>
         {/* maybe combine the stop button with the stop recording button, because you shouldn't be able to record and play? */}
 
-        <SnapIntervalInput
-          song={this.state.song}
-          onChange={(snapInterval) => this.setState({snapInterval: snapInterval})}
-        />
+      
 
         <div className = "u-flex-spaceBetween">
           <div className = "titles">
@@ -180,7 +179,11 @@ class Compose extends Component {
           <img src = {Piano} className = "piano-img"/>
         </div>
 
-        <div>
+        <div className="playback-row">
+        { this.state.hasRecorded ? [(this.state.isPlayingBack
+          ? <button type="button" className="greyButton" onClick={this.stop}>stop</button>
+          : <button type="button" className="greyButton" onClick={this.play}>play</button>)] : (null)
+        }
         <NoteBlock
           song={this.state.song}
           onChange={(song) => this.setState({song: song})}
@@ -188,6 +191,10 @@ class Compose extends Component {
         </div>
 
         <div className="u-flex confirm-buttons-container">
+        <SnapIntervalInput
+          song={this.state.song}
+          onChange={(snapInterval) => this.setState({snapInterval: snapInterval})}
+        />
           <button type="button" className="greyButton" onClick={this.snapNotes}>Snap notes!</button>
           <button type="button" className="greyButton" onClick={() => this.setState({showHarmonize: true})}>harmonize!</button>
         </div>
@@ -198,3 +205,4 @@ class Compose extends Component {
 }
 
 export default Compose;
+
