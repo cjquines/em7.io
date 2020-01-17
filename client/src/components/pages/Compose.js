@@ -101,7 +101,7 @@ class Compose extends Component {
   };
 
   stopRecord = () => {
-    this.setState({isRecording : false, originalSong : this.state.song});
+    this.setState({isRecording : false, originalSong : this.state.song, hasRecorded : true});
     clearInterval(this.metronomeInterval);
     keyboardjs.pause();
   };
@@ -138,12 +138,6 @@ class Compose extends Component {
         <div className="Compose-container u-flexColumn">
 
 
-    {!(this.state.isPlayingBack) ? (
-        <button type="button" onClick={this.play}>play</button>
-        ) : (
-        <button type="button" onClick={this.stop}>stop</button>   
-      )
-    }
       
 
         <div className = "u-flex-spaceBetween">
@@ -179,6 +173,7 @@ class Compose extends Component {
                 <button type="button" className="startStop" onClick={this.stopRecord}>Stop</button>
             ) : (
                 <button type="button" className="startStop" onClick={this.record}>Record</button>
+                //maybe have a confirmation stating that recording again will overwrite previous song
             )}
           </div>
           <img src = {Piano} className = "piano-img"/>

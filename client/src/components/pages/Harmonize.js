@@ -29,8 +29,11 @@ class Harmonize extends Component {
   }
 
 
-  harmonize = (notes) => {
-    //for each element in notes, map to possibleChords array, then 
+  harmonizeAlgorithm = (notes) => {
+    //for each element in notes, map to possibleChords array, then consider following problem:
+    //given a directed graph (chrodProgression), integer n (number of notes), 
+    //and array A (keyToChord) of size n such that A[i] \in V, 
+    //find a walk v_1\dots v_n such that v_i \in A_i for all i.
   } 
 
 
