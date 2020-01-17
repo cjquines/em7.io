@@ -25,8 +25,13 @@ class Harmonize extends Component {
 
   componentDidMount() { 
     this.changeChordMaps();
+    this.harmonize(this.props.song.notes);
   }
 
+
+  harmonize = (notes) => {
+    //for each element in notes, map to possibleChords array, then 
+  } 
 
 
   changeChordMaps = () => {
