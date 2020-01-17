@@ -9,7 +9,7 @@ import KeyInput from "../modules/KeyInput.js";
 import Note from "../common/Note.js";
 import NoteBlock from "../modules/NoteBlock.js";
 import SignatureInput from "../modules/SignatureInput.js";
-import SnapIntervalInput from "../modules/SnapIntervalInput.js";
+import SnapIntervalInput from "../modules/SnapIntervalInput.js"; //implement this in the button
 import Song from "../common/Song.js";
 import TempoInput from "../modules/TempoInput.js";
 
