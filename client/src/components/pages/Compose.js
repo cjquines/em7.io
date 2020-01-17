@@ -14,6 +14,7 @@ import Song from "../common/Song.js";
 import TempoInput from "../modules/TempoInput.js";
 
 import "../../utilities.css";
+import Piano from "../../public/piano.jpg";
 
 /**
  * Compose is the page where we compose stuff.
@@ -23,7 +24,6 @@ class Compose extends Component {
     super(props);
     this.state = {
       start: Date.now(),
-      curKey: null,
       keys: ["a", "w", "s", "e", "d", "f", "t", "g", "y", "h", "u", "j", "k", "o", "l", "p", ";", "'"],
       pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77], // TODO: factor these out
       song: new Song("C", [4, 4], 120),
@@ -33,6 +33,10 @@ class Compose extends Component {
     };
 
     this.audioContext = new AudioContext();
+    this.curKey = {};
+    for (const key in this.state.keys) {
+      this.curKey[key] = this.state.start;
+    }
   }
 
   componentDidMount() {
@@ -72,14 +76,13 @@ class Compose extends Component {
 
   pressKey = (key, pitch) => {
     this.piano.play(pitch);
-    const newCurKey = {...this.state.curKey, [key]: Date.now()};
-    this.setState({ curKey: newCurKey });
+    this.curKey[key] = Date.now();
   };
 
   releaseKey = (key, pitch) => {
     this.piano.play(pitch).stop();
-    const onset = this.state.curKey[key] - this.state.start;
-    const length = Date.now() - this.state.curKey[key];
+    const onset = this.curKey[key] - this.state.start;
+    const length = Date.now() - this.curKey[key];
     const newNotes = [...this.state.song.notes, new Note(pitch, onset, length)];
     this.setState({ song: {...this.state.song, notes: newNotes} });
   };
@@ -108,9 +111,18 @@ class Compose extends Component {
       return new Note(note.pitch, newOnset, newLength);
     });
     this.setState({ song: {...this.state.song, notes: newNotes} });
-  }
+  };
 
+  play = () => {
+    this.piano.schedule(this.audioContext.currentTime, [{time: 0, note: 60}]);
+    this.piano.schedule(this.audioContext.currentTime, this.state.song.notes.map((note) => {
+      return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
+    }));
+  };
 
+  stop = () => {
+    this.piano.stop();
+  };
 
   render() {
     if (this.state.showHarmonize) {
@@ -120,14 +132,22 @@ class Compose extends Component {
       return (
         <div className="Compose-container u-flexColumn">
 
+
+        <button type="button" onClick={this.play}>play</button>
+        <button type="button" onClick={this.stop}>stop</button>
+        {/* maybe combine the stop button with the stop recording button, because you shouldn't be able to record and play? */}
+
+        <SnapIntervalInput
+          song={this.state.song}
+          onChange={(snapInterval) => this.setState({snapInterval: snapInterval})}
+        />
+
         <div className = "u-flex-spaceBetween">
-          <div className ="Record-button">
-            {this.state.isRecording ? (
-                <button type="button" className="startStop" onClick={this.stopRecord}>Stop</button>
-            ) : (
-                <button type="button" className="startStop" onClick={this.record}>Record</button>
-            )}
+          <div className = "titles">
+            <h2>Compose</h2>
+            <h1>Untitled</h1>
           </div>
+          
           <div className = "Timesig-block">
             <KeyInput className = "select-box"
               song={this.state.song}
@@ -149,12 +169,23 @@ class Compose extends Component {
           </div>
         </div>
 
+        <div className = "piano-row">
+        <div className ="Record-button">
+            {this.state.isRecording ? (
+                <button type="button" className="startStop" onClick={this.stopRecord}>Stop</button>
+            ) : (
+                <button type="button" className="startStop" onClick={this.record}>Record</button>
+            )}
+          </div>
+          <img src = {Piano} className = "piano-img"/>
+        </div>
 
-
+        <div>
         <NoteBlock
           song={this.state.song}
           onChange={(song) => this.setState({song: song})}
         />
+        </div>
 
         <div className="u-flex confirm-buttons-container">
           <button type="button" className="greyButton" onClick={this.snapNotes}>Snap notes!</button>
