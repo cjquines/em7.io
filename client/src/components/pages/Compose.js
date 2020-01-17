@@ -127,7 +127,6 @@ class Compose extends Component {
   stop = () => {
     this.setState({isPlayingBack: false,});
     this.piano.stop();
-    this.setState({isPlaying : false});
   };
 
   render() {
@@ -139,8 +138,12 @@ class Compose extends Component {
         <div className="Compose-container u-flexColumn">
 
 
-        {/* maybe combine the stop button with the stop recording button, because you shouldn't be able to record and play? */}
-
+    {!(this.state.isPlayingBack) ? (
+        <button type="button" onClick={this.play}>play</button>
+        ) : (
+        <button type="button" onClick={this.stop}>stop</button>   
+      )
+    }
       
 
         <div className = "u-flex-spaceBetween">
