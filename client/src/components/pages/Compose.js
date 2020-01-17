@@ -29,6 +29,7 @@ class Compose extends Component {
       originalSong: new Song("C", [4,4], 120),
       song: new Song("C", [4, 4], 120),
       isRecording: false,
+      isPlaying : false,
       snapInterval: 125, // in ms
       showHarmonize: false,
     };
@@ -115,6 +116,7 @@ class Compose extends Component {
   };
 
   play = () => {
+    this.setState({isPlaying : true});
     this.piano.schedule(this.audioContext.currentTime, [{time: 0, note: 60}]);
     this.piano.schedule(this.audioContext.currentTime, this.state.song.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
@@ -123,6 +125,7 @@ class Compose extends Component {
 
   stop = () => {
     this.piano.stop();
+    this.setState({isPlaying : false});
   };
 
   render() {
@@ -133,10 +136,12 @@ class Compose extends Component {
       return (
         <div className="Compose-container u-flexColumn">
 
-
+        {!(this.state.isPlaying) ? (
         <button type="button" onClick={this.play}>play</button>
-        <button type="button" onClick={this.stop}>stop</button>
-        {/* maybe combine the stop button with the stop recording button, because you shouldn't be able to record and play? */}
+        ) : (
+        <button type="button" onClick={this.stop}>stop</button>   
+      )
+    }
 
         <SnapIntervalInput
           song={this.state.song}
