@@ -14,6 +14,7 @@ import Song from "../common/Song.js";
 import TempoInput from "../modules/TempoInput.js";
 
 import "../../utilities.css";
+import Piano from "../../public/piano.jpg";
 
 /**
  * Compose is the page where we compose stuff.
@@ -119,15 +120,13 @@ class Compose extends Component {
     } else {
       return (
         <div className="Compose-container u-flexColumn">
-
+        
         <div className = "u-flex-spaceBetween">
-          <div className ="Record-button">
-            {this.state.isRecording ? (
-                <button type="button" className="startStop" onClick={this.stopRecord}>Stop</button>
-            ) : (
-                <button type="button" className="startStop" onClick={this.record}>Record</button>
-            )}
+          <div className = "titles">
+            <h2>Compose</h2>
+            <h1>Untitled</h1>
           </div>
+          
           <div className = "Timesig-block">
             <KeyInput className = "select-box"
               song={this.state.song}
@@ -149,12 +148,23 @@ class Compose extends Component {
           </div>
         </div>
 
+        <div className = "piano-row">
+        <div className ="Record-button">
+            {this.state.isRecording ? (
+                <button type="button" className="startStop" onClick={this.stopRecord}>Stop</button>
+            ) : (
+                <button type="button" className="startStop" onClick={this.record}>Record</button>
+            )}
+          </div>
+          <img src = {Piano} className = "piano-img"/>
+        </div>
 
-
+        <div>
         <NoteBlock
           song={this.state.song}
           onChange={(song) => this.setState({song: song})}
         />
+        </div>
 
         <div className="u-flex confirm-buttons-container">
           <button type="button" className="greyButton" onClick={this.snapNotes}>Snap notes!</button>

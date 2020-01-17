@@ -24,19 +24,19 @@ class NavBar extends Component {
   render() {
     return (
       <nav className="navbar-container">
-        <div>
-        <div className="navbar-title u-inlineBlock">
-          <Link to="/" className="navbar-link">em7.io</Link>
+        <div className="navbar-subcontainer">
+          <div className="navbar-title u-inlineBlock">
+            <Link to="/" className="navbar-link">Home</Link>
+          </div>
+          <div className="navbar-linkContainer u-inlineBlock">
+            {this.props.userId && (
+              <Link to={`/profile/${this.props.userId}`} className="navbar-link">
+                Profile
+              </Link>
+            )}
+          </div>
         </div>
-        <div className="navbar-linkContainer u-inlineBlock">
-          {this.props.userId && (
-            <Link to={`/profile/${this.props.userId}`} className="navbar-link">
-              Profile
-            </Link>
-          )}
-        </div>
-        </div>
-        <div>
+        <div className="navbar-subcontainer">
           <div className="u-inlineBlock">
             <Link to="/" className="navbar-link">Help</Link>
           </div>

@@ -20,7 +20,7 @@ class Splash extends Component {
           <p className="title">em7.io</p>
           <p className="subtitle">Create your own harmonies!</p>
         </div>
-        <div className="u-flex-justifyCenter u-flex-grid">
+        <div className="splash-button-container">
           <a href="/compose" className="redButton">Compose</a>
           <a href="/listen" className="redButton">Listen</a>
         </div>

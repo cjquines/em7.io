@@ -31,23 +31,19 @@
   --l: 24px;
   --xl: 32px;
   --xxl: 40px;
-}
-
-html {
-  min-height: 100vh;
+  --largeBlock: 192px;
 }
 
 body {
   margin: 0;
-  padding: 0;
-  font-family: "Open Sans", sans-serif;
+  padding: 3vw;
+  font-family: "Montserrat", sans-serif;
   font-weight: 400;
-  min-height: 100vh;
 }
 
 form {
   flex-grow: 1;
-  margin: var(--m);
+  /*margin: var(--m);*/
 }
 
 h1,
@@ -62,17 +58,34 @@ h6 {
   word-wrap: break-word;
   margin: 0;
   padding: 0;
-  color: black;
   font-weight: 400;
 }
 h1 {
   font-size: var(--xxl);
-  margin: var(--m);
+  margin: var(--m) 0;
   text-align: center;
 }
 h2 {
   font-size: var(--l);
-  margin: var(--m);
+  margin: var(--m) 0;
+  padding-left: 2px;
+}
+
+h6 {
+  font-size: 12px;
+  margin: 16px 0 -16px;
+  font-weight: 300;
+  color: rgb(82, 27, 43);
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
 }
 
 .blockBig {
@@ -87,13 +100,15 @@ h2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--l) var(--xxl);
+  margin: 0 -22px var(--xl) -22px;
 }
 
 .navbar-link{
   font-size: var(--m);
-  color: var(--darkgrey) !important;
-  margin: var(--m) var(--l);
+  font-weight: 400;
+  color: #999 !important;
+  text-decoration: none;
+  margin: 0 var(--l);
   transition: all 0.2s;
 }
 .navbar-link:hover{
@@ -101,10 +116,15 @@ h2 {
   transition: all 0.2s;
 }
 
-.navbar-link {
-  text-decoration: none;
-}
 
+.navbar-login {
+  font-weight: 400 !important;
+  border: none !important;
+  box-shadow: 1px 2px 3px rgba(68, 68, 68, 0.15) !important;
+
+  justify-content: end !important;
+  font-family: "Montserrat", sans-serif !important;
+}
 
 .u-flex {
   display: flex;
@@ -169,16 +189,17 @@ h2 {
   font-family: "Montserrat", "Open Sans", sans-serif;
   font-weight: 500 !important;
   text-decoration: none;
-  margin: var(--m);
   padding: var(--m) var(--xxl);
   min-width: 120px;
   color: #ffffff !important;
   text-shadow: 0px 0px 6px rgba(255, 255, 255, 0.2);
   background: rgba(140, 27, 61, 0.9);
-  box-shadow: 0px 0px 6px rgba(68, 68, 68, 0.25);
+  box-shadow: 0px 0px 8px rgba(163, 109, 109, 0.75);
   text-align: center;
   transition: all 0.2s;
   border: none;
+  border-radius: 6px;
+  margin: 0 var(--l);
 }
 
 .redButton:hover {
@@ -191,7 +212,6 @@ h2 {
   font-weight: 400 !important;
   font-size: var(--m);
   text-decoration: none;
-  margin: var(--m);
   padding: var(--m) var(--xxl);
   min-width: 120px;
   color: #333333 !important;
@@ -200,12 +220,13 @@ h2 {
   text-align: center;
   transition: all 0.2s;
   border: none;
-  box-shadow: 0px 0px 4px rgba(68, 68, 68, 0.15);
+  margin:0 var(--m);
 }
 
 .greyButton:hover {
   background: #ccc;
   transition: all 0.2s;
+  margin:0 var(var(--m));
 }
 
 
@@ -218,7 +239,8 @@ h2 {
   background: linear-gradient(to right, rgb(206, 65, 0) -20%, #8C1B3D 40%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin: var(--s);
+  margin-top: 16vh;
+  margin-bottom: -12px;
 }
 
 .subtitle {
@@ -227,7 +249,7 @@ h2 {
   font-weight: 300;
   font-size: 20px;
   color: var(--darkergrey);
-  margin: var(--s);
+  margin-bottom: 4vh;
 }
 
 .logo {
@@ -235,7 +257,7 @@ h2 {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin: 15% 0;
+  /*HIHIHI margin: 15% 0;*/
 }
 
 .Splash-container {
@@ -245,25 +267,36 @@ h2 {
   height: calc(50vh + 80px);
 }
 
+.splash-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 
 .startStop {
   font-family: "Montserrat", "Open Sans", sans-serif;
-  font-weight: 300 !important;
   font-size: 24px;
   text-decoration: none;
-  margin: var(--xl);
-  padding: var(--xl) var(--xxl);
-  min-width: 120px;
-  color: #ffffff !important;
+  
+  width: 15vw;
   text-shadow: 0px 0px 6px rgba(255, 255, 255, 0.2);
-  background: var(--darkred);
   text-align: center;
   transition: all 0.2s;
-  border: none;
+
+  font-weight: 400 !important;
+  color: #fff !important;
+  background: rgba(140, 27, 61, 0.7);
+  border: 0px solid var(--medgrey);
+
+
+  height: var(--largeBlock);
+  cursor: pointer;
 }
 
-.redButton:hover {
-  background: rgba(140, 27, 61, 1);
+.startStop:hover {
+  background: rgba(140, 27, 61, 0.8);
   transition: all 0.2s;
 }
 
@@ -272,6 +305,8 @@ h2 {
   flex-direction: row;
   align-content: center;
   vertical-align: middle;
+  height: 100%;
+  margin: 0 -16px var(--m);
 }
 
 .KeyInput-container,
@@ -282,16 +317,25 @@ h2 {
   flex-direction: column;
   align-content: center;
   justify-content: space-between;
-  vertical-align: middle;
-  margin-right: var(--xl);
+  vertical-align: top;
   background-color: var(--lightgrey);
-  padding: var(--m);
+  height: 64px;
+  padding: var(--xl);
+  margin: 0 var(--m);
+  transition: all 0.2s;
+}
+
+.KeyInput-container:hover,
+.SignatureInput-container:hover,
+.TempoInput-container:hover {
+  background-color: #eaeaea;
+  transition: all 0.2s;
 }
 
 .NoteBlock-container {
-  min-height: 50vh;
-  margin: var(--xl);
+  height: 30vh;
   background-color: #f3f3f3 !important;
+  margin: var(--l) 0;
 }
 
 select {
@@ -333,6 +377,18 @@ input {
 }
 
 .confirm-buttons-container {
-  margin: 0 var(--m);
   justify-content: flex-end;
+  margin: 0 -16px;
+}
+
+.piano-img {
+  height: var(--largeBlock);
+  opacity: 0.75;
+  width: 75vw;
+}
+
+.piano-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2vh;
 }
