@@ -92,13 +92,13 @@ class NoteBlock extends Component {
             left: (note.onset / this.state.widthUnit) + "px",
           }}/>
         ))}
-        {Array.from(Array(this.props.song.duration).keys()).filter((x) => (x%4===0)).map((x) => (
+        {Array.from(Array(this.props.song.duration).keys()).filter((x) => (x% this.props.song.signature[0]===0)).map((x) => (
           <div
             style={{
             left: x * 60000 / this.props.song.tempo / this.state.widthUnit + "px"}}
             className = "big-tempo-bar"/>
         ))}
-        {Array.from(Array(this.props.song.duration).keys()).filter((x) => (x%4 !==0)).map((x) => (
+        {Array.from(Array(this.props.song.duration).keys()).filter((x) => (x% this.props.song.signature[0] !==0)).map((x) => (
           <div
             style={{
             left: x * 60000 / this.props.song.tempo / this.state.widthUnit + "px"}}
