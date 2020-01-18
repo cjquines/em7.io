@@ -123,10 +123,6 @@ class Compose extends Component {
 
   play = () => {
     this.setState({isPlayingBack: true,});
-<<<<<<< HEAD
-    // this.piano.schedule(this.audioContext.currentTime, [{time: 0, note: 60}]);
-=======
->>>>>>> 0fd3c57551b01756d676c7df21ddce46d908c072
     this.piano.schedule(this.audioContext.currentTime, this.state.song.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
