@@ -15,30 +15,56 @@ class Harmonize extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
     chordProgression : {},
     pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77],
     pitch: ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"],
     keyToChord : {},
+    chordArray : {},
   };
   }
 
   componentDidMount() { 
     this.changeChordMaps();
-    this.harmonize(this.props.song.notes);
+    this.harmonizeAlgorithm();
   }
 
 
-  harmonizeAlgorithm = (notes) => {
-    //for each element in notes, map to possibleChords array, then consider following problem:
-    //given a directed graph (chrodProgression), integer n (number of notes), 
-    //and array A (keyToChord) of size n such that A[i] \in V, 
-    //find a walk v_1\dots v_n such that v_i \in A_i for all i.
-  } 
+  harmonizeAlgorithm = () => {
+    //creates chord for each note in harmonyChords, want to create chords for only notes on important beat
+    //TODO: create new array importantNotes
+    const arrayA = this.props.song.notes.map((note) => this.keyToChord[note.pitch % 12]);
+    const stack = [[arrayA[0][0], 0]];
+    const finalChord =[];
+    const revHarmonyChords = [];
+    const chordArray = {};
+      while(!(stack.isEmpty)){
+        let a = stack.pop();
+        let v = a[0];
+        let i = a[1];
+        if(i === arrayA.length-1){
+          finalChord.push([v,i]);
+          break;
+        }
+        for(let n = 0; n < arrayA[i+1].length; n++){
+          if(this.chordProgression[v].includes(arrayA[i+1][n])){
+            stack.push([arrayA[i+1][n], i+1]);
+            chordArray[JSON.stringify([arrayA[i+1][n], i+1])] = [v,i];
+          }
+        }
+      }
+      revHarmonyChords.push(finalChord[0][0]);
+      for(var i = 0; i< arrayA.length-1; i++){
+        finalChord[0] = JSON.stringify(finalChord[0]);
+        finalChord[0] = chordArray[finalChord[0]];
+        revHarmonyChords.push(finalChord[0][0]);
+      }
+      var harmonyChords = revHarmonyChords.reverse();
+      console.log(harmonyChords);
+    }
+
 
 
   changeChordMaps = () => {
-    console.log(this.state.subtonic);
     const chordProgression = {}; 
     const keyToChord = {};
     chordProgression["I"] = ["I", "ii", "ii7", "iii", "IV", "V", "V7", "vi", "vii", "vii7"];
@@ -58,15 +84,15 @@ class Harmonize extends Component {
     const dominant = tonic + 7;
     const submediant = tonic + 10-this.props.song.key.length;
     const subtonic = tonic + 11;
-    keyToChord[tonic] = ["I", "ii7", "IV", "vi"];
-    keyToChord[supertonic] = ["ii", "ii7", "V", "V7", "vii", "vii7"];
-    keyToChord[mediant] = ["I", "iii", "vi"];
-    keyToChord[subdominant] = ["ii", "ii7", "IV", "V7", "vii", "vii7"];
-    keyToChord[dominant] = ["I", "iii", "V", "V7"];
-    keyToChord[submediant] = ["ii", "ii7", "IV", "vi", "vii7"];
-    keyToChord[subtonic] = ["iii", "V", "V7", "vii", "vii7"];
-    this.setState({keyToChord : keyToChord});
-    this.setState({chordProgression : chordProgression});
+    keyToChord[tonic % 12] = ["I", "ii7", "IV", "vi"];
+    keyToChord[supertonic % 12] = ["ii", "ii7", "V", "V7", "vii", "vii7"];
+    keyToChord[mediant % 12] = ["I", "iii", "vi"];
+    keyToChord[subdominant % 12] = ["ii", "ii7", "IV", "V7", "vii", "vii7"];
+    keyToChord[dominant % 12] = ["I", "iii", "V", "V7"];
+    keyToChord[submediant % 12] = ["ii", "ii7", "IV", "vi", "vii7"];
+    keyToChord[subtonic % 12] = ["iii", "V", "V7", "vii", "vii7"];
+    this.keyToChord = keyToChord;
+    this.chordProgression = chordProgression;
   };
 
 
