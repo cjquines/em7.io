@@ -20,7 +20,7 @@ class NoteBlock extends Component {
 
     this.state = {
       heightUnit: 20,
-      widthUnit: 10,
+      widthUnit: 5,
     };
   }
   
@@ -82,10 +82,15 @@ class NoteBlock extends Component {
     this.render();
   }
 
+  getSongLength = () => {
+    return Math.max(...this.props.song.notes.map((note) => (note.onset + note.length)))
+  }
+
+
   render() {
     return (
-      <div className="NoteBlock-container" id="NoteBlock-container">
-        {this.props.song.notes.map((note) => (
+      <div className="NoteBlock-container" id="NoteBlock-container" style = {{width:  this.getSongLength()/this.state.widthUnit+ 24 + "px"}}>
+        {this.props.song.notes.map((note, index) => (
           <div
           key={note.id}
           data-id={note.id}
