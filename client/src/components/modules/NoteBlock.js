@@ -43,6 +43,20 @@ class NoteBlock extends Component {
         }),
       ],
       onmove: this.dragMoveListener,
+    }).resizable({
+      edges: { right: true },
+      modifiers: [
+        interact.modifiers.snapSize({
+          targets: [
+            interact.createSnapGrid({
+              x: xSnapUnit,
+              y: this.state.heightUnit,
+              offset: { x: 0, y: 0 },
+            }),
+          ],
+        }),
+      ],
+      onmove: this.resizeMoveListener,
     });
   }
 
@@ -52,7 +66,7 @@ class NoteBlock extends Component {
     const newNotes = [];
     for (const note of this.props.song.notes) {
       if (note.id == targetId) {
-        console.log(`${event.dx} ${event.dy}`);
+        console.log(event);
         const newOnset = note.onset + event.dx*this.state.widthUnit;
         const newPitch = note.pitch + event.dy/this.state.heightUnit;
         newNotes.push(new Note(targetId, newPitch, newOnset, note.length));
@@ -61,16 +75,23 @@ class NoteBlock extends Component {
       }
     }
     this.props.onChange({...this.props.song, notes: newNotes});
+    this.render();
+  }
 
-    // const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-    // const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
-    // target.style.webkitTransform =
-    //   target.style.transform =
-    //     'translate(' + x + 'px, ' + y + 'px)';
-
-    // target.setAttribute('data-x', x);
-    // target.setAttribute('data-y', y);
+  resizeMoveListener = (event) => {
+    let target = event.target;
+    const targetId = target.getAttribute('data-id');
+    const newNotes = [];
+    for (const note of this.props.song.notes) {
+      if (note.id == targetId) {
+        console.log(event);
+        const newLength = event.rect.width*this.state.widthUnit;
+        newNotes.push(new Note(targetId, note.pitch, note.onset, newLength));
+      } else {
+        newNotes.push(note);
+      }
+    }
+    this.props.onChange({...this.props.song, notes: newNotes});
     this.render();
   }
 

@@ -169,7 +169,8 @@ class Compose extends Component {
             <TempoInput
               song={this.state.song}
               defaultTempo="120"
-              onChange={(song) => this.setState({song: song})}
+              snapInterval={this.state.snapInterval}
+              onChange={(song, snapInterval) => this.setState({song: song, snapInterval: snapInterval})}
             />
           </div>
         </div>
@@ -199,6 +200,7 @@ class Compose extends Component {
         <div className="u-flex confirm-buttons-container">
         <SnapIntervalInput
           song={this.state.song}
+          defaultValue="0.25"
           onChange={(snapInterval) => this.setState({snapInterval: snapInterval})}
         />
         { this.state.hasRecorded ? [(this.state.isPlayingBack
