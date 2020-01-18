@@ -418,10 +418,3 @@ input {
   overflow: scroll;
 }
 
-.tempo-bar {
-  top: 0;
-  width: 2px;
-  height: 30vh;
-  position: absolute;
-  background-color: var(--medgrey);
-}

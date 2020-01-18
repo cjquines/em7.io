@@ -87,9 +87,6 @@ class NoteBlock extends Component {
   }
 
   render() {
-    console.log(this.props.song.tempo);
-    console.log(Math.floor(this.getSongLength()*this.props.song.tempo/60000));
-    console.log(Math.floor(this.getSongLength()*this.props.song.tempo/60000) * 60000 / this.props.song.tempo / this.state.widthUnit + "px");
     return (
       <div className="NoteBlock-container" id="NoteBlock-container" style = {{width: this.getSongLength()/this.state.widthUnit+ 24 + "px"}}>
         {this.props.song.notes.map((note, index) => (
@@ -105,11 +102,17 @@ class NoteBlock extends Component {
             left: (note.onset / this.state.widthUnit) + "px",
           }}/>
         ))}
-        {Array.from(Array(Math.floor(this.getSongLength()*this.props.song.tempo/60000 + 2)).keys()).map((x) => (
+        {Array.from(Array(this.props.song.duration).keys()).filter((x) => (x%4===0)).map((x) => (
           <div
             style={{
             left: x * 60000 / this.props.song.tempo / this.state.widthUnit + "px"}}
-            className = "tempo-bar"/>
+            className = "big-tempo-bar"/>
+        ))}
+        {Array.from(Array(this.props.song.duration).keys()).filter((x) => (x%4 !==0)).map((x) => (
+          <div
+            style={{
+            left: x * 60000 / this.props.song.tempo / this.state.widthUnit + "px"}}
+            className = "small-tempo-bar"/>
         ))}
       </div>
     );
