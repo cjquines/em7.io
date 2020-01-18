@@ -158,7 +158,8 @@ class Compose extends Component {
             <TempoInput
               song={this.state.song}
               defaultTempo="120"
-              onChange={(song) => this.setState({song: song})}
+              snapInterval={this.state.snapInterval}
+              onChange={(song, snapInterval) => this.setState({song: song, snapInterval: snapInterval})}
             />
           </div>
         </div>

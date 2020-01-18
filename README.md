@@ -10,10 +10,9 @@
 
 ## todo
 
-- make component tree
-- write initial compose page
-- figure out [soundfont-player](https://www.npmjs.com/package/soundfont-player)
-    - (maybe imitate [autocomposer-js](https://github.com/rjsalvadorr/autocomposer-js/blob/master/src/melody-data.js))
+- fix bugs:
+    - the interaction between time signature, snap interval, tempo, and snapping, is wrong
+    - what happens when you try to snap after editting? at least show a message saying this is bad
 
 ## things to change in skeleton
 

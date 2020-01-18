@@ -5,6 +5,7 @@ import React, { Component } from "react";
  *
  * Proptypes
  * @param {Song} song: the song that we're changing parameters of
+ * @param {number} snapInterval: the snap interval
  * @param {number} defaultTempo: default tempo
  * @param {(Song) => void} onChange: (function) triggered when changing song parameter
  */
@@ -19,7 +20,8 @@ class TempoInput extends Component {
   handleTempoChange = (event) => {
     this.setState({tempo: event.target.value})
     const newSong = {...this.props.song, tempo: event.target.value};
-    this.props.onChange(newSong);
+    const newSnapInterval = 60000/this.props.snapInterval*event.target.value;
+    this.props.onChange(newSong, newSnapInterval);
   };
 
   render() {
