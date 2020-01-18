@@ -180,15 +180,13 @@ class Compose extends Component {
         </div>
 
         <div className="playback-row">
-        { this.state.hasRecorded ? [(this.state.isPlayingBack
-          ? <button type="button" className="greyButton" onClick={this.stop}>stop</button>
-          : <button type="button" className="greyButton" onClick={this.play}>play</button>)] : (null)
-        }
+        <div className="big-noteblock-container">
         <NoteBlock
           song={this.state.song}
           snapInterval={this.state.snapInterval}
           onChange={(song) => this.setState({song: song})}
         />
+        </div>
         </div>
 
         <div className="u-flex confirm-buttons-container">
@@ -196,6 +194,10 @@ class Compose extends Component {
           song={this.state.song}
           onChange={(snapInterval) => this.setState({snapInterval: snapInterval})}
         />
+        { this.state.hasRecorded ? [(this.state.isPlayingBack
+          ? <button type="button" className="greyButton" onClick={this.stop}>stop</button>
+          : <button type="button" className="greyButton" onClick={this.play}>play</button>)] : (null)
+        }
           <button type="button" className="greyButton" onClick={this.snapNotes}>Snap notes!</button>
           <button type="button" className="greyButton" onClick={() => this.setState({showHarmonize: true})}>harmonize!</button>
         </div>

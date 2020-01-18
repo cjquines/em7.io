@@ -395,6 +395,13 @@ input {
 }
 
 .playback-row {
-  margin: var(--m) -16px;
-  height: max-content;
+  margin: var(--m) 0;
+  justify-content: space-evenly;
 }
+
+.big-noteblock-container {
+  width: 100%;
+  background-color: #f3f3f3;
+  overflow: scroll;
+}
+
