@@ -186,6 +186,7 @@ class Compose extends Component {
         }
         <NoteBlock
           song={this.state.song}
+          snapInterval={this.state.snapInterval}
           onChange={(song) => this.setState({song: song})}
         />
         </div>
