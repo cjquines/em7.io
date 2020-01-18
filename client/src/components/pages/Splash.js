@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
 
+import em7piano from "../../public/em7piano.png";
+
 import "../../utilities.css";
 
 /**
@@ -19,7 +21,9 @@ class Splash extends Component {
         <div className="logo">
           <p className="title">em7.io</p>
           <p className="subtitle">Create your own harmonies!</p>
+          <img src = {em7piano} className = "splash-piano-png"/>
         </div>
+        
         <div className="splash-button-container">
           <a href="/compose" className="redButton">Compose</a>
           <a href="/listen" className="redButton">Listen</a>
