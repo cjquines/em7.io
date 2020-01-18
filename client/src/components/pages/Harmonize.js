@@ -32,6 +32,7 @@ class Harmonize extends Component {
   harmonizeAlgorithm = () => {
     //creates chord for each note in harmonyChords, want to create chords for only notes on important beat
     //TODO: create new array importantNotes
+    //TODO: base arrayA on notes timing and note ID
     const arrayA = this.props.song.notes.map((note) => this.keyToChord[note.pitch % 12]);
     const stack = [[arrayA[0][0], 0]];
     const finalChord =[];
