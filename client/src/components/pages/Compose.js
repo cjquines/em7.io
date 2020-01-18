@@ -59,8 +59,15 @@ class Compose extends Component {
         });
       }
       keyboardjs.pause();
+
     });
+
+
   }
+
+  handleTitleChange = (event) => {
+    this.setState({ song: {...this.state.song, title: event.target.value} });
+  };
 
   auxMetronome = () => {
     if (this.beatNumber % this.state.song.signature[0] === 0) {
@@ -140,14 +147,10 @@ class Compose extends Component {
     } else {
       return (
         <div className="Compose-container u-flexColumn">
-
-
-      
-
         <div className = "u-flex-spaceBetween">
           <div className = "titles">
             <h2>Compose</h2>
-            <h1>Untitled</h1>
+            <input id="song-title" value = {this.state.song.title} type = "text" onChange={this.handleTitleChange}></input>
           </div>
           
           <div className = "Timesig-block">

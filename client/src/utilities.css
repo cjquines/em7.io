@@ -51,7 +51,8 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+#song-title {
   font-family: "Montserrat", "Open Sans", sans-serif;
   clear: both;
   -ms-word-wrap: break-word;
@@ -63,12 +64,16 @@ h6 {
 h1 {
   font-size: var(--xxl);
   margin: var(--m) 0;
-  text-align: center;
+  text-align: left;
+}
+#song-title {
+  font-size: var(--xxl);
+  text-align: left;
+  color: #000000;
 }
 h2 {
   font-size: var(--l);
   margin: var(--m) 0;
-  padding-left: 2px;
 }
 
 h6 {
@@ -235,12 +240,12 @@ h6 {
   font-style: normal;
   font-weight: 600;
   font-size: 80px;
-  text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.25);
-  background: linear-gradient(to right, rgb(206, 65, 0) -20%, #8C1B3D 40%);
+  background: linear-gradient(to right, rgb(206, 65, 0) -20%, #8C1B3D 60%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-top: 16vh;
   margin-bottom: -12px;
+  text-shadow: 0 0 5px rgb(206, 65, 0, 0.1);
 }
 
 .subtitle {
@@ -248,8 +253,9 @@ h6 {
   font-style: normal;
   font-weight: 300;
   font-size: 20px;
-  color: var(--darkergrey);
+  color: #333333;
   margin-bottom: 4vh;
+  text-shadow: 0 0 5px rgb(80, 65, 65, 0.1);
 }
 
 .logo {
@@ -263,14 +269,14 @@ h6 {
 
 .splash-piano-png {
   top: 12vh;
-  opacity: 0.08 !important;
+  opacity: 0.07 !important;
   height: 24vh !important;
-  width: 60vw !important;
+  width: 80vh !important;
   position: absolute;
   z-index: -1;
-  border-radius: 6px;
-  -webkit-filter: blur(1.5px); /* Safari 6.0 - 9.0 */
-  filter: blur(1.5px);
+  border-radius: 3px;
+  -webkit-filter: blur(1px); /* Safari 6.0 - 9.0 */
+  filter: blur(1px);
 }
 
 .Splash-container {
@@ -418,3 +424,8 @@ input {
   overflow: scroll;
 }
 
+.SnapIntervalInput-container {
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+}
