@@ -5,7 +5,8 @@
  * @param {number} length - in ms, amount of time the note is played
  */
 class Note {
-  constructor(pitch, onset, length) {
+  constructor(id, pitch, onset, length) {
+    this.id = id;
     this.pitch = pitch;
     this.onset = onset;
     this.length = length;

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import interact from "interactjs";
 
+import Note from "../common/Note.js";
+
 // TODO: make this fancier
 import "./NoteBlock.css";
 
@@ -32,7 +34,7 @@ class NoteBlock extends Component {
               x: xSnapUnit,
               y: this.state.heightUnit,
               offset: { x: 0, y: 0 },
-            })
+            }),
           ],
           range: Infinity,
           relativePoints: [ { x: 0, y: 0 } ]
@@ -43,28 +45,50 @@ class NoteBlock extends Component {
   }
 
   dragMoveListener = (event) => {
+    console.log("OKAY");
     let target = event.target;
+    const targetId = target.getAttribute('data-id');
+    console.log(targetId);
+    const newNotes = [];
+    for (const note of this.props.song.notes) {
+    // console.log(`${note.id} asdf ${targetId}`);
+    // console.log(targetId);
+    // console.log(note.id == targetId);
+      if (note.id == targetId) {
+    // console.log("THIS ONE");
+    // console.log(event);
+    console.log(note.onset);
+        const newOnset = note.onset + event.dx*this.state.widthUnit;
+    console.log(newOnset);
+    console.log(note.pitch);
+        const newPitch = note.pitch + event.dy/this.state.heightUnit;
+    console.log(newPitch);
+        newNotes.push(new Note(targetId, newPitch, newOnset, note.length));
+      } else {
+        newNotes.push(note);
+      }
+    }
+    this.props.onChange({...this.props.song, notes: newNotes});
 
-    const newOnset = event.dx * this.state.widthUnit;
-    // keep the dragged position in the data-x/data-y attributes
-    let x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-    let y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+    // const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+    // const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
-    // translate the element
-    target.style.webkitTransform =
-      target.style.transform =
-        'translate(' + x + 'px, ' + y + 'px)';
+    // target.style.webkitTransform =
+    //   target.style.transform =
+    //     'translate(' + x + 'px, ' + y + 'px)';
 
-    // update the posiion attributes
-    target.setAttribute('data-x', x);
-    target.setAttribute('data-y', y);
+    // target.setAttribute('data-x', x);
+    // target.setAttribute('data-y', y);
+    this.render();
   }
 
   render() {
     return (
       <div className="NoteBlock-container" id="NoteBlock-container">
-        {this.props.song.notes.map((note, index) => (
-          <div key={index}
+        {this.props.song.notes.map((note) => (
+          <div
+          key={note.id}
+          data-id={note.id}
           data-x="0"
           data-y="0"
           className="NoteBlock-note"

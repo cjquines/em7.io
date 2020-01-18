@@ -84,9 +84,10 @@ class Compose extends Component {
 
   releaseKey = (key, pitch) => {
     this.piano.play(pitch).stop();
+    const id = this.state.song.notes.length;
     const onset = this.curKey[key] - this.state.start;
     const length = Date.now() - this.curKey[key];
-    const newNotes = [...this.state.song.notes, new Note(pitch, onset, length)];
+    const newNotes = [...this.state.song.notes, new Note(id, pitch, onset, length)];
     this.setState({ song: {...this.state.song, notes: newNotes} });
   };
 
@@ -111,14 +112,13 @@ class Compose extends Component {
     const newNotes = this.state.originalSong.notes.map((note) => {
       const newOnset = snap*Math.round(note.onset/snap);
       const newLength = snap*Math.max(1, Math.round(note.length/snap));
-      return new Note(note.pitch, newOnset, newLength);
+      return new Note(note.id, note.pitch, newOnset, newLength);
     });
     this.setState({ song: {...this.state.song, notes: newNotes} });
   };
 
   play = () => {
     this.setState({isPlayingBack: true,});
-    this.piano.schedule(this.audioContext.currentTime, [{time: 0, note: 60}]);
     this.piano.schedule(this.audioContext.currentTime, this.state.song.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
@@ -187,7 +187,7 @@ class Compose extends Component {
         <NoteBlock
           song={this.state.song}
           snapInterval={this.state.snapInterval}
-          onChange={(song) => this.setState({song: song})}
+          onChange={(song) => {this.setState({song: song}); this.render();}}
         />
         </div>
 
