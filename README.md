@@ -10,6 +10,7 @@
 
 ## todo
 
+- make harmonize actually work
 - fix bugs:
     - the interaction between time signature, snap interval, tempo, and snapping, is wrong
     - what happens when you try to snap after editting? at least show a message saying this is bad
