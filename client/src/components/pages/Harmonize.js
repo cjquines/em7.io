@@ -23,6 +23,7 @@ class Harmonize extends Component {
     keyToChord : {},
     chordArray : {},
     harmony : {...this.props.song},
+    isPlayingBack: false
   };
   this.audioContext = new AudioContext();
   }
@@ -140,6 +141,7 @@ console.log(newNotes);
   };
 
   play = () => {
+    this.setState({isPlayingBack: true,});
     this.piano.schedule(this.audioContext.currentTime, this.props.song.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
@@ -148,22 +150,36 @@ console.log(newNotes);
     }));
   };
 
+  stop = () => {
+    this.setState({isPlayingBack: false,});
+    this.piano.stop();
+  };
+
   render() {
     return (
       <div className="Harmonize-container">
-      Harmonize page {this.state.tonic}
-      <NoteBlock
-        song={this.props.song}
-        onChange={this.props.onChange}
-      />
+      {this.state.tonic}
+        <div className = "u-flex-spaceBetween u-flexColumn">
+          <div className = "titles">
+            <h2>Harmonize</h2>
+            <h1>{this.props.song.title}</h1>
+          </div>
 
-
-
-
-
-          <button type="button" className="greyButton" onClick={this.play}>play</button>
-
-  </div>
+      
+        <div className="big-noteblock-container">
+        <NoteBlock
+          song={this.props.song}
+          onChange={this.props.onChange}
+        />
+        </div>
+        <div className="u-flex confirm-buttons-container">
+          {(this.state.isPlayingBack
+            ? <button type="button" className="greyButton" onClick={this.stop}>stop</button>
+            : <button type="button" className="greyButton" onClick={this.play}>play</button>)}
+        </div>
+      </div>
+    </div>
+    
     );
   }
 }

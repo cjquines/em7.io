@@ -33,6 +33,7 @@ class Compose extends Component {
       isPlayingBack: false,
       snapInterval: 125, // in ms
       showHarmonize: false,
+      hasSnapped: false,
     };
 
     this.audioContext = new AudioContext();
@@ -106,13 +107,15 @@ class Compose extends Component {
     const newNotes = [...this.state.song.notes, new Note(id, pitch, onset, length)];
     this.setState({ song: {...this.state.song, notes: newNotes} });
   };
-
+  
+  //TODO: add max length?
   record = () => {
     this.setState({
       isRecording : true,
       start: Date.now(),})
     this.playMetronome();
     keyboardjs.resume();
+    this.setState({hasSnapped: false});
   };
 
   stopRecord = () => {
@@ -122,6 +125,7 @@ class Compose extends Component {
     keyboardjs.pause();
   };
 
+  //TODO: snap correctly after changing tempo
   snapNotes = () => {
     const snap = this.state.snapInterval;
     const newNotes = this.state.originalSong.notes.map((note) => {
@@ -129,7 +133,7 @@ class Compose extends Component {
       const newLength = snap*Math.max(1, Math.round(note.length/snap));
       return new Note(note.id, note.pitch, newOnset, newLength);
     });
-    this.setState({ song: {...this.state.song, notes: newNotes} });
+    this.setState({ song: {...this.state.song, notes: newNotes}, hasSnapped: true});
   };
 
   play = () => {
@@ -143,6 +147,15 @@ class Compose extends Component {
     this.setState({isPlayingBack: false,});
     this.piano.stop();
   };
+
+  goToHarmonizePage= () => {
+    if (this.state.hasSnapped) {
+      this.setState({showHarmonize: true})
+    } else {
+      alert("Snap to beat first!")
+    }
+    
+  }
 
   render() {
     if (this.state.showHarmonize) {
@@ -174,7 +187,7 @@ class Compose extends Component {
               song={this.state.song}
               defaultTempo="120"
               snapInterval={this.state.snapInterval}
-              onChange={(song, snapInterval) => this.setState({song: song, snapInterval: snapInterval})}
+              onChange={(song, snapInterval) => this.setState({song: song, snapInterval: snapInterval, hasSnapped: false})}
             />
           </div>
         </div>
@@ -212,7 +225,7 @@ class Compose extends Component {
           : <button type="button" className="greyButton" onClick={this.play}>play</button>)] : (null)
         }
           <button type="button" className="greyButton" onClick={this.snapNotes}>Snap notes!</button>
-          <button type="button" className="greyButton" onClick={() => this.setState({showHarmonize: true})}>harmonize!</button>
+          <button type="button" className="greyButton" onClick={this.goToHarmonizePage}>harmonize!</button>
         </div>
         </div>
       );
