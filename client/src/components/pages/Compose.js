@@ -136,10 +136,6 @@ class Compose extends Component {
     } else {
       return (
         <div className="Compose-container u-flexColumn">
-
-
-      
-
         <div className = "u-flex-spaceBetween">
           <div className = "titles">
             <h2>Compose</h2>
@@ -192,6 +188,7 @@ class Compose extends Component {
         <div className="u-flex confirm-buttons-container">
         <SnapIntervalInput
           song={this.state.song}
+          defaultValue="0.25"
           onChange={(snapInterval) => this.setState({snapInterval: snapInterval})}
         />
         { this.state.hasRecorded ? [(this.state.isPlayingBack

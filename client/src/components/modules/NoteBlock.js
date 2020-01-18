@@ -52,7 +52,6 @@ class NoteBlock extends Component {
     const newNotes = [];
     for (const note of this.props.song.notes) {
       if (note.id == targetId) {
-        console.log(`${event.dx} ${event.dy}`);
         const newOnset = note.onset + event.dx*this.state.widthUnit;
         const newPitch = note.pitch + event.dy/this.state.heightUnit;
         newNotes.push(new Note(targetId, newPitch, newOnset, note.length));
@@ -79,9 +78,6 @@ class NoteBlock extends Component {
   }
 
   render() {
-    console.log(this.props.song.tempo);
-    console.log(Math.floor(this.getSongLength()*this.props.song.tempo/60000));
-    console.log(Math.floor(this.getSongLength()*this.props.song.tempo/60000) * 60000 / this.props.song.tempo / this.state.widthUnit + "px");
     return (
       <div className="NoteBlock-container" id="NoteBlock-container" style = {{width: this.getSongLength()/this.state.widthUnit+ 24 + "px"}}>
         {this.props.song.notes.map((note, index) => (
