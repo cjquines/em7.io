@@ -19,12 +19,14 @@ class NoteBlock extends Component {
     super(props);
 
     this.state = {
-      heightUnit: 20,
+      heightUnit: 12,
       widthUnit: 5,
     };
   }
   
   componentDidMount() {
+    const offsetTop = document.getElementById("NoteBlock-container").offsetTop;
+    const offsetLeft = document.getElementById("NoteBlock-container").offsetLeft;
     const xSnapUnit = this.props.snapInterval / this.state.widthUnit;
     interact('.NoteBlock-note').draggable({
       modifiers: [
@@ -33,7 +35,7 @@ class NoteBlock extends Component {
             interact.createSnapGrid({
               x: xSnapUnit,
               y: this.state.heightUnit,
-              offset: { x: 0, y: 0 },
+              offset: { x: offsetLeft, y: offsetTop },
             }),
           ],
           range: Infinity,
@@ -45,24 +47,14 @@ class NoteBlock extends Component {
   }
 
   dragMoveListener = (event) => {
-    console.log("OKAY");
     let target = event.target;
     const targetId = target.getAttribute('data-id');
-    console.log(targetId);
     const newNotes = [];
     for (const note of this.props.song.notes) {
-    // console.log(`${note.id} asdf ${targetId}`);
-    // console.log(targetId);
-    // console.log(note.id == targetId);
       if (note.id == targetId) {
-    // console.log("THIS ONE");
-    // console.log(event);
-    console.log(note.onset);
+        console.log(`${event.dx} ${event.dy}`);
         const newOnset = note.onset + event.dx*this.state.widthUnit;
-    console.log(newOnset);
-    console.log(note.pitch);
         const newPitch = note.pitch + event.dy/this.state.heightUnit;
-    console.log(newPitch);
         newNotes.push(new Note(targetId, newPitch, newOnset, note.length));
       } else {
         newNotes.push(note);
@@ -93,8 +85,6 @@ class NoteBlock extends Component {
           <div
           key={note.id}
           data-id={note.id}
-          data-x="0"
-          data-y="0"
           className="NoteBlock-note"
           style={{
             top: (note.pitch - 60)*this.state.heightUnit + "px",
