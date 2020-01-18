@@ -3,7 +3,28 @@
 }
 
 .NoteBlock-note {
-  background: #000;
-  height: 20px;
+  background: #333;
+  height: 12px;
   position: absolute;
+  touch-action: none;
+  min-width: 10px;
+  border-radius: 3px;
+  box-shadow: 0 0 2px #ccc;
+}
+
+
+.big-tempo-bar {
+  top: 0;
+  width: 2px;
+  height: 30vh;
+  position: absolute;
+  background-color: #777;
+}
+
+.small-tempo-bar {
+  top: 7vh;
+  width: 2px;
+  height: 16vh;
+  position: absolute;
+  background-color: #c5c5c5;
 }

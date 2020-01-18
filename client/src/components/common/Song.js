@@ -11,6 +11,8 @@ class Song {
     this.signature = signature;
     this.tempo = tempo;
     this.notes = [];
+    this.name = "Untitled"
+    this.duration = 0;
   }
 }
 
