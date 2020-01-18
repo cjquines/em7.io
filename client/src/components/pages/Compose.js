@@ -73,7 +73,6 @@ class Compose extends Component {
     if (this.beatNumber % this.state.song.signature[0] === 0) {
       this.metronome.play(66);
     } else {
-      this.metronome.play(59);
     }
     this.setState({
       song: {...this.state.song, duration: this.state.song.duration+1}
