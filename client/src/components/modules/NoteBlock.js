@@ -45,9 +45,9 @@ class NoteBlock extends Component {
           <div key={index}
           className="NoteBlock-note"
           style={{
-            top: (note.pitch - 50)*20 + "px",
-            width: (note.length / 20) + "px",
-            left: (note.onset / 20) + "px",
+            top: (note.pitch - 60)*20 + "px",
+            width: (note.length / 10) + "px",
+            left: (note.onset / 10) + "px",
           }}/>
         ))}
       </div>

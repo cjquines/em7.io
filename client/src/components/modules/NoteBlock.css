@@ -1,3 +1,7 @@
+.NoteBlock-container {
+  position: relative;
+}
+
 .NoteBlock-note {
   background: #000;
   height: 20px;
