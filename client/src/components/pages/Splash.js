@@ -21,7 +21,7 @@ class Splash extends Component {
         <div className="logo">
           <p className="title">em7.io</p>
           <p className="subtitle">Create your own harmonies!</p>
-          <img src = {em7piano} className = "piano-img"/>
+          <img src = {em7piano} className = "splash-piano-png"/>
         </div>
         
         <div className="splash-button-container">

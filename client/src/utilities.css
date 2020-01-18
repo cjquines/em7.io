@@ -261,13 +261,16 @@ h6 {
   /*HIHIHI margin: 15% 0;*/
 }
 
-.piano-img {
+.splash-piano-png {
   top: 12vh;
   opacity: 0.08 !important;
   height: 24vh !important;
-  width: 55vw !important;
+  width: 60vw !important;
   position: absolute;
   z-index: -1;
+  border-radius: 6px;
+  -webkit-filter: blur(1.5px); /* Safari 6.0 - 9.0 */
+  filter: blur(1.5px);
 }
 
 .Splash-container {
