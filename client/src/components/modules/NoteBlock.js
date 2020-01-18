@@ -86,7 +86,6 @@ class NoteBlock extends Component {
     return Math.max(...this.props.song.notes.map((note) => (note.onset + note.length)))
   }
 
-
   render() {
     return (
       <div className="NoteBlock-container" id="NoteBlock-container" style = {{width:  this.getSongLength()/this.state.widthUnit+ 24 + "px"}}>
