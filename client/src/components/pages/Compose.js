@@ -73,17 +73,23 @@ class Compose extends Component {
     if (this.beatNumber % this.state.song.signature[0] === 0) {
       this.metronome.play(66);
     } else {
+      this.metronome.play(59);
     }
     this.setState({
       song: {...this.state.song, duration: this.state.song.duration+1}
     })
     
     this.beatNumber = this.beatNumber + 1;
+    return "ok"
   };
 
   playMetronome = () => { 
+    this.metronome.play(66);
+    this.setState({
+      song: {...this.state.song, notes: [], duration: 1}
+    })
     const delay = 60000/this.state.song.tempo;
-    this.beatNumber = 0;
+    this.beatNumber = 1;
     this.metronomeInterval = setInterval(this.auxMetronome, delay);
   };
 
@@ -104,8 +110,7 @@ class Compose extends Component {
   record = () => {
     this.setState({
       isRecording : true,
-      start: Date.now(),
-      song: {...this.state.song, notes: [], duration: 0}});
+      start: Date.now(),})
     this.playMetronome();
     keyboardjs.resume();
   };

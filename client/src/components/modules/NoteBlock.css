@@ -16,7 +16,7 @@
 
 .big-tempo-bar {
   top: 0;
-  width: 2px;
+  width: 1px !important;
   height: 30vh;
   position: absolute;
   background-color: #777;
@@ -24,7 +24,7 @@
 
 .small-tempo-bar {
   top: 7vh;
-  width: 2px;
+  width: 1px !important;
   height: 16vh;
   position: absolute;
   background-color: #c5c5c5;
