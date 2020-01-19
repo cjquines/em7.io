@@ -22,15 +22,11 @@ class Harmonize extends Component {
     pitch: ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"],
     keyToChord : {},
     chordArray : {},
-<<<<<<< HEAD
     harmonyLineOne : {...this.props.song},
     harmonyLineTwo : {...this.props.song},
     harmonyLineThree : {...this.props.song},
     harmonyLineFour : {...this.props.song},
-=======
-    harmony : {...this.props.song},
     isPlayingBack: false
->>>>>>> 08ab98f542d2f0adcef1c289cf662fe169a70aa8
   };
   this.audioContext = new AudioContext();
   }
