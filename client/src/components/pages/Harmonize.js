@@ -27,7 +27,7 @@ class Harmonize extends Component {
     harmonyLineTwo : {...this.props.song},
     harmonyLineThree : {...this.props.song},
     harmonyLineFour : {...this.props.song},
-    harmonyOption : 0,
+    harmonyOption : 1,
     harmonyChords : [],
     isPlayingBack: false
   };
@@ -97,25 +97,25 @@ class Harmonize extends Component {
     this.setState({harmonyChords : harmonyChords});
   }
       const newNotesOne = this.state.harmonyLineOne.notes.map((note,i) => {
-        const newPitch = this.chordToPitch[harmonyChords[harmonyOption][i]][0];
+        const newPitch = this.chordToPitch[harmonyChords[harmonyOption-1][i]][0];
         return new Note(note.id, newPitch, note.onset, note.length);
       });
       this.setState({harmonyLineOne : {...this.state.harmonyLineOne, notes : newNotesOne} });
       
       const newNotesTwo = this.state.harmonyLineTwo.notes.map((note,i) => {
-        const newPitch = this.chordToPitch[harmonyChords[harmonyOption][i]][1];
+        const newPitch = this.chordToPitch[harmonyChords[harmonyOption-1][i]][1];
         return new Note(note.id, newPitch, note.onset, note.length);
       });
       this.setState({harmonyLineTwo : {...this.state.harmonyLineTwo, notes : newNotesTwo} });
       
       const newNotesThree = this.state.harmonyLineThree.notes.map((note,i) => {
-        const newPitch = this.chordToPitch[harmonyChords[harmonyOption][i]][2];
+        const newPitch = this.chordToPitch[harmonyChords[harmonyOption-1][i]][2];
         return new Note(note.id, newPitch, note.onset, note.length);
       });
       this.setState({harmonyLineThree : {...this.state.harmonyLineThree, notes : newNotesThree} });
 
       const newNotesFour = this.state.harmonyLineFour.notes.map((note,i) => {
-        const newPitch = this.chordToPitch[harmonyChords[harmonyOption][i]][3];
+        const newPitch = this.chordToPitch[harmonyChords[harmonyOption-1][i]][3];
         return new Note(note.id, newPitch, note.onset, note.length);
       });
       this.setState({harmonyLineFour : {...this.state.harmonyLineFour, notes : newNotesFour} });
@@ -214,7 +214,7 @@ class Harmonize extends Component {
         <HarmonyInput
               harmonyOption={this.state.harmonyOption}
               harmonyChords = {this.state.harmonyChords}
-              defaultHarmony="0"
+              defaultHarmony="1"
               onChange={(harmonyOption) => {this.setState({harmonyOption : harmonyOption}), 
               this.harmonizeAlgorithm(harmonyOption)}}
             />
