@@ -63,7 +63,7 @@ h6,
 }
 h1 {
   font-size: var(--xxl);
-  margin: var(--m) 0;
+  margin: var(--m) 0 var(--xl);
   text-align: left;
 }
 #song-title {
@@ -428,4 +428,8 @@ input {
   display: flex;
   align-items: center;
   vertical-align: middle;
+}
+
+.titles {
+  min-height: 15vh;
 }

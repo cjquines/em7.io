@@ -13,6 +13,7 @@ import "./NoteBlock.css";
  * @param {Song} song: the song that we're changing the notes of
  * @param {number} snapInterval: the snap interval in ms
  * @param {(Song) => void} onChange: (function) triggered when editing notes
+ * @param {Song} harmony
  */
 class NoteBlock extends Component {
   constructor(props) {

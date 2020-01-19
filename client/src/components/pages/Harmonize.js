@@ -22,10 +22,15 @@ class Harmonize extends Component {
     pitch: ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"],
     keyToChord : {},
     chordArray : {},
+<<<<<<< HEAD
     harmonyLineOne : {...this.props.song},
     harmonyLineTwo : {...this.props.song},
     harmonyLineThree : {...this.props.song},
     harmonyLineFour : {...this.props.song},
+=======
+    harmony : {...this.props.song},
+    isPlayingBack: false
+>>>>>>> 08ab98f542d2f0adcef1c289cf662fe169a70aa8
   };
   this.audioContext = new AudioContext();
   }
@@ -164,6 +169,7 @@ class Harmonize extends Component {
   };
 
   play = () => {
+    this.setState({isPlayingBack: true,});
     this.piano.schedule(this.audioContext.currentTime, this.props.song.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
@@ -178,22 +184,36 @@ class Harmonize extends Component {
     }));
   };
 
+  stop = () => {
+    this.setState({isPlayingBack: false,});
+    this.piano.stop();
+  };
+
   render() {
     return (
       <div className="Harmonize-container">
-      Harmonize page {this.state.tonic}
-      <NoteBlock
-        song={this.props.song}
-        onChange={this.props.onChange}
-      />
+      {this.state.tonic}
+        <div className = "u-flex-spaceBetween u-flexColumn">
+          <div className = "titles">
+            <h2>Harmonize</h2>
+            <h1>{this.props.song.title}</h1>
+          </div>
 
-
-
-
-
-          <button type="button" className="greyButton" onClick={this.play}>play</button>
-
-  </div>
+      
+        <div className="big-noteblock-container">
+        <NoteBlock
+          song={this.props.song}
+          onChange={this.props.onChange}
+        />
+        </div>
+        <div className="u-flex confirm-buttons-container">
+          {(this.state.isPlayingBack
+            ? <button type="button" className="greyButton" onClick={this.stop}>stop</button>
+            : <button type="button" className="greyButton" onClick={this.play}>play</button>)}
+        </div>
+      </div>
+    </div>
+    
     );
   }
 }
