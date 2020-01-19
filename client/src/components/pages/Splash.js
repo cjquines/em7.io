@@ -4,6 +4,7 @@ import { Link } from "@reach/router";
 import em7piano from "../../public/em7piano.png";
 
 import "../../utilities.css";
+import "./Splash.css";
 
 /**
  * Splash is the splash page of the website.

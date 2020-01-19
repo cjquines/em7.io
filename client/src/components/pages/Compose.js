@@ -14,6 +14,7 @@ import Song from "../common/Song.js";
 import TempoInput from "../modules/TempoInput.js";
 
 import "../../utilities.css";
+import "./Compose.css"
 import Piano from "../../public/piano.jpg";
 
 /**
@@ -224,8 +225,11 @@ class Compose extends Component {
           ? <button type="button" className="greyButton" onClick={this.stop}>stop</button>
           : <button type="button" className="greyButton" onClick={this.play}>play</button>)] : (null)
         }
-          <button type="button" className="greyButton" onClick={this.snapNotes}>Snap notes!</button>
-          <button type="button" className="greyButton" onClick={this.goToHarmonizePage}>harmonize!</button>
+        { this.state.hasSnapped ? <><button type="button" className="greyButton" onClick={this.snapNotes}>Snap notes!</button>
+          <button type="button" className="goodButton" onClick={this.goToHarmonizePage}>harmonize!</button></>
+          : <><button type="button" className="goodButton" onClick={this.snapNotes}>Snap notes!</button>
+          <button type="button" className="greyButton" onClick={this.goToHarmonizePage}>harmonize!</button></>}
+          
         </div>
         </div>
       );

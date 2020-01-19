@@ -6,6 +6,10 @@ import "../../utilities.css";
 import { _ } from "core-js";
 const Soundfont = require("soundfont-player");
 
+import "./Compose.css";
+import SnapIntervalInput from "../modules/SnapIntervalInput"
+import Dialogue from "../modules/Dialogue.js";
+
 /**
  * Page where people can select harmonies.
  *
@@ -23,7 +27,8 @@ class Harmonize extends Component {
     keyToChord : {},
     chordArray : {},
     harmony : {...this.props.song},
-    isPlayingBack: false
+    isPlayingBack: false,
+    saving: false,
   };
   this.audioContext = new AudioContext();
   }
@@ -155,10 +160,23 @@ console.log(newNotes);
     this.piano.stop();
   };
 
+  openSaveDialogue = () => {
+    this.setState({saving: true});
+  }
+  
+  closeDialogue = () => {
+    this.setState({saving: false});
+  }
+
   render() {
+    console.log(this.state.saving)
     return (
-      <div className="Harmonize-container">
+      <div className="Harmonize-container u-flexColumn">
       {this.state.tonic}
+        <Dialogue id = "saveDialogue"
+          closingFunction = {this.closeDialogue}
+          display = {this.state.saving}
+          title = {this.props.song.title}/>
         <div className = "u-flex-spaceBetween u-flexColumn">
           <div className = "titles">
             <h2>Harmonize</h2>
@@ -172,12 +190,19 @@ console.log(newNotes);
           onChange={this.props.onChange}
         />
         </div>
+      </div>
+      <div className="u-flex confirm-buttons-container">
         <div className="u-flex confirm-buttons-container">
           {(this.state.isPlayingBack
             ? <button type="button" className="greyButton" onClick={this.stop}>stop</button>
             : <button type="button" className="greyButton" onClick={this.play}>play</button>)}
         </div>
-      </div>
+        { this.state.hasRecorded ? [(this.state.isPlayingBack
+          ? <button type="button" className="greyButton" onClick={this.stop}>stop</button>
+          : <button type="button" className="greyButton" onClick={this.play}>play</button>)] : (null)
+        }
+          <button type="button" className="goodButton" onClick={this.openSaveDialogue}>save!</button>
+        </div>
     </div>
     
     );
