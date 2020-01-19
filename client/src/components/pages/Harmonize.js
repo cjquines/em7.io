@@ -5,6 +5,7 @@ import NoteBlock from "../modules/NoteBlock.js";
 import "../../utilities.css";
 import { _ } from "core-js";
 const Soundfont = require("soundfont-player");
+import HarmonyInput from "../modules/HarmonyInput.js";
 
 /**
  * Page where people can select harmonies.
@@ -26,6 +27,8 @@ class Harmonize extends Component {
     harmonyLineTwo : {...this.props.song},
     harmonyLineThree : {...this.props.song},
     harmonyLineFour : {...this.props.song},
+    harmonyOption : 0,
+    harmonyChords : [],
     isPlayingBack: false
   };
   this.audioContext = new AudioContext();
@@ -33,12 +36,12 @@ class Harmonize extends Component {
 
   componentDidMount() { 
     this.changeChordMaps();
-    this.harmonizeAlgorithm();
+    this.harmonizeAlgorithm(this.state.harmonyOption);
     Soundfont.instrument(this.audioContext, 'acoustic_grand_piano')
     .then((piano) => {
       this.piano = piano;
     });
-    Soundfont.instrument(this.audioContext, 'acoustic_grand_piano', {gain : 0.1})
+    Soundfont.instrument(this.audioContext, 'acoustic_grand_piano', {gain : 0.3})
     .then((piano) => {
       this.harmonyPiano = piano;
     });
@@ -46,7 +49,7 @@ class Harmonize extends Component {
   
 
 
-  harmonizeAlgorithm = () => {
+  harmonizeAlgorithm = (harmonyOption) => {
     //creates chord for each note in harmonyChords, want to create chords for only notes on important beat
     //TODO: create new array importantNotes
     //TODO: base arrayA on notes timing and note ID
@@ -91,28 +94,28 @@ class Harmonize extends Component {
       }
       harmonyChords.push(revHarmonyChords.reverse());
     }
+    this.setState({harmonyChords : harmonyChords});
   }
-      console.log(harmonyChords);
       const newNotesOne = this.state.harmonyLineOne.notes.map((note,i) => {
-        const newPitch = this.chordToPitch[harmonyChords[0][i]][0];
+        const newPitch = this.chordToPitch[harmonyChords[harmonyOption][i]][0];
         return new Note(note.id, newPitch, note.onset, note.length);
       });
       this.setState({harmonyLineOne : {...this.state.harmonyLineOne, notes : newNotesOne} });
       
       const newNotesTwo = this.state.harmonyLineTwo.notes.map((note,i) => {
-        const newPitch = this.chordToPitch[harmonyChords[0][i]][1];
+        const newPitch = this.chordToPitch[harmonyChords[harmonyOption][i]][1];
         return new Note(note.id, newPitch, note.onset, note.length);
       });
       this.setState({harmonyLineTwo : {...this.state.harmonyLineTwo, notes : newNotesTwo} });
       
       const newNotesThree = this.state.harmonyLineThree.notes.map((note,i) => {
-        const newPitch = this.chordToPitch[harmonyChords[0][i]][2];
+        const newPitch = this.chordToPitch[harmonyChords[harmonyOption][i]][2];
         return new Note(note.id, newPitch, note.onset, note.length);
       });
       this.setState({harmonyLineThree : {...this.state.harmonyLineThree, notes : newNotesThree} });
 
       const newNotesFour = this.state.harmonyLineFour.notes.map((note,i) => {
-        const newPitch = this.chordToPitch[harmonyChords[0][i]][2];
+        const newPitch = this.chordToPitch[harmonyChords[harmonyOption][i]][3];
         return new Note(note.id, newPitch, note.onset, note.length);
       });
       this.setState({harmonyLineFour : {...this.state.harmonyLineFour, notes : newNotesFour} });
@@ -183,6 +186,7 @@ class Harmonize extends Component {
   stop = () => {
     this.setState({isPlayingBack: false,});
     this.piano.stop();
+    this.harmonyPiano.stop();
   };
 
   render() {
@@ -207,6 +211,13 @@ class Harmonize extends Component {
             ? <button type="button" className="greyButton" onClick={this.stop}>stop</button>
             : <button type="button" className="greyButton" onClick={this.play}>play</button>)}
         </div>
+        <HarmonyInput
+              harmonyOption={this.state.harmonyOption}
+              harmonyChords = {this.state.harmonyChords}
+              defaultHarmony="0"
+              onChange={(harmonyOption) => {this.setState({harmonyOption : harmonyOption}), 
+              this.harmonizeAlgorithm(harmonyOption)}}
+            />
       </div>
     </div>
     
