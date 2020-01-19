@@ -22,7 +22,10 @@ class Harmonize extends Component {
     pitch: ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"],
     keyToChord : {},
     chordArray : {},
-    harmony : {...this.props.song},
+    harmonyLineOne : {...this.props.song},
+    harmonyLineTwo : {...this.props.song},
+    harmonyLineThree : {...this.props.song},
+    harmonyLineFour : {...this.props.song},
   };
   this.audioContext = new AudioContext();
   }
@@ -33,6 +36,10 @@ class Harmonize extends Component {
     Soundfont.instrument(this.audioContext, 'acoustic_grand_piano')
     .then((piano) => {
       this.piano = piano;
+    });
+    Soundfont.instrument(this.audioContext, 'acoustic_grand_piano', {gain : 0.1})
+    .then((piano) => {
+      this.harmonyPiano = piano;
     });
   }
   
@@ -85,13 +92,30 @@ class Harmonize extends Component {
     }
   }
       console.log(harmonyChords);
-      const newNotes = this.state.harmony.notes.map((note,i) => {
-        const newPitch = this.chordToPitch[harmonyChords[0][i]];
+      const newNotesOne = this.state.harmonyLineOne.notes.map((note,i) => {
+        const newPitch = this.chordToPitch[harmonyChords[0][i]][0];
         return new Note(note.id, newPitch, note.onset, note.length);
       });
-console.log(newNotes);
-      this.setState({harmony : {...this.state.harmony, notes : newNotes} });
-       //TODO: create a possible harmony for each harmonyChords 
+      this.setState({harmonyLineOne : {...this.state.harmonyLineOne, notes : newNotesOne} });
+      
+      const newNotesTwo = this.state.harmonyLineTwo.notes.map((note,i) => {
+        const newPitch = this.chordToPitch[harmonyChords[0][i]][1];
+        return new Note(note.id, newPitch, note.onset, note.length);
+      });
+      this.setState({harmonyLineTwo : {...this.state.harmonyLineTwo, notes : newNotesTwo} });
+      
+      const newNotesThree = this.state.harmonyLineThree.notes.map((note,i) => {
+        const newPitch = this.chordToPitch[harmonyChords[0][i]][2];
+        return new Note(note.id, newPitch, note.onset, note.length);
+      });
+      this.setState({harmonyLineThree : {...this.state.harmonyLineThree, notes : newNotesThree} });
+
+      const newNotesFour = this.state.harmonyLineFour.notes.map((note,i) => {
+        const newPitch = this.chordToPitch[harmonyChords[0][i]][2];
+        return new Note(note.id, newPitch, note.onset, note.length);
+      });
+      this.setState({harmonyLineFour : {...this.state.harmonyLineFour, notes : newNotesFour} });
+       //TODO: create a possible harmony for each harmonyChords, account for inversions
     }
 
 
@@ -124,16 +148,16 @@ console.log(newNotes);
     keyToChord[dominant % 12] = ["I", "iii", "V", "V7"];
     keyToChord[submediant % 12] = ["ii", "ii7", "IV", "vi", "vii7"];
     keyToChord[subtonic % 12] = ["iii", "V", "V7", "vii", "vii7"];
-    chordToPitch["I"] = tonic;
-    chordToPitch["ii"] = supertonic;
-    chordToPitch["ii7"] = supertonic;
-    chordToPitch["III"] = mediant;
-    chordToPitch["IV"] = subdominant;
-    chordToPitch["V"] = dominant;
-    chordToPitch["V7"] = dominant;
-    chordToPitch["vi"] = submediant;
-    chordToPitch["vii"] = subtonic;
-    chordToPitch["vii7"] = subtonic;
+    chordToPitch["I"] = [tonic, mediant, dominant];
+    chordToPitch["ii"] = [supertonic, subdominant, submediant];
+    chordToPitch["ii7"] = [supertonic, subdominant, submediant, tonic];
+    chordToPitch["III"] = [mediant, dominant, subtonic];
+    chordToPitch["IV"] = [subdominant, submediant, tonic];
+    chordToPitch["V"] = [dominant, subtonic, supertonic];
+    chordToPitch["V7"] = [dominant, subtonic, supertonic, subdominant];
+    chordToPitch["vi"] = [submediant, tonic, mediant];
+    chordToPitch["vii"] = [subtonic, supertonic, subdominant];
+    chordToPitch["vii7"] = [subtonic, supertonic, subdominant, submediant];
     this.chordToPitch = chordToPitch;
     this.keyToChord = keyToChord;
     this.chordProgression = chordProgression;
@@ -143,7 +167,13 @@ console.log(newNotes);
     this.piano.schedule(this.audioContext.currentTime, this.props.song.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
-    this.piano.schedule(this.audioContext.currentTime, this.state.harmony.notes.map((note) => {
+    this.harmonyPiano.schedule(this.audioContext.currentTime, this.state.harmonyLineOne.notes.map((note) => {
+      return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
+    }));
+    this.harmonyPiano.schedule(this.audioContext.currentTime, this.state.harmonyLineTwo.notes.map((note) => {
+      return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
+    }));
+    this.harmonyPiano.schedule(this.audioContext.currentTime, this.state.harmonyLineThree.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
   };
