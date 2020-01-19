@@ -1,0 +1,59 @@
+
+.title {
+    font-family: "Montserrat", "Open Sans", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 80px;
+    background: linear-gradient(to right, rgb(206, 65, 0) -20%, #8C1B3D 60%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 16vh;
+    margin-bottom: -12px;
+    text-shadow: 0 0 5px rgb(206, 65, 0, 0.1);
+}
+
+.subtitle {
+    font-family: "Montserrat", "Open Sans", sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 20px;
+    color: #333333;
+    margin-bottom: 4vh;
+    text-shadow: 0 0 5px rgb(80, 65, 65, 0.1);
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+  
+
+.splash-piano-png {
+    top: 12vh;
+    opacity: 0.07 !important;
+    height: 24vh !important;
+    width: 80vh !important;
+    position: absolute;
+    z-index: -1;
+    border-radius: 3px;
+    -webkit-filter: blur(1px); /* Safari 6.0 - 9.0 */
+    filter: blur(1px);
+}
+
+.Splash-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: calc(50vh + 80px);
+}
+
+.splash-button-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+    margin-top: 16px;
+}
