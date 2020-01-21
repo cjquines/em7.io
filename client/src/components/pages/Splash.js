@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
+import { get, post } from "../../utilities";
 
 import em7piano from "../../public/em7piano.png";
 
@@ -16,6 +17,11 @@ class Splash extends Component {
 
   componentDidMount() { }
 
+  getSong = () => {
+    console.log("response")
+  }
+
+
   render() {
     return (
       <div className="Splash-container">
@@ -28,6 +34,7 @@ class Splash extends Component {
         <div className="splash-button-container">
           <a href="/compose" className="redButton">Compose</a>
           <a href="/listen" className="redButton">Listen</a>
+          <button type = "button" onClick ={this.getSong}>goodButton</button>
         </div>
       </div>
     );
