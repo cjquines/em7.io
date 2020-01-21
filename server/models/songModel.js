@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const SongSchema = new mongoose.Schema({
   name: String,
   creator_id: String,
-  id: String,
+  _id: String,
   content: Song,
 });
 

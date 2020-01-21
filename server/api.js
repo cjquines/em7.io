@@ -34,11 +34,11 @@ router.get("/whoami", (req, res) => {
 // |------------------------------|
 
 router.get("/songs", (req, res) => {
-  song.find({creator_id : req.query._id}).then((songs) => res.send(songs));
+  song.find({creator_id : req.query.creator_id}).then((songs) => res.send(songs));
 });
 
 router.get("/song", (req,res) => {
-  song.find({song: req.query._id}).then((song) => res.send(song));
+  song.find({_id: req.query._id}).then((song) => res.send(song));
 });
 
 // anything else falls to this "not found" case
