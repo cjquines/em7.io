@@ -10,7 +10,7 @@
 const express = require("express");
 
 // import models so we can interact with the database
-const User = require("./models/user");
+const user = require("./models/user");
 const Song = require("./models/songModel");
 
 // import authentication library
@@ -35,31 +35,38 @@ router.get("/user", (req, res) => {
     res.send(user);
   });
 });
-
+*/
 router.post("/user", (req, res) => {
+  console.log("hereee")
   const newUser = new User({
-    _id: 100,
-    name: "qyt",
+    _id: "123",
+    name: "ok"
   });
-  newUser.save().then((user) => res.send(user));
+  newUser.save().then((response) => res.send(response));
 });
 
-router.get("/song", (req, res) => {
-  Song.findById(req.query.songid).then((song) => {
-    res.send(song);
+router.post("/song", (req, res) => {
+  console.log("hereee")
+  const newSong = new Song({
+    _id: req.body._id,
+    creator_id: req.body.creator_id,
+    content: req.body.content,
+    name: req.body.name,
   });
-});*/
+  newSong.save().then((response) => res.send(response));
+});
+
 
 // |------------------------------|
 // | write your API methods below!|
 // |------------------------------|
 
 router.get("/songs", (req, res) => {
-  song.find({creator_id : req.query.creator_id}).then((songs) => res.send(songs));
+  Song.find({creator_id : req.query.creator_id}).then((songs) => res.send(songs));
 });
 
 router.get("/song", (req,res) => {
-  song.find({_id: req.query._id}).then((song) => res.send(song));
+  Song.find({_id: req.query._id}).then((song) => res.send(song));
 });
 
 // anything else falls to this "not found" case

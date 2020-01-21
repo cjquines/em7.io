@@ -16,6 +16,7 @@ import TempoInput from "../modules/TempoInput.js";
 import "../../utilities.css";
 import "./Compose.css"
 import Piano from "../../public/piano.jpg";
+import { get, post } from "../../utilities.js";
 
 /**
  * Compose is the page where we compose stuff.
@@ -152,6 +153,10 @@ class Compose extends Component {
   goToHarmonizePage= () => {
     if (this.state.hasSnapped) {
       this.setState({showHarmonize: true})
+      const body = { creator_id: this.user._id, _id: "123", name:"Untitled", content: this.state.song };
+      post("/api/song", body).then((response) =>
+        console.log(response)
+      );
     } else {
       alert("Snap to beat first!")
     }

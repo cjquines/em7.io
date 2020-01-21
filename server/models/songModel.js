@@ -1,12 +1,10 @@
-import Song from "../../client/src/components/common/Song.js"
-
 const mongoose = require("mongoose");
 
 const SongSchema = new mongoose.Schema({
   name: String,
   creator_id: String,
   _id: String,
-  content: Song,
+  content: Object,
 });
 
 // compile model from schema

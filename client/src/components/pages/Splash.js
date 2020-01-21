@@ -17,8 +17,12 @@ class Splash extends Component {
 
   componentDidMount() { }
 
-  getSong = () => {
-    console.log("response")
+  
+  postSong = (value) => {
+    const body = { _id: 100, name: "qyt" };
+    post("/api/user", body).then((user) => {
+      console.log(user)
+    });
   }
 
 
@@ -34,7 +38,7 @@ class Splash extends Component {
         <div className="splash-button-container">
           <a href="/compose" className="redButton">Compose</a>
           <a href="/listen" className="redButton">Listen</a>
-          <button type = "button" onClick ={this.getSong}>goodButton</button>
+          <button type = "button" onClick ={this.postSong}>goodButton</button>
         </div>
       </div>
     );
