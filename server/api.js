@@ -54,6 +54,14 @@ router.get("/song", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
+router.get("/songs", (req, res) => {
+  song.find({creator_id : req.query.creator_id}).then((songs) => res.send(songs));
+});
+
+router.get("/song", (req,res) => {
+  song.find({_id: req.query._id}).then((song) => res.send(song));
+});
+
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);
