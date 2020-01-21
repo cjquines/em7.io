@@ -59,7 +59,7 @@ router.post("/song", (req, res) => {
 // |------------------------------|
 
 router.get("/user", (req, res) => {
-  User.find({_id : req.query.userid}).then((user) => {
+  User.find({googleid : req.query.userid}).then((user) => {
     res.send(user);
   });
 });
