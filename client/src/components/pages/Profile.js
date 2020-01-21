@@ -22,7 +22,7 @@ class Profile extends Component {
     get(`/api/user`, { userid: this.props.userId }).then((user) => {
       console.log("got user!");
       this.setState({ user : user });
-      get(`/api/songs`, { creator_id: user._id }).then((songList) => {
+      get(`/api/songs`, { creator_id: this.props.userId }).then((songList) => {
         this.setState({ songList: songList, user : user._id }),
         console.log(`Received ${songList.length} songs`)
       });
