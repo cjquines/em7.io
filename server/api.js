@@ -10,7 +10,7 @@
 const express = require("express");
 
 // import models so we can interact with the database
-const user = require("./models/user");
+const User = require("./models/user");
 const Song = require("./models/songModel");
 
 // import authentication library
@@ -59,7 +59,7 @@ router.post("/song", (req, res) => {
 // |------------------------------|
 
 router.get("/user", (req, res) => {
-  User.findById(req.query.userid).then((user) => {
+  User.find({_id : req.query.userid}).then((user) => {
     res.send(user);
   });
 });
