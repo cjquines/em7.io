@@ -7,6 +7,10 @@ import { _ } from "core-js";
 const Soundfont = require("soundfont-player");
 import HarmonyInput from "../modules/HarmonyInput.js";
 
+import "./Compose.css";
+import SnapIntervalInput from "../modules/SnapIntervalInput"
+import Dialogue from "../modules/Dialogue.js";
+
 /**
  * Page where people can select harmonies.
  *
@@ -23,6 +27,9 @@ class Harmonize extends Component {
     pitch: ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"],
     keyToChord : {},
     chordArray : {},
+    harmony : {...this.props.song},
+    isPlayingBack: false,
+    saving: false,
     harmonyLineOne : {...this.props.song},
     harmonyLineTwo : {...this.props.song},
     harmonyLineThree : {...this.props.song},
@@ -189,10 +196,23 @@ class Harmonize extends Component {
     this.harmonyPiano.stop();
   };
 
+  openSaveDialogue = () => {
+    this.setState({saving: true});
+  }
+  
+  closeDialogue = () => {
+    this.setState({saving: false});
+  }
+
   render() {
+    console.log(this.state.saving)
     return (
-      <div className="Harmonize-container">
+      <div className="Harmonize-container u-flexColumn">
       {this.state.tonic}
+        <Dialogue id = "saveDialogue"
+          closingFunction = {this.closeDialogue}
+          display = {this.state.saving}
+          title = {this.props.song.title}/>
         <div className = "u-flex-spaceBetween u-flexColumn">
           <div className = "titles">
             <h2>Harmonize</h2>
@@ -206,11 +226,18 @@ class Harmonize extends Component {
           onChange={this.props.onChange}
         />
         </div>
+      </div>
+      <div className="u-flex confirm-buttons-container">
         <div className="u-flex confirm-buttons-container">
           {(this.state.isPlayingBack
             ? <button type="button" className="greyButton" onClick={this.stop}>stop</button>
             : <button type="button" className="greyButton" onClick={this.play}>play</button>)}
         </div>
+        { this.state.hasRecorded ? [(this.state.isPlayingBack
+          ? <button type="button" className="greyButton" onClick={this.stop}>stop</button>
+          : <button type="button" className="greyButton" onClick={this.play}>play</button>)] : (null)
+        }
+          <button type="button" className="goodButton" onClick={this.openSaveDialogue}>save!</button>
         <HarmonyInput
               harmonyOption={this.state.harmonyOption}
               harmonyChords = {this.state.harmonyChords}

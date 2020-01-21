@@ -1,5 +1,6 @@
 .NoteBlock-container {
   position: relative;
+  z-index: 1;
 }
 
 .NoteBlock-note {
@@ -20,6 +21,7 @@
   height: 30vh;
   position: absolute;
   background-color: #777;
+  z-index: 2;
 }
 
 .small-tempo-bar {
@@ -28,4 +30,5 @@
   height: 16vh;
   position: absolute;
   background-color: #c5c5c5;
+  z-index: 2;
 }
