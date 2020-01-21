@@ -18,6 +18,7 @@ import "./Compose.css"
 import Piano from "../../public/piano.jpg";
 import { get, post } from "../../utilities.js";
 
+
 /**
  * Compose is the page where we compose stuff.
  */
@@ -150,18 +151,24 @@ class Compose extends Component {
     this.piano.stop();
   };
 
-  goToHarmonizePage= () => {
+  goToHarmonizePage = () => {
     if (this.state.hasSnapped) {
-      this.setState({showHarmonize: true})
-      const body = { creator_id: "ur mom", _id: "123", name:"Untitled", content: this.state.song };
-      post("/api/song", body).then((response) =>
-        console.log(response)
-      );
-    } else {
-      alert("Snap to beat first!")
+      get("/api/whoami").then((user) => {
+        if (user._id) {
+          this.setState({showHarmonize: true})
+          // they are registed in the database, and currently logged in.
+          const body = { creator_id: user._id, name: "Untitled", content: this.state.song };
+          post("/api/song", body).then((response) => console.log(response));
+        }
+        else {
+          alert("log in first!")
+        }
+      });
     }
-    
-  }
+    else {
+      alert("Snap to beat first!");
+  }}
+
 
   render() {
     if (this.state.showHarmonize) {

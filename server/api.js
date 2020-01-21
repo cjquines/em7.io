@@ -37,7 +37,6 @@ router.get("/user", (req, res) => {
 });
 */
 router.post("/user", (req, res) => {
-  console.log("hereee")
   const newUser = new User({
     _id: "123",
     name: "ok"
@@ -46,9 +45,7 @@ router.post("/user", (req, res) => {
 });
 
 router.post("/song", (req, res) => {
-  console.log("hereee")
   const newSong = new Song({
-    _id: req.body._id,
     creator_id: req.body.creator_id,
     content: req.body.content,
     name: req.body.name,
