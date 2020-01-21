@@ -21,7 +21,7 @@ class Profile extends Component {
     document.title = "Profile Page";
     get(`/api/user`, { userId: this.props.userId }).then((user) => {
       console.log("got user!");
-      this.setState({ user : user });
+      this.setState({ user : user[0] });
     });
     get(`/api/songs`, { creator_id: this.props.userId }).then((songList) => {
         this.setState({ songList: songList }),
