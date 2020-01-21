@@ -5,7 +5,6 @@ import NoteBlock from "../modules/NoteBlock.js";
 import "../../utilities.css";
 import { _ } from "core-js";
 const Soundfont = require("soundfont-player");
-import HarmonyInput from "../modules/HarmonyInput.js";
 
 import "./Compose.css";
 import SnapIntervalInput from "../modules/SnapIntervalInput"
@@ -238,13 +237,7 @@ class Harmonize extends Component {
           : <button type="button" className="greyButton" onClick={this.play}>play</button>)] : (null)
         }
           <button type="button" className="goodButton" onClick={this.openSaveDialogue}>save!</button>
-        <HarmonyInput
-              harmonyOption={this.state.harmonyOption}
-              harmonyChords = {this.state.harmonyChords}
-              defaultHarmony="1"
-              onChange={(harmonyOption) => {this.setState({harmonyOption : harmonyOption}), 
-              this.harmonizeAlgorithm(harmonyOption)}}
-            />
+
       </div>
     </div>
     
