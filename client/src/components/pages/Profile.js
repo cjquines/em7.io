@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
 import { get } from "../../utilities";
-
+import "./Profile.css";
 import "../../utilities.css";
 
 
@@ -43,9 +43,8 @@ class Profile extends Component {
     }
     return (
       <div>
-      {this.state.user}'s songs:
+      <h1 className="Profile-name u-textCenter">{this.state.user.name}'s songs</h1>
 
-      {this.state.songList}
       </div>
     );
   }
