@@ -33,8 +33,12 @@ router.get("/whoami", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
-router.get("/song", (req, res) => {
-  song.find({user : req.query._id}).then((songs) => res.send(songs));
+router.get("/songs", (req, res) => {
+  song.find({creator_id : req.query._id}).then((songs) => res.send(songs));
+});
+
+router.get("/song", (req,res) => {
+  song.find({song: req.query._id}).then((song) => res.send(song));
 });
 
 // anything else falls to this "not found" case
