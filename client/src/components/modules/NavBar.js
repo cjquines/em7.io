@@ -6,7 +6,7 @@ import GoogleLogin, { GoogleLogout } from "react-google-login";
 // import "./NavBar.css";
 
 // TODO: REPLACE WITH YOUR OWN CLIENT_ID
-const GOOGLE_CLIENT_ID = "121479668229-t5j82jrbi9oejh7c8avada226s75bopn.apps.googleusercontent.com";
+const GOOGLE_CLIENT_ID = "500052314351-0etpe2e520de1vf9121pb37fscm9t52o.apps.googleusercontent.com";
 
 /**
  * NavBar is the NavBar at the top of each page.
