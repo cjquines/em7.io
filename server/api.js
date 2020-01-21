@@ -58,6 +58,13 @@ router.post("/song", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
+router.get("/user", (req, res) => {
+  User.findById(req.query.userid).then((user) => {
+    res.send(user);
+  });
+});
+
+
 router.get("/songs", (req, res) => {
   Song.find({creator_id : req.query.creator_id}).then((songs) => res.send(songs));
 });
