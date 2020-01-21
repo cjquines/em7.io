@@ -10,7 +10,7 @@
 const express = require("express");
 
 // import models so we can interact with the database
-const user = require("./models/user");
+const User = require("./models/user");
 const Song = require("./models/songModel");
 
 // import authentication library
@@ -37,7 +37,6 @@ router.get("/user", (req, res) => {
 });
 */
 router.post("/user", (req, res) => {
-  console.log("hereee")
   const newUser = new User({
     _id: "123",
     name: "ok"
@@ -46,9 +45,7 @@ router.post("/user", (req, res) => {
 });
 
 router.post("/song", (req, res) => {
-  console.log("hereee")
   const newSong = new Song({
-    _id: req.body._id,
     creator_id: req.body.creator_id,
     content: req.body.content,
     name: req.body.name,
@@ -60,6 +57,13 @@ router.post("/song", (req, res) => {
 // |------------------------------|
 // | write your API methods below!|
 // |------------------------------|
+
+router.get("/user", (req, res) => {
+  User.find({_id : req.query.userid}).then((user) => {
+    res.send(user);
+  });
+});
+
 
 router.get("/songs", (req, res) => {
   Song.find({creator_id : req.query.creator_id}).then((songs) => res.send(songs));
