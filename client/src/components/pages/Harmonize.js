@@ -41,7 +41,7 @@ class Harmonize extends Component {
     .then((piano) => {
       this.piano = piano;
     });
-    Soundfont.instrument(this.audioContext, 'acoustic_grand_piano', {gain : 0.3})
+    Soundfont.instrument(this.audioContext, 'acoustic_grand_piano', {gain : 0.2})
     .then((piano) => {
       this.harmonyPiano = piano;
     });
@@ -119,7 +119,7 @@ class Harmonize extends Component {
         return new Note(note.id, newPitch, note.onset, note.length);
       });
       this.setState({harmonyLineFour : {...this.state.harmonyLineFour, notes : newNotesFour} });
-       //TODO: create a possible harmony for each harmonyChords, account for inversions
+       //TODO: account for inversions?
     }
 
 
