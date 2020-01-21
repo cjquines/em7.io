@@ -12,10 +12,7 @@ import React, { Component } from "react";
 class HarmonyInput extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      harmonyOption : this.props.harmonyOption,
-      harmonyChords : this.props.harmonyChords,
-    };
+    this.state = {harmonyOption : 1};
   }
 
   handleHarmonyChange = (event) => {
@@ -26,8 +23,8 @@ class HarmonyInput extends Component {
   render() {
     return (
       <div className="TempoInput-container">
-        Amount of Harmony Options: {this.props.harmonyChords.length}
-        <input value={this.props.harmonyOption} type="number" min="1" max= {this.props.harmonyChords.length} onChange={this.handleHarmonyChange}/>
+        Amount of Harmony Options: {this.props.harmonyChords}
+        <input value={this.props.harmonyOption} type="number" min="1" max= {this.props.harmonyChords} onChange={this.handleHarmonyChange}/>
       </div>
     );
   }
