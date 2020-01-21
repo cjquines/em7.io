@@ -153,7 +153,7 @@ class Compose extends Component {
   goToHarmonizePage= () => {
     if (this.state.hasSnapped) {
       this.setState({showHarmonize: true})
-      const body = { creator_id: this.user._id, _id: "123", name:"Untitled", content: this.state.song };
+      const body = { creator_id: "ur mom", _id: "123", name:"Untitled", content: this.state.song };
       post("/api/song", body).then((response) =>
         console.log(response)
       );
