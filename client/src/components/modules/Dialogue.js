@@ -7,9 +7,10 @@ import "../pages/Splash.css"
  * Input panel that changes the song tempo.
  *
  * Proptypes
- * @param closingFunction
+ * @param closeFunction
  * @param display
  * @param title
+ * @param saveFunction
  */
 class Dialogue extends Component {
   constructor(props) {
@@ -20,20 +21,16 @@ class Dialogue extends Component {
     return (
       this.props.display ? 
       <div class="modal">
-      <form action="/action_page.php" className="modal-content">
-      <div class="formContainer">
-        <h2>Name</h2>
-        <input className="formInput" type="text" value={this.props.title} name="title" required />
-
-        <h2>Password</h2>
-        <input className="formInput" type="text" placeholder="Add Tags" name="title" required />
-
-        <div className="save-button-container" style = {{justifyContent: "flex-end", marginTop: "24px", marginRight: "-12px"}}>
-        <button type="button" className="greyButton" onClick={this.props.closingFunction}>Cancel</button>
-        <button type="submit" className="goodButton" onClick={this.props.closingFunction}>Save</button>
-        </div>
-      </div>
-      </form>
+        <form className="modal-content">
+          <div class="formContainer">
+            <h2>Name</h2>
+            <input className="formInput" type="text" value={this.props.title} name="title" required />
+            <div className="save-button-container" style = {{justifyContent: "flex-end", marginTop: "24px", marginRight: "-12px"}}>
+            <button type="button" className="greyButton" onClick={this.props.closeFunction}>Cancel</button>
+            <button type="submit" className="goodButton" onClick={this.props.saveFunction}>Save</button>
+            </div>
+          </div>
+        </form>
       </div>
       : (null)
     );

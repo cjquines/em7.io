@@ -214,9 +214,11 @@ class Harmonize extends Component {
     return (
     <div className="Harmonize-container u-flexColumn">
       <Dialogue id = "saveDialogue"
-        closingFunction = {this.closeDialogue}
-        display = {this.state.saving}
-        title = {this.state.song.title}/>
+        closingFunction={this.closeDialogue}
+        display={this.state.saving}
+        title={this.state.song.title}
+        saveFunction={this.saveSong}
+      />
       <div className = "u-flex-spaceBetween u-flexColumn">
         <div className = "titles">
           <h2>Harmonize</h2>
