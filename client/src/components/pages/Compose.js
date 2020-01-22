@@ -161,25 +161,6 @@ class Compose extends Component {
     this.piano.stop();
   };
 
-  goToHarmonizePage = () => {
-    if (this.state.hasSnapped) {
-      get("/api/whoami").then((user) => {
-        if (user._id) {
-          this.setState({showHarmonize: true})
-          // they are registed in the database, and currently logged in.
-          const body = { creator_id: user._id, name: "Untitled", content: this.state.song };
-          post("/api/song", body).then((response) => console.log(response));
-        }
-        else {
-          alert("log in first!")
-        }
-      });
-    }
-    else {
-      alert("Snap to beat first!");
-  }}
-
-
   render() {
     let recordButton = (<button type="button" className="startStop" onClick={this.record}>Record</button>);
     if (this.state.isRecording) {

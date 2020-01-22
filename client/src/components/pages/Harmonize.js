@@ -16,8 +16,7 @@ import { get, post } from "../../utilities.js";
  * Page where people can select harmonies.
  *
  * Proptypes
- * @param {Song} song: the song (TODO CHANGE SOON; UPLOAD AND DOWNLOAD FROM SERVER)
- * @param {(Song) => void} onChange: (function) changes song (ALSO NEEDS TO CHANGE SOON)
+ * @param {string} songId: the song ID
  */
 class Harmonize extends Component {
   constructor(props) {
@@ -72,6 +71,16 @@ class Harmonize extends Component {
     });
   }
 
+  saveSong = () => {
+    get("/api/whoami").then((user) => {
+      let body = { creator_id: user._id, name: this.state.song.title, content: this.state.song };
+      post("/api/song", body).then((response) => {
+        console.log(response);
+        this.setState({ song: {...this.state.song, _id: response._id } });
+      });
+    });
+  };
+
   harmonizeHelper = (curPath) => {
     let a = curPath[curPath.length - 1];
     let v = a[0];
@@ -87,7 +96,7 @@ class Harmonize extends Component {
         this.harmonizeHelper(curPath.concat([[u, i+1]]));
       }
     }
-  }
+  };
 
   harmonizeAlgorithm = (harmonyOption) => {
     //creates chord for each note in harmonyChords, want to create chords for only notes on important beat
@@ -120,7 +129,7 @@ class Harmonize extends Component {
       });
       this.setState({harmonyLineFour : {...this.state.harmonyLineFour, notes : newNotesFour} });
        //TODO: account for inversions?
-    }
+    };
 
 
 
@@ -186,57 +195,58 @@ class Harmonize extends Component {
 
   openSaveDialogue = () => {
     this.setState({saving: true});
-  }
+  };
   
   closeDialogue = () => {
     this.setState({saving: false});
-  }
+  };
 
   render() {
     if (!this.state.song) {
       return <div>Loading...</div>;
     }
+    let loggedIn = false;
+    get("/api/whoami").then((user) => {
+      if (user) {
+        loggedIn = true;
+      }
+    });
     return (
-      <div className="Harmonize-container u-flexColumn">
-        <Dialogue id = "saveDialogue"
-          closingFunction = {this.closeDialogue}
-          display = {this.state.saving}
-          title = {this.state.song.title}/>
-        <div className = "u-flex-spaceBetween u-flexColumn">
-          <div className = "titles">
-            <h2>Harmonize</h2>
-            <h1>{this.state.song.title}</h1>
-          </div>
-
-      
+    <div className="Harmonize-container u-flexColumn">
+      <Dialogue id = "saveDialogue"
+        closingFunction = {this.closeDialogue}
+        display = {this.state.saving}
+        title = {this.state.song.title}/>
+      <div className = "u-flex-spaceBetween u-flexColumn">
+        <div className = "titles">
+          <h2>Harmonize</h2>
+          <h1>{this.state.song.title}</h1>
+        </div>
         <div className="big-noteblock-container">
-        <NoteBlock
-          song={this.state.song}
-          onChange={this.props.onChange}
-        />
+          <NoteBlock
+            song={this.state.song}
+            onChange={(song) => this.setState({song: song})}
+          />
         </div>
       </div>
       <div className="u-flex confirm-buttons-container">
-        <div className="u-flex confirm-buttons-container">
-          {(this.state.isPlayingBack
-            ? <button type="button" className="greyButton" onClick={this.stop}>stop</button>
-            : <button type="button" className="greyButton" onClick={this.play}>play</button>)}
-        </div>
-        { this.state.hasRecorded ? [(this.state.isPlayingBack
-          ? <button type="button" className="greyButton" onClick={this.stop}>stop</button>
-          : <button type="button" className="greyButton" onClick={this.play}>play</button>)] : (null)
+        {this.state.isPlayingBack
+          ? <button type="button" className="greyButton" onClick={this.stop}>Stop</button>
+          : <button type="button" className="greyButton" onClick={this.play}>Play</button>
         }
-          <button type="button" className="goodButton" onClick={this.openSaveDialogue}>save!</button>
+        {loggedIn
+          ? <button type="button" className="greyButton" onClick={alert("Log in first!")}>Save</button>
+          : <button type="button" className="goodButton" onClick={this.openSaveDialogue}>Save</button>
+        }
         <HarmonyInput
-              harmonyOption={this.state.harmonyOption}
-              harmonyChords = {this.harmonyChords.length}
-              defaultHarmony="1"
-              onChange={(harmonyOption) => {this.setState({harmonyOption : harmonyOption}), 
-              this.harmonizeAlgorithm(harmonyOption)}}
-            />
+          harmonyOption={this.state.harmonyOption}
+          harmonyChords = {this.harmonyChords.length}
+          defaultHarmony="1"
+          onChange={(harmonyOption) => {this.setState({harmonyOption : harmonyOption}), 
+          this.harmonizeAlgorithm(harmonyOption)}}
+        />
       </div>
     </div>
-    
     );
   }
 }
