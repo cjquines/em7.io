@@ -48,12 +48,10 @@ class Compose extends Component {
 
   componentDidMount() {
     if (this.props.songId) {
-      get("/api/song", { _id: this.props.songId }).then((songList) => {
-        const song = songList[0].content;
-        console.log(song);
+      get("/api/song", { _id: this.props.songId }).then((song) => {
         this.setState({
-          originalSong: song,
-          song: song,
+          originalSong: song.content,
+          song: song.content,
         });
         // TODO: update the panels
       });
