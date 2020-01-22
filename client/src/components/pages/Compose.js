@@ -168,7 +168,7 @@ class Compose extends Component {
     }
     let playButton = (null);
     if (this.state.hasRecorded) {
-      playButtons = (this.state.isPlayingBack
+      playButton = (this.state.isPlayingBack
         ? <button type="button" className="greyButton" onClick={this.stop}>Stop</button>
         : <button type="button" className="greyButton" onClick={this.play}>Play</button>);
     }
