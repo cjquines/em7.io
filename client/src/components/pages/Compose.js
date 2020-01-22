@@ -31,6 +31,7 @@ class Compose extends Component {
       pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77], // TODO: factor these out
       originalSong: new Song("C", [4,4], 120),
       song: new Song("C", [4, 4], 120),
+      isLoaded: false,
       isRecording: false,
       hasRecorded: false,
       isPlayingBack: false,
@@ -38,7 +39,6 @@ class Compose extends Component {
       showHarmonize: false,
       hasSnapped: false,
     };
-
     this.audioContext = new AudioContext();
     this.curKey = {};
     for (const key in this.state.keys) {
@@ -47,6 +47,19 @@ class Compose extends Component {
   }
 
   componentDidMount() {
+    if (this.props.songId) {
+      get("/api/song", { _id: this.props.songId }).then((songList) => {
+        const song = songList[0].content;
+        console.log(song);
+        this.setState({
+          originalSong: song,
+          song: song,
+        });
+        // TODO: update the panels
+      });
+    } else {
+      this.setState({isLoaded : true});
+    }
     Soundfont.instrument(this.audioContext, 'woodblock')
     .then((metronome) => this.metronome = metronome);
     Soundfont.instrument(this.audioContext, 'acoustic_grand_piano')
@@ -162,6 +175,9 @@ class Compose extends Component {
   };
 
   render() {
+    if (!this.state.isLoaded) {
+      return <div>Loading...</div>;
+    }
     let recordButton = (<button type="button" className="startStop" onClick={this.record}>Record</button>);
     if (this.state.isRecording) {
       recordButton = (<button type="button" className="startStop" onClick={this.stopRecord}>Stop</button>);
