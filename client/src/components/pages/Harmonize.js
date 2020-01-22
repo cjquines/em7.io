@@ -63,7 +63,6 @@ class Harmonize extends Component {
     let i = a[1];
     if (i === this.arrayA.length - 1) {
       const revHarmonyChords = curPath.map((tup) => tup[0]);
-      revHarmonyChords.reverse();
       this.harmonyChords.push(revHarmonyChords);
       return;
     }

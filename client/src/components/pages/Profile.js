@@ -44,7 +44,7 @@ class Profile extends Component {
     return (
       <div>
       <h1 className="Profile-name u-textCenter">{this.state.user.name}'s songs</h1>
-
+      
       </div>
     );
   }
