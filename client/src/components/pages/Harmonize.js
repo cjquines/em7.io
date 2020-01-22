@@ -102,7 +102,6 @@ class Harmonize extends Component {
     //TODO: create new array importantNotes
     //TODO: base arrayA on notes timing and note ID
     //TODO: also add more chords progressions and stuff
-    //TODO: maybe try to find all possible paths instead of just one path?
     console.log(this.harmonyChords[harmonyOption-1]);
       const newNotesOne = this.state.harmonyLineOne.notes.map((note,i) => {
         const newPitch = this.chordToPitch[this.harmonyChords[harmonyOption-1][i]][0];
@@ -210,6 +209,7 @@ class Harmonize extends Component {
         loggedIn = true;
       }
     });
+
     return (
     <div className="Harmonize-container u-flexColumn">
       <Dialogue id = "saveDialogue"
