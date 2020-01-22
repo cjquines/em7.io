@@ -58,7 +58,7 @@ class App extends Component {
           <Router>
             <Splash path="/" />
             <Compose path="/compose" />
-            <Harmonize path="/harmonize" />
+            <Harmonize path="/harmonize/:songId" />
             <Listen path="/listen" />
             <Profile path="/profile/:userId" />
             <NotFound default />

@@ -63,14 +63,24 @@ class Compose extends Component {
         });
       }
       keyboardjs.pause();
-
     });
-
-
-  }
+  };
 
   handleTitleChange = (event) => {
     this.setState({ song: {...this.state.song, title: event.target.value} });
+  };
+
+  saveSong = () => {
+    get("/api/whoami").then((user) => {
+      let body = { creator_id: "guest", name: this.state.song.title, content: this.state.song };
+      if (user._id) {
+        body = { ...body, creator_id: user._id };
+      }
+      post("/api/song", body).then((response) => {
+        console.log(response);
+        this.setState({ song: {...this.state.song, _id: response._id } });
+      });
+    });
   };
 
   auxMetronome = () => {
@@ -113,9 +123,7 @@ class Compose extends Component {
   
   //TODO: add max length?
   record = () => {
-    this.setState({
-      isRecording : true,
-      start: Date.now(),})
+    this.setState({isRecording : true, start: Date.now()});
     this.playMetronome();
     keyboardjs.resume();
     this.setState({hasSnapped: false});
@@ -126,6 +134,7 @@ class Compose extends Component {
       song: {...this.state.song, duration: this.state.song.duration+1}});
     clearInterval(this.metronomeInterval);
     keyboardjs.pause();
+    this.saveSong();
   };
 
   //TODO: snap correctly after changing tempo
@@ -137,17 +146,18 @@ class Compose extends Component {
       return new Note(note.id, note.pitch, newOnset, newLength);
     });
     this.setState({ song: {...this.state.song, notes: newNotes}, hasSnapped: true});
+    this.saveSong();
   };
 
   play = () => {
-    this.setState({isPlayingBack: true,});
+    this.setState({isPlayingBack: true});
     this.piano.schedule(this.audioContext.currentTime, this.state.song.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
   };
 
   stop = () => {
-    this.setState({isPlayingBack: false,});
+    this.setState({isPlayingBack: false});
     this.piano.stop();
   };
 
@@ -234,14 +244,14 @@ class Compose extends Component {
           onChange={(snapInterval) => this.setState({snapInterval: snapInterval})}
         />
         { this.state.hasRecorded ? [(this.state.isPlayingBack
-          ? <button type="button" className="greyButton" onClick={this.stop}>stop</button>
-          : <button type="button" className="greyButton" onClick={this.play}>play</button>)] : (null)
+          ? <button type="button" className="greyButton" onClick={this.stop}>Stop</button>
+          : <button type="button" className="greyButton" onClick={this.play}>Play</button>)] : (null)
         }
-        { this.state.hasSnapped ? <><button type="button" className="greyButton" onClick={this.snapNotes}>Snap notes!</button>
-          <button type="button" className="goodButton" onClick={this.goToHarmonizePage}>harmonize!</button></>
-          : <><button type="button" className="goodButton" onClick={this.snapNotes}>Snap notes!</button>
-          <button type="button" className="greyButton" onClick={this.goToHarmonizePage}>harmonize!</button></>}
-          
+        <button type="button" className="goodButton" onClick={this.snapNotes}>Snap notes</button>
+        { this.state.song._id === undefined
+          ? <button type="button" className="greyButton">Harmonize</button>
+          : <Link to={`/harmonize/${this.state.song._id}`}><button type="button" className="goodButton" onClick={this.saveSong}>Harmonize</button></Link>
+        }
         </div>
         </div>
       );

@@ -39,7 +39,7 @@ class Profile extends Component {
 
   render() {
     if (!this.state.user) {
-      return <div> Loading! </div>;
+      return <div>Loading...</div>;
     }
     return (
       <div>

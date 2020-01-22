@@ -8,8 +8,9 @@ const Soundfont = require("soundfont-player");
 import HarmonyInput from "../modules/HarmonyInput.js";
 
 import "./Compose.css";
-import SnapIntervalInput from "../modules/SnapIntervalInput"
+import SnapIntervalInput from "../modules/SnapIntervalInput";
 import Dialogue from "../modules/Dialogue.js";
+import { get, post } from "../../utilities.js";
 
 /**
  * Page where people can select harmonies.
@@ -22,31 +23,45 @@ class Harmonize extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    chordProgression : {},
-    pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77],
-    pitch: ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"],
-    keyToChord : {},
-    chordArray : {},
-    harmony : {...this.props.song},
-    isPlayingBack: false,
-    saving: false,
-    harmonyLineOne : {...this.props.song},
-    harmonyLineTwo : {...this.props.song},
-    harmonyLineThree : {...this.props.song},
-    harmonyLineFour : {...this.props.song},
-    harmonyOption : 1,
-    isPlayingBack: false,
-  };
-  this.audioContext = new AudioContext();
-  this.harmonyChords = [];
-  this.changeChordMaps();
+      chordProgression : {},
+      pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77],
+      pitch: ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"],
+      keyToChord : {},
+      chordArray : {},
+      harmony : undefined,
+      isPlayingBack: false,
+      saving: false,
+      harmonyLineOne : undefined,
+      harmonyLineTwo : undefined,
+      harmonyLineThree : undefined,
+      harmonyLineFour : undefined,
+      harmonyOption : 1,
+      isPlayingBack: false,
+      song: undefined,
+    };
+    this.audioContext = new AudioContext();
+    this.harmonyChords = [];
   }
 
   componentDidMount() {
-    for(var x = 0; x < this.arrayA[0].length; x++){
-      this.harmonizeHelper([[this.arrayA[0][x], 0]]);
-    }
-    this.harmonizeAlgorithm(this.state.harmonyOption);
+    get("/api/song", { _id: this.props.songId }).then((songList) => {
+      const song = songList[0].content;
+      console.log(song);
+      this.setState({
+        harmony: song,
+        harmonyLineOne: song,
+        harmonyLineTwo: song,
+        harmonyLineThree: song,
+        harmonyLineFour: song,
+        song: song,
+      }, () => {
+        this.changeChordMaps();
+        for (let x = 0; x < this.arrayA[0].length; x++) {
+          this.harmonizeHelper([[this.arrayA[0][x], 0]]);
+        }
+        this.harmonizeAlgorithm(this.state.harmonyOption);
+      });
+    });
     Soundfont.instrument(this.audioContext, 'acoustic_grand_piano')
     .then((piano) => {
       this.piano = piano;
@@ -120,12 +135,12 @@ class Harmonize extends Component {
     chordProgression["V"] = ["I", "V", "vi"];
     chordProgression["vi"] = ["ii", "IV", "vi"];
     chordProgression["vii"] = ["I","vii"];
-    const tonic = this.state.pitchMap[this.state.pitch.indexOf(this.props.song.key[0])];
+    const tonic = this.state.pitchMap[this.state.pitch.indexOf(this.state.song.key[0])];
     const supertonic = tonic + 2;
-    const mediant = tonic + 5-this.props.song.key.length;
+    const mediant = tonic + 5-this.state.song.key.length;
     const subdominant = tonic +5;
     const dominant = tonic + 7;
-    const submediant = tonic + 10-this.props.song.key.length;
+    const submediant = tonic + 10-this.state.song.key.length;
     const subtonic = tonic + 11;
     keyToChord[tonic % 12] = ["I",  "IV", "vi"];
     keyToChord[supertonic % 12] = ["ii",  "V",  "vii"];
@@ -144,12 +159,12 @@ class Harmonize extends Component {
     this.chordToPitch = chordToPitch;
     this.keyToChord = keyToChord;
     this.chordProgression = chordProgression;
-    this.arrayA = this.props.song.notes.map((note) => keyToChord[note.pitch % 12]);
+    this.arrayA = this.state.song.notes.map((note) => keyToChord[note.pitch % 12]);
   };
 
   play = () => {
     this.setState({isPlayingBack: true,});
-    this.piano.schedule(this.audioContext.currentTime, this.props.song.notes.map((note) => {
+    this.piano.schedule(this.audioContext.currentTime, this.state.song.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
     this.harmonyPiano.schedule(this.audioContext.currentTime, this.state.harmonyLineOne.notes.map((note) => {
@@ -178,23 +193,25 @@ class Harmonize extends Component {
   }
 
   render() {
+    if (!this.state.song) {
+      return <div>Loading...</div>;
+    }
     return (
       <div className="Harmonize-container u-flexColumn">
-      {this.state.tonic}
         <Dialogue id = "saveDialogue"
           closingFunction = {this.closeDialogue}
           display = {this.state.saving}
-          title = {this.props.song.title}/>
+          title = {this.state.song.title}/>
         <div className = "u-flex-spaceBetween u-flexColumn">
           <div className = "titles">
             <h2>Harmonize</h2>
-            <h1>{this.props.song.title}</h1>
+            <h1>{this.state.song.title}</h1>
           </div>
 
       
         <div className="big-noteblock-container">
         <NoteBlock
-          song={this.props.song}
+          song={this.state.song}
           onChange={this.props.onChange}
         />
         </div>
