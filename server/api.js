@@ -60,7 +60,7 @@ router.post("/song", (req, res) => {
 
 router.get("/user", (req, res) => {
   User.find({_id: req.query.userId}).then((user) => {
-    res.send(user);
+    res.send(user[0]);
   });
 });
 
@@ -70,7 +70,7 @@ router.get("/songs", (req, res) => {
 });
 
 router.get("/song", (req,res) => {
-  Song.find({_id: req.query._id}).then((song) => res.send(song));
+  Song.find({_id: req.query._id}).then((song) => res.send(song[0]));
 });
 
 // anything else falls to this "not found" case

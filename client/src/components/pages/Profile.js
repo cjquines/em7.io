@@ -21,21 +21,13 @@ class Profile extends Component {
     document.title = "Profile Page";
     get(`/api/user`, { userId: this.props.userId }).then((user) => {
       console.log("got user!");
-      this.setState({ user : user[0] });
+      this.setState({ user : user });
     });
     get(`/api/songs`, { creator_id: this.props.userId }).then((songList) => {
-        this.setState({ songList: songList }),
-        console.log(`Received ${songList.length} songs`)
+      this.setState({ songList: songList }),
+      console.log(`Received ${songList.length} songs`)
     });
-
-        
-   
-
-      }
-
-
-  
-
+  }
 
   render() {
     if (!this.state.user) {
@@ -44,7 +36,6 @@ class Profile extends Component {
     return (
       <div>
       <h1 className="Profile-name u-textCenter">{this.state.user.name}'s songs</h1>
-      
       </div>
     );
   }

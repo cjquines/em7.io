@@ -43,16 +43,14 @@ class Harmonize extends Component {
   }
 
   componentDidMount() {
-    get("/api/song", { _id: this.props.songId }).then((songList) => {
-      const song = songList[0].content;
-      console.log(song);
+    get("/api/song", { _id: this.props.songId }).then((song) => {
       this.setState({
-        harmony: song,
-        harmonyLineOne: song,
-        harmonyLineTwo: song,
-        harmonyLineThree: song,
-        harmonyLineFour: song,
-        song: song,
+        harmony: song.content,
+        harmonyLineOne: song.content,
+        harmonyLineTwo: song.content,
+        harmonyLineThree: song.content,
+        harmonyLineFour: song.content,
+        song: song.content,
       }, () => {
         this.changeChordMaps();
         for (let x = 0; x < this.arrayA[0].length; x++) {
