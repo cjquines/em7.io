@@ -8,45 +8,59 @@ const Soundfont = require("soundfont-player");
 import HarmonyInput from "../modules/HarmonyInput.js";
 
 import "./Compose.css";
-import SnapIntervalInput from "../modules/SnapIntervalInput"
+import SnapIntervalInput from "../modules/SnapIntervalInput";
 import Dialogue from "../modules/Dialogue.js";
+import { get, post } from "../../utilities.js";
 
 /**
  * Page where people can select harmonies.
  *
  * Proptypes
- * @param {Song} song: the song (TODO CHANGE SOON; UPLOAD AND DOWNLOAD FROM SERVER)
- * @param {(Song) => void} onChange: (function) changes song (ALSO NEEDS TO CHANGE SOON)
+ * @param {string} songId: the song ID
  */
 class Harmonize extends Component {
   constructor(props) {
     super(props);
     this.state = {
-    chordProgression : {},
-    pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77],
-    pitch: ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"],
-    keyToChord : {},
-    chordArray : {},
-    harmony : {...this.props.song},
-    isPlayingBack: false,
-    saving: false,
-    harmonyLineOne : {...this.props.song},
-    harmonyLineTwo : {...this.props.song},
-    harmonyLineThree : {...this.props.song},
-    harmonyLineFour : {...this.props.song},
-    harmonyOption : 1,
-    isPlayingBack: false,
-  };
-  this.audioContext = new AudioContext();
-  this.harmonyChords = [];
-  this.changeChordMaps();
+      chordProgression : {},
+      pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77],
+      pitch: ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"],
+      keyToChord : {},
+      chordArray : {},
+      harmony : undefined,
+      isPlayingBack: false,
+      saving: false,
+      harmonyLineOne : undefined,
+      harmonyLineTwo : undefined,
+      harmonyLineThree : undefined,
+      harmonyLineFour : undefined,
+      harmonyOption : 1,
+      isPlayingBack: false,
+      song: undefined,
+    };
+    this.audioContext = new AudioContext();
+    this.harmonyChords = [];
   }
 
   componentDidMount() {
-    for(var x = 0; x < this.arrayA[0].length; x++){
-      this.harmonizeHelper([[this.arrayA[0][x], 0]]);
-    }
-    this.harmonizeAlgorithm(this.state.harmonyOption);
+    get("/api/song", { _id: this.props.songId }).then((songList) => {
+      const song = songList[0].content;
+      console.log(song);
+      this.setState({
+        harmony: song,
+        harmonyLineOne: song,
+        harmonyLineTwo: song,
+        harmonyLineThree: song,
+        harmonyLineFour: song,
+        song: song,
+      }, () => {
+        this.changeChordMaps();
+        for (let x = 0; x < this.arrayA[0].length; x++) {
+          this.harmonizeHelper([[this.arrayA[0][x], 0]]);
+        }
+        this.harmonizeAlgorithm(this.state.harmonyOption);
+      });
+    });
     Soundfont.instrument(this.audioContext, 'acoustic_grand_piano')
     .then((piano) => {
       this.piano = piano;
@@ -56,6 +70,16 @@ class Harmonize extends Component {
       this.harmonyPiano = piano;
     });
   }
+
+  saveSong = () => {
+    get("/api/whoami").then((user) => {
+      let body = { creator_id: user._id, name: this.state.song.title, content: this.state.song };
+      post("/api/song", body).then((response) => {
+        console.log(response);
+        this.setState({ song: {...this.state.song, _id: response._id } });
+      });
+    });
+  };
 
   harmonizeHelper = (curPath) => {
     let a = curPath[curPath.length - 1];
@@ -71,7 +95,7 @@ class Harmonize extends Component {
         this.harmonizeHelper(curPath.concat([[u, i+1]]));
       }
     }
-  }
+  };
 
   harmonizeAlgorithm = (harmonyOption) => {
     //creates chord for each note in harmonyChords, want to create chords for only notes on important beat
@@ -104,7 +128,7 @@ class Harmonize extends Component {
       });
       this.setState({harmonyLineFour : {...this.state.harmonyLineFour, notes : newNotesFour} });
        //TODO: account for inversions?
-    }
+    };
 
 
 
@@ -119,12 +143,12 @@ class Harmonize extends Component {
     chordProgression["V"] = ["I", "V", "vi"];
     chordProgression["vi"] = ["ii", "IV", "vi"];
     chordProgression["vii"] = ["I","vii"];
-    const tonic = this.state.pitchMap[this.state.pitch.indexOf(this.props.song.key[0])];
+    const tonic = this.state.pitchMap[this.state.pitch.indexOf(this.state.song.key[0])];
     const supertonic = tonic + 2;
-    const mediant = tonic + 5-this.props.song.key.length;
+    const mediant = tonic + 5-this.state.song.key.length;
     const subdominant = tonic +5;
     const dominant = tonic + 7;
-    const submediant = tonic + 10-this.props.song.key.length;
+    const submediant = tonic + 10-this.state.song.key.length;
     const subtonic = tonic + 11;
     keyToChord[tonic % 12] = ["I",  "IV", "vi"];
     keyToChord[supertonic % 12] = ["ii",  "V",  "vii"];
@@ -143,12 +167,12 @@ class Harmonize extends Component {
     this.chordToPitch = chordToPitch;
     this.keyToChord = keyToChord;
     this.chordProgression = chordProgression;
-    this.arrayA = this.props.song.notes.map((note) => keyToChord[note.pitch % 12]);
+    this.arrayA = this.state.song.notes.map((note) => keyToChord[note.pitch % 12]);
   };
 
   play = () => {
     this.setState({isPlayingBack: true,});
-    this.piano.schedule(this.audioContext.currentTime, this.props.song.notes.map((note) => {
+    this.piano.schedule(this.audioContext.currentTime, this.state.song.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
     this.harmonyPiano.schedule(this.audioContext.currentTime, this.state.harmonyLineOne.notes.map((note) => {
@@ -170,55 +194,60 @@ class Harmonize extends Component {
 
   openSaveDialogue = () => {
     this.setState({saving: true});
-  }
+  };
   
   closeDialogue = () => {
     this.setState({saving: false});
-  }
+  };
 
   render() {
+    if (!this.state.song) {
+      return <div>Loading...</div>;
+    }
+    let loggedIn = false;
+    get("/api/whoami").then((user) => {
+      if (user) {
+        loggedIn = true;
+      }
+    });
     return (
-      <div className="Harmonize-container u-flexColumn">
-      {this.state.tonic}
-        <Dialogue id = "saveDialogue"
-          closingFunction = {this.closeDialogue}
-          display = {this.state.saving}
-          title = {this.props.song.title}/>
-        <div className = "u-flex-spaceBetween u-flexColumn">
-          <div className = "titles">
-            <h2>Harmonize</h2>
-            <h1>{this.props.song.title}</h1>
-          </div>
-
-      
+    <div className="Harmonize-container u-flexColumn">
+      <Dialogue id = "saveDialogue"
+        closingFunction={this.closeDialogue}
+        display={this.state.saving}
+        title={this.state.song.title}
+        saveFunction={this.saveSong}
+      />
+      <div className = "u-flex-spaceBetween u-flexColumn">
+        <div className = "titles">
+          <h2>Harmonize</h2>
+          <h1>{this.state.song.title}</h1>
+        </div>
         <div className="big-noteblock-container">
-        <NoteBlock
-          song={this.props.song}
-          onChange={this.props.onChange}
-        />
+          <NoteBlock
+            song={this.state.song}
+            onChange={(song) => this.setState({song: song})}
+          />
         </div>
       </div>
       <div className="u-flex confirm-buttons-container">
-        <div className="u-flex confirm-buttons-container">
-          {(this.state.isPlayingBack
-            ? <button type="button" className="greyButton" onClick={this.stop}>stop</button>
-            : <button type="button" className="greyButton" onClick={this.play}>play</button>)}
-        </div>
-        { this.state.hasRecorded ? [(this.state.isPlayingBack
-          ? <button type="button" className="greyButton" onClick={this.stop}>stop</button>
-          : <button type="button" className="greyButton" onClick={this.play}>play</button>)] : (null)
+        {this.state.isPlayingBack
+          ? <button type="button" className="greyButton" onClick={this.stop}>Stop</button>
+          : <button type="button" className="greyButton" onClick={this.play}>Play</button>
         }
-          <button type="button" className="goodButton" onClick={this.openSaveDialogue}>save!</button>
+        {loggedIn
+          ? <button type="button" className="greyButton" onClick={alert("Log in first!")}>Save</button>
+          : <button type="button" className="goodButton" onClick={this.openSaveDialogue}>Save</button>
+        }
         <HarmonyInput
-              harmonyOption={this.state.harmonyOption}
-              harmonyChords = {this.harmonyChords.length}
-              defaultHarmony="1"
-              onChange={(harmonyOption) => {this.setState({harmonyOption : harmonyOption}), 
-              this.harmonizeAlgorithm(harmonyOption)}}
-            />
+          harmonyOption={this.state.harmonyOption}
+          harmonyChords = {this.harmonyChords.length}
+          defaultHarmony="1"
+          onChange={(harmonyOption) => {this.setState({harmonyOption : harmonyOption}), 
+          this.harmonizeAlgorithm(harmonyOption)}}
+        />
       </div>
     </div>
-    
     );
   }
 }

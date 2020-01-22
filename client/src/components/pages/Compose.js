@@ -63,14 +63,24 @@ class Compose extends Component {
         });
       }
       keyboardjs.pause();
-
     });
-
-
-  }
+  };
 
   handleTitleChange = (event) => {
     this.setState({ song: {...this.state.song, title: event.target.value} });
+  };
+
+  saveSong = () => {
+    get("/api/whoami").then((user) => {
+      let body = { creator_id: "guest", name: this.state.song.title, content: this.state.song };
+      if (user._id) {
+        body = { ...body, creator_id: user._id };
+      }
+      post("/api/song", body).then((response) => {
+        console.log(response);
+        this.setState({ song: {...this.state.song, _id: response._id } });
+      });
+    });
   };
 
   auxMetronome = () => {
@@ -113,9 +123,7 @@ class Compose extends Component {
   
   //TODO: add max length?
   record = () => {
-    this.setState({
-      isRecording : true,
-      start: Date.now(),})
+    this.setState({isRecording : true, start: Date.now()});
     this.playMetronome();
     keyboardjs.resume();
     this.setState({hasSnapped: false});
@@ -126,6 +134,7 @@ class Compose extends Component {
       song: {...this.state.song, duration: this.state.song.duration+1}});
     clearInterval(this.metronomeInterval);
     keyboardjs.pause();
+    this.saveSong();
   };
 
   //TODO: snap correctly after changing tempo
@@ -137,115 +146,92 @@ class Compose extends Component {
       return new Note(note.id, note.pitch, newOnset, newLength);
     });
     this.setState({ song: {...this.state.song, notes: newNotes}, hasSnapped: true});
+    this.saveSong();
   };
 
   play = () => {
-    this.setState({isPlayingBack: true,});
+    this.setState({isPlayingBack: true});
     this.piano.schedule(this.audioContext.currentTime, this.state.song.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
   };
 
   stop = () => {
-    this.setState({isPlayingBack: false,});
+    this.setState({isPlayingBack: false});
     this.piano.stop();
   };
 
-  goToHarmonizePage = () => {
-    if (this.state.hasSnapped) {
-      get("/api/whoami").then((user) => {
-        if (user._id) {
-          this.setState({showHarmonize: true})
-          // they are registed in the database, and currently logged in.
-          const body = { creator_id: user._id, name: "Untitled", content: this.state.song };
-          post("/api/song", body).then((response) => console.log(response));
-        }
-        else {
-          alert("log in first!")
-        }
-      });
-    }
-    else {
-      alert("Snap to beat first!");
-  }}
-
-
   render() {
-    if (this.state.showHarmonize) {
-      return (<Harmonize song={this.state.song} 
-          onChange={(song) => this.setState({song: song})}/>);
-    } else {
-      return (
-        <div className="Compose-container u-flexColumn">
-        <div className = "u-flex-spaceBetween">
-          <div className = "titles">
-            <h2>Compose</h2>
-            <input id="song-title" value = {this.state.song.title} type = "text" onChange={this.handleTitleChange}></input>
-          </div>
-          
-          <div className = "Timesig-block">
-            <KeyInput className = "select-box"
-              song={this.state.song}
-              defaultTonic="C"
-              defaultMode=""
-              onChange={(song) => this.setState({song: song})}
-            />
-            <SignatureInput
-              song={this.state.song}
-              defaultUpper="4"
-              defaultLower="4"
-              onChange={(song) => this.setState({song: song})}
-            />
-            <TempoInput
-              song={this.state.song}
-              defaultTempo="120"
-              snapInterval={this.state.snapInterval}
-              onChange={(song, snapInterval) => this.setState({song: song, snapInterval: snapInterval, hasSnapped: false})}
-            />
-          </div>
+    let recordButton = (<button type="button" className="startStop" onClick={this.record}>Record</button>);
+    if (this.state.isRecording) {
+      recordButton = (<button type="button" className="startStop" onClick={this.stopRecord}>Stop</button>);
+    }
+    let playButton = (null);
+    if (this.state.hasRecorded) {
+      playButtons = (this.state.isPlayingBack
+        ? <button type="button" className="greyButton" onClick={this.stop}>Stop</button>
+        : <button type="button" className="greyButton" onClick={this.play}>Play</button>);
+    }
+    let harmonizeButton = (<button type="button" className="greyButton">Harmonize</button>);
+    if (this.state.song._id !== undefined) {
+      harmonizeButton = (<Link to={`/harmonize/${this.state.song._id}`}><button type="button" className="goodButton" onClick={this.saveSong}>Harmonize</button></Link>);
+    }
+    return (
+    <div className="Compose-container u-flexColumn">
+      <div className="u-flex-spaceBetween">
+        <div className = "titles">
+          <h2>Compose</h2>
+          <input id="song-title" value={this.state.song.title} type = "text" onChange={this.handleTitleChange}></input>
         </div>
-
-        <div className = "piano-row">
-        <div className ="Record-button">
-            {this.state.isRecording ? (
-                <button type="button" className="startStop" onClick={this.stopRecord}>Stop</button>
-            ) : (
-                <button type="button" className="startStop" onClick={this.record}>Record</button>
-                //maybe have a confirmation stating that recording again will overwrite previous song
-            )}
-          </div>
-          <img src = {Piano} className = "piano-img"/>
+        <div className = "Timesig-block">
+          <KeyInput className = "select-box"
+            song={this.state.song}
+            defaultTonic="C"
+            defaultMode=""
+            onChange={(song) => this.setState({song: song})}
+          />
+          <SignatureInput
+            song={this.state.song}
+            defaultUpper="4"
+            defaultLower="4"
+            onChange={(song) => this.setState({song: song})}
+          />
+          <TempoInput
+            song={this.state.song}
+            defaultTempo="120"
+            snapInterval={this.state.snapInterval}
+            onChange={(song, snapInterval) => this.setState({song: song, snapInterval: snapInterval, hasSnapped: false})}
+          />
         </div>
+      </div>
 
-        <div className="playback-row">
+      <div className="piano-row">
+        <div className="Record-button">{recordButton}</div>
+        <img src={Piano} className="piano-img"/>
+      </div>
+
+      <div className="playback-row">
         <div className="big-noteblock-container">
-        <NoteBlock
-          song={this.state.song}
-          snapInterval={this.state.snapInterval}
-          onChange={(song) => {this.setState({song: song}); this.render();}}
-        />
+          <NoteBlock
+            song={this.state.song}
+            snapInterval={this.state.snapInterval}
+            onChange={(song) => {this.setState({song: song}); this.render();}}
+          />
         </div>
-        </div>
+      </div>
 
-        <div className="u-flex confirm-buttons-container">
+      <div className="u-flex confirm-buttons-container">
         <SnapIntervalInput
           song={this.state.song}
           defaultValue="0.25"
           onChange={(snapInterval) => this.setState({snapInterval: snapInterval})}
         />
-        { this.state.hasRecorded ? [(this.state.isPlayingBack
-          ? <button type="button" className="greyButton" onClick={this.stop}>stop</button>
-          : <button type="button" className="greyButton" onClick={this.play}>play</button>)] : (null)
-        }
-        { this.state.hasSnapped ? <><button type="button" className="greyButton" onClick={this.snapNotes}>Snap notes!</button>
-          <button type="button" className="goodButton" onClick={this.goToHarmonizePage}>harmonize!</button></>
-          : <><button type="button" className="goodButton" onClick={this.snapNotes}>Snap notes!</button>
-          <button type="button" className="greyButton" onClick={this.goToHarmonizePage}>harmonize!</button></>}
-          
-        </div>
-        </div>
-      );
-    }
+        {playButton}
+        <button type="button" className="goodButton" onClick={this.snapNotes}>Snap notes</button>
+        {harmonizeButton}
+      </div>
+    </div>
+    );
   }
 }
 
