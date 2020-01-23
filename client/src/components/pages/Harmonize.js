@@ -63,7 +63,7 @@ class Harmonize extends Component {
     .then((piano) => {
       this.piano = piano;
     });
-    Soundfont.instrument(this.audioContext, 'acoustic_grand_piano', {gain : 0.2})
+    Soundfont.instrument(this.audioContext, 'acoustic_grand_piano', {gain : .25})
     .then((piano) => {
       this.harmonyPiano = piano;
     });
@@ -146,6 +146,7 @@ class Harmonize extends Component {
     const subdominant = tonic +5;
     const dominant = tonic + 7;
     const submediant = tonic + 10-this.state.song.key.length;
+    // const subtonic = tonic + 12-this.state.song.key.length; natural minor
     const subtonic = tonic + 11;
     keyToChord[tonic % 12] = ["I",  "IV", "vi"];
     keyToChord[supertonic % 12] = ["ii",  "V",  "vii"];
@@ -154,13 +155,13 @@ class Harmonize extends Component {
     keyToChord[dominant % 12] = ["I", "iii", "V"];
     keyToChord[submediant % 12] = ["ii",  "IV", "vi" ];
     keyToChord[subtonic % 12] = ["iii", "V",  "vii" ];
-    chordToPitch["I"] = [tonic, mediant, dominant];
-    chordToPitch["ii"] = [supertonic, subdominant, submediant];
-    chordToPitch["iii"] = [mediant, dominant, subtonic];
-    chordToPitch["IV"] = [subdominant, submediant, tonic];
-    chordToPitch["V"] = [dominant-12, subtonic-12, supertonic-12];
-    chordToPitch["vi"] = [submediant-12, tonic-12, mediant-12];
-    chordToPitch["vii"] = [subtonic-12, supertonic-12, subdominant-12];
+    chordToPitch["I"] = [tonic-12, mediant-12, dominant-12];
+    chordToPitch["ii"] = [supertonic-12, subdominant-12, submediant-12];
+    chordToPitch["iii"] = [mediant-12, dominant-12, subtonic-12];
+    chordToPitch["IV"] = [subdominant-12, submediant-12, tonic-12];
+    chordToPitch["V"] = [dominant-24, subtonic-24, supertonic-12];
+    chordToPitch["vi"] = [submediant-24, tonic-24, mediant-12];
+    chordToPitch["vii"] = [subtonic-24, supertonic-12, subdominant-12];
     this.chordToPitch = chordToPitch;
     this.keyToChord = keyToChord;
     this.chordProgression = chordProgression;
