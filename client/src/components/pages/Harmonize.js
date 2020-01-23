@@ -68,6 +68,9 @@ class Harmonize extends Component {
   }
 
   saveSong = () => {
+    this.setState ({
+      song: {...this.state.song, harmony: this.state.harmony.notes}
+    })
     get("/api/whoami").then((user) => {
       let body = { creator_id: user._id, name: this.state.song.title, content: this.state.song };
       post("/api/song", body).then((response) => {
@@ -191,6 +194,11 @@ class Harmonize extends Component {
   };
 
   render() {
+    if (this.state.song && this.state.harmony){
+      console.log(this.state.song)
+      console.log(this.state.harmony)
+    }
+      
     if (!this.state.song) {
       return <div>Loading...</div>;
     }

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
 
-import "./SingleSong.css"
+import "./SongBlock.css"
 import "../../utilities.css"
 
-class SingleSong extends Component {
+class SongBlock extends Component {
 
     /**
      * 
@@ -31,4 +31,4 @@ class SingleSong extends Component {
     }
 }
 
-export default SingleSong;
+export default SongBlock;

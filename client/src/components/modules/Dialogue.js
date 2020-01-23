@@ -26,9 +26,9 @@ class Dialogue extends Component {
   render() {
     return (
       this.props.display ? 
-      <div class="modal">
+      <div className="modal">
         <form className="modal-content">
-          <div class="formContainer">
+          <div className="formContainer">
             <h2>Name</h2>
             <input className="formInput" type="text" value={this.state.value} name="title" onChange={this.handleTitleChange} />
             <div className="save-button-container" style = {{justifyContent: "flex-end", marginTop: "24px", marginRight: "-12px"}}>
