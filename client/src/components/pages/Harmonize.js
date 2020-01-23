@@ -187,6 +187,7 @@ class Harmonize extends Component {
         display={this.state.saving}
         title={this.state.song.title}
         saveFunction={this.saveSong}
+        onChange={(title) => this.setState({song: ...this.state.song, title: title})}
       />
       <div className = "u-flex-spaceBetween u-flexColumn">
         <div className = "titles">
