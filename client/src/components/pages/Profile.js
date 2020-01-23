@@ -3,6 +3,7 @@ import { Link } from "@reach/router";
 import { get } from "../../utilities";
 import "./Profile.css";
 import "../../utilities.css";
+import SingleSong from "../modules/SingleSong.js"
 
 
 /**
@@ -26,16 +27,28 @@ class Profile extends Component {
     get(`/api/songs`, { creator_id: this.props.userId }).then((songList) => {
       this.setState({ songList: songList }),
       console.log(`Received ${songList.length} songs`)
+      console.log(songList)
+      console.log(this.state.songList)
     });
   }
 
   render() {
+    let displayedList = null;
     if (!this.state.user) {
       return <div>Loading...</div>;
     }
+    else {
+      displayedList = this.state.songList.map((aSong) =>
+      <SingleSong
+        song_id = {aSong._id}
+        creator_id = {aSong.creator_id}
+        name = {aSong.name}/>)
+    }
     return (
-      <div>
-      <h1 className="Profile-name u-textCenter">{this.state.user.name}'s songs</h1>
+      <div className = "profile-container">
+        <h1 className="profile-name u-textCenter">{this.state.user.name}'s songs</h1>
+        <div className="grid-container">{displayedList}
+        </div>
       </div>
     );
   }

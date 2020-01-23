@@ -28,7 +28,6 @@ class Harmonize extends Component {
       keyToChord: {},
       chordArray: {},
       harmony: undefined,
-      isPlayingBack: false,
       saving: false,
       harmonyOption: 1,
       isPlayingBack: false,

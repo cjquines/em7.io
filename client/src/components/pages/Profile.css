@@ -1,8 +1,8 @@
-.Profile-avatarContainer {
+.profile-avatarContainer {
   padding: 0 35%;
 }
 
-.Profile-avatar {
+.profile-avatar {
   /* make it responsive */
   max-width: 100%;
   width: 100%;
@@ -30,26 +30,67 @@
   bottom: 0;
 }
 
-.Profile-name {
+.profile-name {
   font-size: 40px;
   font-weight: 300;
+  margin: 12vh 0 8vh 0;
 }
 
-.Profile-line {
+.profile-line {
   border-color: var(--grey);
 }
 
-.Profile-subContainer {
+.profile-subContainer {
   flex-grow: 1;
   flex-basis: 0;
-}
-
-.Profile-subContainer + .Profile-subContainer {
   margin-left: var(--m);
 }
 
-.Profile-subTitle {
+.profile-subTitle {
   font-weight: 300;
   font-size: 24px;
   margin: var(--m) var(--s);
 }
+
+.profile-container {
+    margin: auto;
+    width: min-content;
+}
+
+
+@media (min-width: 400px) {
+    .grid-container {
+        display: grid;
+        grid-column-gap: 60px;
+        grid-row-gap: 60px;
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media (min-width: 700px) {
+    .grid-container {
+        display: grid;
+        grid-column-gap: 40px;
+        grid-row-gap: 40px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1000px) {
+    .grid-container {
+        display: grid;
+        grid-column-gap: 40px;
+        grid-row-gap: 40px;
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1300px) {
+    .grid-container {
+        display: grid;
+        grid-column-gap: 40px;
+        grid-row-gap: 40px;
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
