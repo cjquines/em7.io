@@ -195,6 +195,7 @@ class Harmonize extends Component {
         </div>
         <div className="big-noteblock-container">
           <NoteBlock
+            harmony={this.state.harmony}
             song={this.state.song}
           />
         </div>

@@ -110,8 +110,23 @@ class NoteBlock extends Component {
             bottom: (note.pitch - 60)*this.state.heightUnit + "px",
             width: (note.length / this.state.widthUnit) + "px",
             left: (note.onset / this.state.widthUnit) + "px",
-          }}/>
-        ))}
+          }}
+          />))
+        }
+        {this.props.harmony ?
+          this.props.harmony.notes.map((note, index) => (
+          <div
+          key={note.id}
+          data-id={note.id}
+          className="NoteBlock-note NoteBlock-harmony"
+          style={{
+            bottom: (note.pitch - 60)*this.state.heightUnit + "px",
+            width: (note.length / this.state.widthUnit) + "px",
+            left: (note.onset / this.state.widthUnit) + "px",
+          }}
+          />))
+          : ()
+        }
         {Array.from(Array(this.props.song.duration).keys()).filter((x) => (x% this.props.song.signature[0]===0)).map((x, index) => (
           <div
             key={index}
