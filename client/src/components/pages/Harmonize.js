@@ -98,7 +98,7 @@ class Harmonize extends Component {
   harmonizeAlgorithm = (harmonyOption) => {
     //creates chord for each note in harmonyChords, want to create chords for only notes on important beat
     //TODO: create new array importantNotes
-    //TODO: base arrayA on notes timing and note ID
+    //TODO: base arrayA on notes timing and not note ID to account for editing
     //TODO: also add more chords progressions and stuff
     console.log(this.harmonyChords[harmonyOption-1]);
       const newNotesOne = this.state.harmonyLineOne.notes.map((note,i) => {
@@ -156,7 +156,7 @@ class Harmonize extends Component {
     keyToChord[subtonic % 12] = ["iii", "V",  "vii" ];
     chordToPitch["I"] = [tonic, mediant, dominant];
     chordToPitch["ii"] = [supertonic, subdominant, submediant];
-    chordToPitch["III"] = [mediant, dominant, subtonic];
+    chordToPitch["iii"] = [mediant, dominant, subtonic];
     chordToPitch["IV"] = [subdominant, submediant, tonic];
     chordToPitch["V"] = [dominant, subtonic, supertonic];
     chordToPitch["vi"] = [submediant, tonic, mediant];
