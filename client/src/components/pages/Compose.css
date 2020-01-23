@@ -58,14 +58,6 @@
 }
 
 
-.NoteBlock-container {
-    display: flex;
-    height: 30vh;
-    background-color: #f3f3f3 !important;
-    margin: 0;
-}
-
-
 select {
     font-family: 'Montserrat', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
     border: none;

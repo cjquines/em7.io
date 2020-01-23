@@ -42,7 +42,7 @@ class Harmonize extends Component {
     get("/api/song", { _id: this.props.songId }).then((song) => {
       song.content.notes.sort();
       this.setState({
-        harmony: {song.content, notes: []},
+        harmony: {...song.content, notes: []},
         song: song.content,
       }, () => {
         this.changeChordMaps();
@@ -94,7 +94,7 @@ class Harmonize extends Component {
     //TODO: base chordChoices on notes timing and not note ID to account for editing
     //TODO: also add more chords progressions and stuff
     console.log(this.harmonyChords[harmonyOption-1]);
-    cosnt harmony = [];
+    let harmony = [];
     for (let i = 0; i < this.state.song.notes.length; i++) {
       const note = this.state.song.notes[i];
       const chord = this.chordToPitch[this.harmonyChords[harmonyOption-1][i]];
