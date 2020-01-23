@@ -107,7 +107,7 @@ class NoteBlock extends Component {
           data-id={note.id}
           className="NoteBlock-note"
           style={{
-            top: (note.pitch - 60)*this.state.heightUnit + "px",
+            bottom: (note.pitch - 60)*this.state.heightUnit + "px",
             width: (note.length / this.state.widthUnit) + "px",
             left: (note.onset / this.state.widthUnit) + "px",
           }}/>
