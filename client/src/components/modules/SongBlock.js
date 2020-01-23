@@ -25,6 +25,9 @@ class SongBlock extends Component {
             <div className = "smallSongContainer">
                 <div className = "smallSongTitle">{this.props.name}</div>
                 <div className = "smallSongSubtitle">{this.props.song_id}</div>
+                {/* TODO: make these make a DUPLICATE of the original rather than editing the original*/}
+                <Link to={`/compose/${this.props.song_id}`}>Edit</Link>
+                <Link to={`/harmonize/${this.props.song_id}`}>Reharmonize</Link>
             </div>
             </Link>
         )
