@@ -120,6 +120,7 @@ class Harmonize extends Component {
     chordProgression["V"] = ["I", "V", "vi", "V/V", "V/ii"];
     chordProgression["V/V"] = ["V", "V/V"];
     chordProgression["V/ii"] = ["ii", "V/ii"];
+    chordProgression["V/vi"] = ["vi", "V/vi"];
     chordProgression["vi"] = ["ii", "IV", "vi", "V/V", "V/ii"];
     chordProgression["vii"] = ["I","vii", "V/V", "V/ii"];
     chordProgression["iii"] = ["iii", "vi"];
@@ -138,6 +139,7 @@ class Harmonize extends Component {
     keyToChord[subdominant % 12] = ["ii",  "IV",  "vii"];
     keyToChord[(subdominant+1) % 12] = ["V/V"]
     keyToChord[dominant % 12] = ["I", "iii", "V"];
+    keyToChord[(dominant+1) % 12] = ["V/vi"];
     keyToChord[submediant % 12] = ["ii",  "IV", "vi", "V/V", "V/ii" ];
     keyToChord[subtonic % 12] = [ "V",  "vii", "iii" ];
     chordToPitch["I"] = [tonic-12, mediant-12, dominant-12];
@@ -148,6 +150,7 @@ class Harmonize extends Component {
     chordToPitch["vii"] = [subtonic-24, supertonic-12, subdominant-12];
     chordToPitch["V/V"] = [supertonic-12, subdominant-11, submediant-12];
     chordToPitch["V/ii"] = [submediant-24, tonic-11, mediant-12];
+    chordToPitch["V/vi"] = [mediant-12, dominant-11, subtonic-12];
     chordToPitch["iii"] = [mediant-12, dominant-12, subtonic-12];
     this.chordToPitch = chordToPitch;
     this.keyToChord = keyToChord;
