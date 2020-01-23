@@ -141,14 +141,14 @@ class Harmonize extends Component {
     const subtonic = tonic + 11;
     keyToChord[tonic % 12] = ["I",  "IV", "vi"];
     keyToChord[(tonic+1) % 12] = ["V/ii"];
-    keyToChord[supertonic % 12] = ["ii",  "V",  "vii", "V/V"];
+    keyToChord[supertonic % 12] = ["ii",  "V",  "vii"];
     keyToChord[(supertonic+1) % 12] = ["V/iii"]
-    keyToChord[mediant % 12] = ["I", "iii", "vi", "V/ii"];
+    keyToChord[mediant % 12] = ["I", "iii", "vi"];
     keyToChord[subdominant % 12] = [ "IV", "ii",  "vii"];
     keyToChord[(subdominant+1) % 12] = ["V/V"]
     keyToChord[dominant % 12] = ["I", "iii", "V"];
     keyToChord[(dominant+1) % 12] = ["V/vi"];
-    keyToChord[submediant % 12] = ["ii", "IV", "vi", "V/V", "V/ii" ];
+    keyToChord[submediant % 12] = ["ii", "IV", "vi"];
     keyToChord[(subtonic-1) % 12] = ["V7/IV"];
     keyToChord[subtonic % 12] = [ "V",  "vii", "iii" ];
     chordToPitch["I"] = [tonic-12, mediant-12, dominant-12];
