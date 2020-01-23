@@ -1,20 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
 import { get } from "../../utilities";
-const songModel = require("../../../../server/models/songModel");
-import Note from "../common/Note.js";
 import NoteBlock from "../modules/NoteBlock.js";
-import SnapIntervalInput from "../modules/SnapIntervalInput";
+const Soundfont = require("soundfont-player");
 
 import "../../utilities.css";
-import Song from "../common/Song";
-import { set } from "mongoose";
-
-// TODO: this doesn't crash but play button doesnt work etc
-// >> Cannot read property 'stop' of undefined
-// another error is:
-// >> Uncaught (in promise) TypeError: Cannot read property 'decodeAudioData' of undefined
-// also i dont know if the updating function works, but i think rn composing and harmonizing page saves new copies every time?
 
 /**
  * Listen is the page where we edit stuff.
@@ -28,6 +18,7 @@ class Listen extends Component {
       snapInterval: 125,
       isPlayingBack: false,
     };
+    this.audioContext = new AudioContext();
   }
 
   componentDidMount() {
@@ -48,14 +39,13 @@ class Listen extends Component {
     });
   }
 
-  updateSong = () => {
-    /**get("/api/whoami").then((user) => {
-      let body = { creator_id: "guest", name: this.state.newSong.title, content: this.state.song };
-      if (user._id) {
-        body = { ...body, creator_id: user._id };
-      }*/
-    songModel.updateOne({ _id: this.props.songId }, { $set: {content: this.song} });
-    //});
+  saveSong = () => {
+    get("/api/whoami").then((user) => {
+      let body = { creator_id: user._id, name: this.state.song.title, content: this.state.song };
+      post("/api/song", body).then((response) => {
+        this.setState({ song: {...this.state.song, _id: response._id } });
+      });
+    });
   };
 
   play = () => {
@@ -63,7 +53,7 @@ class Listen extends Component {
     this.piano.schedule(this.audioContext.currentTime, this.state.song.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
-    this.harmonyPiano.schedule(this.audioContext.currentTime, this.state.harmony.notes.map((note) => {
+    this.harmonyPiano.schedule(this.audioContext.currentTime, this.state.song.harmony.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
   };
@@ -85,7 +75,7 @@ class Listen extends Component {
             <NoteBlock
               song={this.state.song}
               snapInterval={this.state.snapInterval}
-              onChange={(song) => {this.setState({newSong: song}); this.render(); this.updateSong();}}
+              onChange={(song) => {this.setState({newSong: song}); this.render(); this.saveSong();}}
             />
           </div>
         </div>

@@ -3,7 +3,7 @@ import { Link } from "@reach/router";
 import { get } from "../../utilities";
 import "./Profile.css";
 import "../../utilities.css";
-import SingleSong from "../modules/SingleSong.js"
+import SongBlock from "../modules/SongBlock.js"
 
 
 /**
@@ -39,7 +39,7 @@ class Profile extends Component {
     }
     else {
       displayedList = this.state.songList.map((aSong) =>
-      <SingleSong
+      <SongBlock
         song_id = {aSong._id}
         creator_id = {aSong.creator_id}
         name = {aSong.name}/>)
