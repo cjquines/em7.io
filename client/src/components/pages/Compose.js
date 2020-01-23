@@ -53,7 +53,6 @@ class Compose extends Component {
           originalSong: song.content,
           song: song.content,
         });
-        // TODO: update the panels
       });
     } else {
       this.setState({isLoaded : true});
@@ -186,9 +185,15 @@ class Compose extends Component {
         ? <button type="button" className="greyButton" onClick={this.stop}>Stop</button>
         : <button type="button" className="greyButton" onClick={this.play}>Play</button>);
     }
-    let harmonizeButton = (<button type="button" className="greyButton">Harmonize</button>);
+    let harmonizeButton = (<button type="button" className="greyButton">Save and harmonize</button>);
     if (this.state.song._id !== undefined) {
       harmonizeButton = (<Link to={`/harmonize/${this.state.song._id}`}><button type="button" className="goodButton" onClick={this.saveSong}>Harmonize</button></Link>);
+    }
+    let defaultTonic = this.state.song.key;
+    let defaultMode = "";
+    if (this.state.song.key.slice(-1) === "m") {
+      defaultTonic = this.state.song.key.slice(0, -1);
+      defaultMode = this.state.song.key.slice(-1);
     }
     return (
     <div className="Compose-container u-flexColumn">
@@ -200,19 +205,19 @@ class Compose extends Component {
         <div className = "Timesig-block">
           <KeyInput className = "select-box"
             song={this.state.song}
-            defaultTonic="C"
-            defaultMode=""
+            defaultTonic={defaultTonic}
+            defaultMode={defaultMode}
             onChange={(song) => this.setState({song: song})}
           />
           <SignatureInput
             song={this.state.song}
-            defaultUpper="4"
-            defaultLower="4"
+            defaultUpper={this.state.song.signature[0]}
+            defaultLower={this.state.song.signature[1]}
             onChange={(song) => this.setState({song: song})}
           />
           <TempoInput
             song={this.state.song}
-            defaultTempo="120"
+            defaultTempo={this.state.song.tempo}
             snapInterval={this.state.snapInterval}
             onChange={(song, snapInterval) => this.setState({song: song, snapInterval: snapInterval, hasSnapped: false})}
           />
@@ -229,7 +234,7 @@ class Compose extends Component {
           <NoteBlock
             song={this.state.song}
             snapInterval={this.state.snapInterval}
-            onChange={(song) => {this.setState({song: song}); this.render();}}
+            onChange={(song) => {this.setState({song: song}); this.render(); this.saveSong();}}
           />
         </div>
       </div>

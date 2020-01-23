@@ -25,16 +25,12 @@ class Harmonize extends Component {
       chordProgression : {},
       pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77],
       pitch: ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"],
-      keyToChord : {},
-      chordArray : {},
-      harmony : undefined,
+      keyToChord: {},
+      chordArray: {},
+      harmony: undefined,
       isPlayingBack: false,
       saving: false,
-      harmonyLineOne : undefined,
-      harmonyLineTwo : undefined,
-      harmonyLineThree : undefined,
-      harmonyLineFour : undefined,
-      harmonyOption : 1,
+      harmonyOption: 1,
       isPlayingBack: false,
       song: undefined,
     };
@@ -44,17 +40,14 @@ class Harmonize extends Component {
 
   componentDidMount() {
     get("/api/song", { _id: this.props.songId }).then((song) => {
+      song.content.notes.sort();
       this.setState({
-        harmony: song.content,
-        harmonyLineOne: song.content,
-        harmonyLineTwo: song.content,
-        harmonyLineThree: song.content,
-        harmonyLineFour: song.content,
+        harmony: {...song.content, notes: []},
         song: song.content,
       }, () => {
         this.changeChordMaps();
-        for (let x = 0; x < this.arrayA[0].length; x++) {
-          this.harmonizeHelper([[this.arrayA[0][x], 0]]);
+        for (const note of this.chordChoices[0]) {
+          this.harmonizeHelper([[note, 0]]);
         }
         this.harmonizeAlgorithm(this.state.harmonyOption);
       });
@@ -83,12 +76,12 @@ class Harmonize extends Component {
     let a = curPath[curPath.length - 1];
     let v = a[0];
     let i = a[1];
-    if (i === this.arrayA.length - 1) {
+    if (i === this.chordChoices.length - 1) {
       const revHarmonyChords = curPath.map((tup) => tup[0]);
       this.harmonyChords.push(revHarmonyChords);
       return;
     }
-    for (const u of this.arrayA[i+1]) {
+    for (const u of this.chordChoices[i+1]) {
       if (this.chordProgression[v].includes(u)) {
         this.harmonizeHelper(curPath.concat([[u, i+1]]));
       }
@@ -98,36 +91,20 @@ class Harmonize extends Component {
   harmonizeAlgorithm = (harmonyOption) => {
     //creates chord for each note in harmonyChords, want to create chords for only notes on important beat
     //TODO: create new array importantNotes
-    //TODO: base arrayA on notes timing and not note ID to account for editing
+    //TODO: base chordChoices on notes timing and not note ID to account for editing
     //TODO: also add more chords progressions and stuff
     console.log(this.harmonyChords[harmonyOption-1]);
-      const newNotesOne = this.state.harmonyLineOne.notes.map((note,i) => {
-        const newPitch = this.chordToPitch[this.harmonyChords[harmonyOption-1][i]][0];
-        return new Note(note.id, newPitch, note.onset, note.length);
-      });
-      this.setState({harmonyLineOne : {...this.state.harmonyLineOne, notes : newNotesOne} });
-      
-      const newNotesTwo = this.state.harmonyLineTwo.notes.map((note,i) => {
-        const newPitch = this.chordToPitch[this.harmonyChords[harmonyOption-1][i]][1];
-        return new Note(note.id, newPitch, note.onset, note.length);
-      });
-      this.setState({harmonyLineTwo : {...this.state.harmonyLineTwo, notes : newNotesTwo} });
-      
-      const newNotesThree = this.state.harmonyLineThree.notes.map((note,i) => {
-        const newPitch = this.chordToPitch[this.harmonyChords[harmonyOption-1][i]][2];
-        return new Note(note.id, newPitch, note.onset, note.length);
-      });
-      this.setState({harmonyLineThree : {...this.state.harmonyLineThree, notes : newNotesThree} });
-
-      const newNotesFour = this.state.harmonyLineFour.notes.map((note,i) => {
-        const newPitch = this.chordToPitch[this.harmonyChords[harmonyOption-1][i]][3];
-        return new Note(note.id, newPitch, note.onset, note.length);
-      });
-      this.setState({harmonyLineFour : {...this.state.harmonyLineFour, notes : newNotesFour} });
-       //TODO: account for inversions?
+    let harmony = [];
+    for (let i = 0; i < this.state.song.notes.length; i++) {
+      const note = this.state.song.notes[i];
+      const chord = this.chordToPitch[this.harmonyChords[harmonyOption-1][i]];
+      for (let j = 0; j < chord.length; j++) {
+        const newNote = new Note(4*i + j, chord[j], note.onset, note.length);
+        harmony.push(newNote);
+      }
+    }
+    this.setState({harmony: {...this.state.harmony, notes: harmony}});
     };
-
-
 
   changeChordMaps = () => {
     const chordProgression = {}; 
@@ -165,7 +142,7 @@ class Harmonize extends Component {
     this.chordToPitch = chordToPitch;
     this.keyToChord = keyToChord;
     this.chordProgression = chordProgression;
-    this.arrayA = this.state.song.notes.map((note) => keyToChord[note.pitch % 12]);
+    this.chordChoices = this.state.song.notes.map((note) => keyToChord[note.pitch % 12]);
   };
 
   play = () => {
@@ -173,13 +150,7 @@ class Harmonize extends Component {
     this.piano.schedule(this.audioContext.currentTime, this.state.song.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
-    this.harmonyPiano.schedule(this.audioContext.currentTime, this.state.harmonyLineOne.notes.map((note) => {
-      return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
-    }));
-    this.harmonyPiano.schedule(this.audioContext.currentTime, this.state.harmonyLineTwo.notes.map((note) => {
-      return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
-    }));
-    this.harmonyPiano.schedule(this.audioContext.currentTime, this.state.harmonyLineThree.notes.map((note) => {
+    this.harmonyPiano.schedule(this.audioContext.currentTime, this.state.harmony.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
   };
@@ -216,6 +187,7 @@ class Harmonize extends Component {
         display={this.state.saving}
         title={this.state.song.title}
         saveFunction={this.saveSong}
+        onChange={(title) => this.setState({song: ...this.state.song, title: title})}
       />
       <div className = "u-flex-spaceBetween u-flexColumn">
         <div className = "titles">
@@ -224,8 +196,8 @@ class Harmonize extends Component {
         </div>
         <div className="big-noteblock-container">
           <NoteBlock
+            harmony={this.state.harmony}
             song={this.state.song}
-            onChange={(song) => this.setState({song: song})}
           />
         </div>
       </div>

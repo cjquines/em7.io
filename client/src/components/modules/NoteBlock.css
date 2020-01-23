@@ -1,4 +1,8 @@
 .NoteBlock-container {
+  background-color: #f3f3f3 !important;
+  display: flex;
+  height: 500px;
+  margin: 0;
   position: relative;
   z-index: 1;
 }
@@ -14,20 +18,23 @@
   box-sizing: border-box;
 }
 
+.NoteBlock-harmony {
+  background: #888;
+}
 
 .big-tempo-bar {
-  top: 0;
+  top: 5%;
   width: 1px !important;
-  height: 30vh;
+  height: 90%;
   position: absolute;
   background-color: #777;
   z-index: 2;
 }
 
 .small-tempo-bar {
-  top: 7vh;
+  top: 15%;
   width: 1px !important;
-  height: 16vh;
+  height: 70%;
   position: absolute;
   background-color: #c5c5c5;
   z-index: 2;

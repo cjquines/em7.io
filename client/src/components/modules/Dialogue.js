@@ -15,7 +15,13 @@ import "../pages/Splash.css"
 class Dialogue extends Component {
   constructor(props) {
     super(props);
+    this.state = {value: this.props.title};
   }
+
+  handleTitleChange = (event) => {
+    this.setState({value: event.target.value}),
+    this.props.onChange(event.target.value);
+  };
 
   render() {
     return (
@@ -24,7 +30,7 @@ class Dialogue extends Component {
         <form className="modal-content">
           <div class="formContainer">
             <h2>Name</h2>
-            <input className="formInput" type="text" value={this.props.title} name="title" required />
+            <input className="formInput" type="text" value={this.state.value} name="title" onChange={this.handleTitleChange} />
             <div className="save-button-container" style = {{justifyContent: "flex-end", marginTop: "24px", marginRight: "-12px"}}>
             <button type="button" className="greyButton" onClick={this.props.closeFunction}>Cancel</button>
             <button type="submit" className="goodButton" onClick={this.props.saveFunction}>Save</button>
