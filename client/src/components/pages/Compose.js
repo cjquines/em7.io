@@ -185,7 +185,7 @@ class Compose extends Component {
         ? <button type="button" className="greyButton" onClick={this.stop}>Stop</button>
         : <button type="button" className="greyButton" onClick={this.play}>Play</button>);
     }
-    let harmonizeButton = (<button type="button" className="greyButton">Harmonize</button>);
+    let harmonizeButton = (<button type="button" className="greyButton">Save and harmonize</button>);
     if (this.state.song._id !== undefined) {
       harmonizeButton = (<Link to={`/harmonize/${this.state.song._id}`}><button type="button" className="goodButton" onClick={this.saveSong}>Harmonize</button></Link>);
     }

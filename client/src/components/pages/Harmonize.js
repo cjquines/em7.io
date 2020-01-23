@@ -225,7 +225,6 @@ class Harmonize extends Component {
         <div className="big-noteblock-container">
           <NoteBlock
             song={this.state.song}
-            onChange={(song) => this.setState({song: song})}
           />
         </div>
       </div>

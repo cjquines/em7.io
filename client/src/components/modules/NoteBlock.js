@@ -18,7 +18,6 @@ import "./NoteBlock.css";
 class NoteBlock extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       heightUnit: 12,
       widthUnit: 5,
@@ -26,6 +25,7 @@ class NoteBlock extends Component {
   }
   
   componentDidMount() {
+    if (!this.props.onChange) return;
     const offsetTop = document.getElementById("NoteBlock-container").offsetTop;
     const offsetLeft = document.getElementById("NoteBlock-container").offsetLeft;
     const xSnapUnit = this.props.snapInterval / this.state.widthUnit;
@@ -112,17 +112,21 @@ class NoteBlock extends Component {
             left: (note.onset / this.state.widthUnit) + "px",
           }}/>
         ))}
-        {Array.from(Array(this.props.song.duration).keys()).filter((x) => (x% this.props.song.signature[0]===0)).map((x) => (
+        {Array.from(Array(this.props.song.duration).keys()).filter((x) => (x% this.props.song.signature[0]===0)).map((x, index) => (
           <div
+            key={index}
             style={{
             left: x * 60000 / this.props.song.tempo / this.state.widthUnit + "px"}}
-            className = "big-tempo-bar"/>
+            className = "big-tempo-bar"
+          />
         ))}
-        {Array.from(Array(this.props.song.duration).keys()).filter((x) => (x% this.props.song.signature[0] !==0)).map((x) => (
+        {Array.from(Array(this.props.song.duration).keys()).filter((x) => (x% this.props.song.signature[0] !==0)).map((x, index) => (
           <div
+            key={index}
             style={{
             left: x * 60000 / this.props.song.tempo / this.state.widthUnit + "px"}}
-            className = "small-tempo-bar"/>
+            className = "small-tempo-bar"
+          />
         ))}
       </div>
     );
