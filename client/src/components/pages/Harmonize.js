@@ -40,18 +40,24 @@ class Harmonize extends Component {
   componentDidMount() {
     get("/api/song", { _id: this.props.songId }).then((song) => {
       song.content.notes.sort();
-      this.setState({
-        harmony: {...song.content, notes: []},
-        song: song.content,
-      }, () => {
-        this.changeChordMaps();
-        for (const note of this.chordChoices[0]) {
-          this.harmonizeHelper([[note, 0]]);
-        }
-        this.harmonizeAlgorithm(this.state.harmonyOption);
-      });
+      //TODO: try/catch for melodies with no harmony (but for some reason this doesnt work idk)
+      try{
+        this.setState({
+          harmony: {...song.content, notes: []},
+          song: song.content,
+        }, () => {
+          this.changeChordMaps();
+          for (const note of this.chordChoices[0]) {
+            this.harmonizeHelper([[note, 0]]);
+          }
+          this.harmonizeAlgorithm(this.state.harmonyOption);
+        });
+      }
+      catch(err) {
+        console.log("oops");
+      }
     });
-    Soundfont.instrument(this.audioContext, 'acoustic_grand_piano')
+    Soundfont.instrument(this.audioContext, 'acoustic_grand_piano', {gain : 1})
     .then((piano) => {
       this.piano = piano;
     });
@@ -88,10 +94,9 @@ class Harmonize extends Component {
   };
 
   harmonizeAlgorithm = (harmonyOption) => {
-    //creates chord for each note in harmonyChords, want to create chords for only notes on important beat
-    //TODO: create new array importantNotes
     //TODO: base chordChoices on notes timing and not note ID to account for editing
     //TODO: also add more chords progressions and stuff
+    //account for major/minor changes in the secondary harmony chords (only major is accounted for for now)
     console.log(this.harmonyChords[harmonyOption-1]);
     let harmony = [];
     for (let i = 0; i < this.state.song.notes.length; i++) {
@@ -109,13 +114,15 @@ class Harmonize extends Component {
     const chordProgression = {}; 
     const keyToChord = {};
     const chordToPitch = {};
-    chordProgression["I"] = ["I", "ii", "iii", "IV", "V", "vi", "vii"];
-    chordProgression["ii"] = ["ii", "V", "vii"];
+    chordProgression["I"] = ["I", "ii", "iii", "IV", "V", "vi", "vii", "V/V", "V/ii"];
+    chordProgression["ii"] = ["ii", "V", "vii", "V/V", "V/ii"];
+    chordProgression["IV"] = ["I", "ii", "IV", "V", "vii", "V/V", "V/ii"];
+    chordProgression["V"] = ["I", "V", "vi", "V/V", "V/ii"];
+    chordProgression["V/V"] = ["V", "V/V"];
+    chordProgression["V/ii"] = ["ii", "V/ii"];
+    chordProgression["vi"] = ["ii", "IV", "vi", "V/V", "V/ii"];
+    chordProgression["vii"] = ["I","vii", "V/V", "V/ii"];
     chordProgression["iii"] = ["iii", "vi"];
-    chordProgression["IV"] = ["I", "ii", "IV", "V", "vii"];
-    chordProgression["V"] = ["I", "V", "vi"];
-    chordProgression["vi"] = ["ii", "IV", "vi"];
-    chordProgression["vii"] = ["I","vii"];
     const tonic = this.state.pitchMap[this.state.pitch.indexOf(this.state.song.key[0])];
     const supertonic = tonic + 2;
     const mediant = tonic + 5-this.state.song.key.length;
@@ -125,19 +132,23 @@ class Harmonize extends Component {
     // const subtonic = tonic + 12-this.state.song.key.length; natural minor
     const subtonic = tonic + 11;
     keyToChord[tonic % 12] = ["I",  "IV", "vi"];
-    keyToChord[supertonic % 12] = ["ii",  "V",  "vii"];
-    keyToChord[mediant % 12] = ["I", "iii", "vi"];
+    keyToChord[(tonic+1) % 12] = ["V/ii"];
+    keyToChord[supertonic % 12] = ["ii",  "V",  "vii", "V/V"];
+    keyToChord[mediant % 12] = ["I", "iii", "vi", "V/ii"];
     keyToChord[subdominant % 12] = ["ii",  "IV",  "vii"];
+    keyToChord[(subdominant+1) % 12] = ["V/V"]
     keyToChord[dominant % 12] = ["I", "iii", "V"];
-    keyToChord[submediant % 12] = ["ii",  "IV", "vi" ];
-    keyToChord[subtonic % 12] = ["iii", "V",  "vii" ];
+    keyToChord[submediant % 12] = ["ii",  "IV", "vi", "V/V", "V/ii" ];
+    keyToChord[subtonic % 12] = [ "V",  "vii", "iii" ];
     chordToPitch["I"] = [tonic-12, mediant-12, dominant-12];
     chordToPitch["ii"] = [supertonic-12, subdominant-12, submediant-12];
-    chordToPitch["iii"] = [mediant-12, dominant-12, subtonic-12];
     chordToPitch["IV"] = [subdominant-12, submediant-12, tonic-12];
     chordToPitch["V"] = [dominant-24, subtonic-24, supertonic-12];
-    chordToPitch["vi"] = [submediant-24, tonic-24, mediant-12];
+    chordToPitch["vi"] = [submediant-24, tonic-12, mediant-12];
     chordToPitch["vii"] = [subtonic-24, supertonic-12, subdominant-12];
+    chordToPitch["V/V"] = [supertonic-12, subdominant-11, submediant-12];
+    chordToPitch["V/ii"] = [submediant-24, tonic-11, mediant-12];
+    chordToPitch["iii"] = [mediant-12, dominant-12, subtonic-12];
     this.chordToPitch = chordToPitch;
     this.keyToChord = keyToChord;
     this.chordProgression = chordProgression;
@@ -216,6 +227,12 @@ class Harmonize extends Component {
           onChange={(harmonyOption) => {this.setState({harmonyOption : harmonyOption}), 
           this.harmonizeAlgorithm(harmonyOption)}}
         />
+      </div>
+      <div>
+      {this.state.harmony
+        ? ""
+        : "No harmony detected"
+      }
       </div>
     </div>
     );
