@@ -63,7 +63,7 @@ class Harmonize extends Component {
     .then((piano) => {
       this.piano = piano;
     });
-    Soundfont.instrument(this.audioContext, 'acoustic_grand_piano', {gain : .25})
+    Soundfont.instrument(this.audioContext, 'acoustic_grand_piano', {gain : .3})
     .then((piano) => {
       this.harmonyPiano = piano;
     });
