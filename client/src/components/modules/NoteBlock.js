@@ -26,8 +26,9 @@ class NoteBlock extends Component {
   
   componentDidMount() {
     if (!this.props.onChange) return;
-    const offsetTop = document.getElementById("NoteBlock-container").offsetTop;
-    const offsetLeft = document.getElementById("NoteBlock-container").offsetLeft;
+    const elt = document.getElementById("NoteBlock-container");
+    const offsetTop = elt.offsetTop + elt.offsetHeight;
+    const offsetLeft = elt.offsetLeft;
     const xSnapUnit = this.props.snapInterval / this.state.widthUnit;
     interact('.NoteBlock-note').draggable({
       modifiers: [
