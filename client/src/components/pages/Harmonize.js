@@ -158,9 +158,9 @@ class Harmonize extends Component {
     chordToPitch["ii"] = [supertonic, subdominant, submediant];
     chordToPitch["iii"] = [mediant, dominant, subtonic];
     chordToPitch["IV"] = [subdominant, submediant, tonic];
-    chordToPitch["V"] = [dominant, subtonic, supertonic];
-    chordToPitch["vi"] = [submediant, tonic, mediant];
-    chordToPitch["vii"] = [subtonic, supertonic, subdominant];
+    chordToPitch["V"] = [dominant-12, subtonic-12, supertonic-12];
+    chordToPitch["vi"] = [submediant-12, tonic-12, mediant-12];
+    chordToPitch["vii"] = [subtonic-12, supertonic-12, subdominant-12];
     this.chordToPitch = chordToPitch;
     this.keyToChord = keyToChord;
     this.chordProgression = chordProgression;
