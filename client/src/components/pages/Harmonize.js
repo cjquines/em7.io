@@ -29,7 +29,6 @@ class Harmonize extends Component {
       chordArray: {},
       harmony: undefined,
       saving: false,
-      harmonyOption: 1,
       isPlayingBack: false,
       song: undefined,
       loggedIn : false,
@@ -85,20 +84,55 @@ class Harmonize extends Component {
     });
   };
 
+  harmonizePossibilities = (i) => {
+    if (!this.chordChoices) return;
+    let result = [];
+    console.log(this.chordChoices);
+    console.log(i);
+    if (i === 0) {
+      const w = this.harmonyChords[i+1];
+      for (const u of this.chordChoices[i]) {
+        if (this.chordProgression[u].includes(w)) {
+          result.push(u);
+        }
+      }
+    } else if (i === this.harmonyChords.length - 1) {
+      const v = this.harmonyChords[i-1];
+      for (const u of this.chordChoices[i]) {
+        if (this.chordProgression[v].includes(u)) {
+          result.push(u);
+        }
+      }
+    } else {
+      const v = this.harmonyChords[i-1];
+      const w = this.harmonyChords[i+1];
+      for (const u of this.chordChoices[i]) {
+        if (this.chordProgression[v].includes(u) && this.chordProgression[u].includes(w)) {
+          result.push(u);
+        }
+      }
+    }
+    console.log(result);
+    return result;
+  };
+
   harmonizeHelper = (curPath) => {
-    let a = curPath[curPath.length - 1];
-    let v = a[0];
-    let i = a[1];
+    const a = curPath[curPath.length - 1];
+    const v = a[0];
+    const i = a[1];
     if (i === this.chordChoices.length - 1) {
       const revHarmonyChords = curPath.map((tup) => tup[0]);
-      this.harmonyChords.push(revHarmonyChords);
-      return;
+      this.harmonyChords = revHarmonyChords;
+      return true;
     }
     for (const u of this.chordChoices[i+1]) {
       if (this.chordProgression[v].includes(u)) {
-        this.harmonizeHelper(curPath.concat([[u, i+1]]));
+        if (this.harmonizeHelper(curPath.concat([[u, i+1]]))) {
+          return true;
+        }
       }
     }
+    return false;
   };
 
   harmonizeAlgorithm = (harmonyOption) => {
@@ -107,21 +141,20 @@ class Harmonize extends Component {
     //account for major/minor changes in the secondary harmony chords (only major is accounted for for now)
     //black key tonics dont work because string issues oops, will fix
     //mess around with the order of the arrays to give preference to some harmonies
-
     //choose paths that dont use V/V V/ii, etc. (create on harmonize algorithm that doesn't have 
     //secondary harmony chords, prioritize that over the one that does)
-    console.log(this.harmonyChords[harmonyOption-1]);
+    console.log(this.harmonyChords);
     let harmony = [];
     for (let i = 0; i < this.state.song.notes.length; i++) {
       const note = this.state.song.notes[i];
-      const chord = this.chordToPitch[this.harmonyChords[harmonyOption-1][i]];
+      const chord = this.chordToPitch[this.harmonyChords[i]];
       for (let j = 0; j < chord.length; j++) {
         const newNote = new Note(4*i + j, chord[j], note.onset, note.length);
         harmony.push(newNote);
       }
     }
     this.setState({harmony: {...this.state.harmony, notes: harmony}});
-    };
+  };
 
   changeChordMaps = () => {
     const chordProgression = {}; 
@@ -203,11 +236,11 @@ class Harmonize extends Component {
 
   render() {
     if (this.state.song && this.state.harmony){
-      console.log(this.state.song)
-      console.log(this.state.harmony)
+      console.log(this.state.song);
+      console.log(this.state.harmony);
     }
       
-    if (!this.state.song) {
+    if (!this.state.song || !this.state.harmony) {
       return <div>Loading...</div>;
     }
     return (
@@ -228,6 +261,9 @@ class Harmonize extends Component {
           <NoteBlock
             harmony={this.state.harmony}
             song={this.state.song}
+            harmonyChords={this.harmonyChords}
+            onHarmonyChange={(index, value) => {this.harmonyChords[index] = value; this.harmonizeAlgorithm();}}
+            possibilities={this.harmonizePossibilities}
           />
         </div>
       </div>
