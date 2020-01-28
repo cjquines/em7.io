@@ -28,8 +28,8 @@ class Harmonize extends Component {
       keyToChord: {},
       chordArray: {},
       harmony: undefined,
+      isProcessed: false,
       saving: false,
-      harmonyOption: 1,
       isPlayingBack: false,
       song: undefined,
       loggedIn : false,
@@ -49,21 +49,25 @@ class Harmonize extends Component {
     get("/api/song", { _id: this.props.songId }).then((song) => {
       song.content.notes.sort();
       //TODO: try/catch for melodies with no harmony (but for some reason this doesnt work idk)
-      try{
-        this.setState({
-          harmony: {...song.content, notes: []},
-          song: song.content,
-        }, () => {
-          this.changeChordMaps();
-          for (const note of this.chordChoices[0]) {
-            this.harmonizeHelper([[note, 0]]);
+      this.setState({
+        harmony: {...song.content, notes: []},
+        song: song.content,
+      }, () => {
+        let success = false;
+        this.changeChordMaps();
+        for (const note of this.chordChoices[0]) {
+          if (this.harmonizeHelper([[note, 0]])) {
+            success = true;
+            break;
           }
+        }
+        if (!success) {
+          console.log("no harmonies found!");
+        } else {
           this.harmonizeAlgorithm(this.state.harmonyOption);
-        });
-      }
-      catch(err) {
-        console.log("oops");
-      }
+        }
+        this.setState({isProcessed: true});
+      });
     });
     Soundfont.instrument(this.audioContext, 'acoustic_grand_piano', {gain : 1})
     .then((piano) => {
@@ -86,20 +90,55 @@ class Harmonize extends Component {
     });
   };
 
+  harmonizePossibilities = (i) => {
+    if (!this.chordChoices) return;
+    let result = [];
+    console.log(this.chordChoices);
+    console.log(i);
+    if (i === 0) {
+      const w = this.harmonyChords[i+1];
+      for (const u of this.chordChoices[i]) {
+        if (this.chordProgression[u].includes(w)) {
+          result.push(u);
+        }
+      }
+    } else if (i === this.harmonyChords.length - 1) {
+      const v = this.harmonyChords[i-1];
+      for (const u of this.chordChoices[i]) {
+        if (this.chordProgression[v].includes(u)) {
+          result.push(u);
+        }
+      }
+    } else {
+      const v = this.harmonyChords[i-1];
+      const w = this.harmonyChords[i+1];
+      for (const u of this.chordChoices[i]) {
+        if (this.chordProgression[v].includes(u) && this.chordProgression[u].includes(w)) {
+          result.push(u);
+        }
+      }
+    }
+    console.log(result);
+    return result;
+  };
+
   harmonizeHelper = (curPath) => {
-    let a = curPath[curPath.length - 1];
-    let v = a[0];
-    let i = a[1];
+    const a = curPath[curPath.length - 1];
+    const v = a[0];
+    const i = a[1];
     if (i === this.chordChoices.length - 1) {
       const revHarmonyChords = curPath.map((tup) => tup[0]);
-      this.harmonyChords.push(revHarmonyChords);
-      return;
+      this.harmonyChords = revHarmonyChords;
+      return true;
     }
     for (const u of this.chordChoices[i+1]) {
       if (this.chordProgression[v].includes(u)) {
-        this.harmonizeHelper(curPath.concat([[u, i+1]]));
+        if (this.harmonizeHelper(curPath.concat([[u, i+1]]))) {
+          return true;
+        }
       }
     }
+    return false;
   };
 
   harmonizeAlgorithm = (harmonyOption) => {
@@ -108,21 +147,20 @@ class Harmonize extends Component {
     //account for major/minor changes in the secondary harmony chords (only major is accounted for for now)
     //black key tonics dont work because string issues oops, will fix
     //mess around with the order of the arrays to give preference to some harmonies
-
     //choose paths that dont use V/V V/ii, etc. (create on harmonize algorithm that doesn't have 
     //secondary harmony chords, prioritize that over the one that does)
-    console.log(this.harmonyChords[harmonyOption-1]);
+    console.log(this.harmonyChords);
     let harmony = [];
     for (let i = 0; i < this.state.song.notes.length; i++) {
       const note = this.state.song.notes[i];
-      const chord = this.chordToPitch[this.harmonyChords[harmonyOption-1][i]];
+      const chord = this.chordToPitch[this.harmonyChords[i]];
       for (let j = 0; j < chord.length; j++) {
         const newNote = new Note(4*i + j, chord[j], note.onset, note.length);
         harmony.push(newNote);
       }
     }
     this.setState({harmony: {...this.state.harmony, notes: harmony}});
-    };
+  };
 
   changeChordMaps = () => {
     const chordProgression = {}; 
@@ -206,14 +244,13 @@ class Harmonize extends Component {
     alert("Log in first and refresh the page!");
   }
   render() {
-    console.log(this.props.userId);
-    if (this.state.song && this.state.harmony){
-      console.log(this.state.song)
-      console.log(this.state.harmony)
-    }
-      
-    if (!this.state.song) {
+    if (!this.state.isProcessed) {
       return <div>Loading...</div>;
+    }
+    if (!this.state.harmony) {
+      return <div>
+      No harmonies found! Your song is still saved, but we couldn't automatically find a harmony for you. Try clicking the Back button on your browser and changing the key of the song.
+      </div>;
     }
     return (
     <div className="Harmonize-container u-flexColumn">
@@ -233,6 +270,9 @@ class Harmonize extends Component {
           <NoteBlock
             harmony={this.state.harmony}
             song={this.state.song}
+            harmonyChords={this.harmonyChords}
+            onHarmonyChange={(index, value) => {this.harmonyChords[index] = value; this.harmonizeAlgorithm();}}
+            possibilities={this.harmonizePossibilities}
           />
         </div>
       </div>
@@ -252,12 +292,6 @@ class Harmonize extends Component {
           onChange={(harmonyOption) => {this.setState({harmonyOption : harmonyOption}), 
           this.harmonizeAlgorithm(harmonyOption)}}
         /> */}
-      </div>
-      <div>
-      {this.state.harmony
-        ? ""
-        : "No harmony detected"
-      }
       </div>
     </div>
     );
