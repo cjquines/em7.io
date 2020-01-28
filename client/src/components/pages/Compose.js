@@ -19,6 +19,7 @@ import Piano from "../../public/piano.jpg";
 import { get, post } from "../../utilities.js";
 
 
+
 /**
  * Compose is the page where we compose stuff.
  */
@@ -51,7 +52,7 @@ class Compose extends Component {
       get("/api/song", { _id: this.props.songId }).then((song) => {
         this.setState({
           originalSong: song.content,
-          song: song.content,
+          song: {...song.content, _id: undefined }
         });
       });
     }
@@ -110,11 +111,19 @@ class Compose extends Component {
       if (user._id) {
         body = { ...body, creator_id: user._id };
       }
+      if (this.state.song._id) {
+        body = { ...body, song_id: this.state.song._id };
+      }
       post("/api/song", body).then((response) => {
-        console.log(response);
-        this.setState({ song: {...this.state.song, _id: response._id } });
+          console.log(response);
+          if (response._id) {
+            this.setState({ song: {...this.state.song, _id: response._id } });
+          }
       });
     });
+    console.log(this.state.song._id)
+    console.log("saving from compose page")
+    get("/api/song", { _id: this.props.songId }).then((song) => console.log("funny song", song)).catch((err) => {console.log("err")});
   };
 
   auxMetronome = () => {
