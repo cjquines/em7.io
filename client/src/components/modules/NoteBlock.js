@@ -72,7 +72,7 @@ class NoteBlock extends Component {
     for (const note of this.props.song.notes) {
       if (note.id == targetId) {
         const newOnset = note.onset + event.dx*this.state.widthUnit;
-        const newPitch = note.pitch - event.dy/this.state.heightUnit;
+        const newPitch = Math.round(note.pitch - event.dy/this.state.heightUnit);
         newNotes.push(new Note(targetId, newPitch, newOnset, note.length));
       } else {
         newNotes.push(note);

@@ -45,12 +45,20 @@ router.post("/user", (req, res) => {
 });
 
 router.post("/song", (req, res) => {
-  const newSong = new Song({
-    creator_id: req.body.creator_id,
-    content: req.body.content,
-    name: req.body.name,
-  });
-  newSong.save().then((response) => res.send(response));
+  console.log(req.body)
+  if (req.body.song_id) {
+    console.log("in if")
+    Song.updateOne({_id: req.body.song_id}, {content: req.body.content}).then((response) => res.send(response)).catch((err) => {console.log("ahh save")});
+  } else {
+    console.log("in else")
+    const newSong = new Song({
+      creator_id: req.body.creator_id,
+      content: req.body.content,
+      name: req.body.name,
+    });
+    newSong.save().then((response) => res.send(response)).catch((err)=> {console.log("holy last log")});
+  }
+  
 });
 
 
