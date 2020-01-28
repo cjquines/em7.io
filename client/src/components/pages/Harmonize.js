@@ -203,13 +203,13 @@ class Harmonize extends Component {
     if (!this.state.song) {
       return <div>Loading...</div>;
     }
-    let loggedIn = false;
+    this.loggedIn = false;
     get("/api/whoami").then((user) => {
-      if (user) {
-        loggedIn = true;
+      if (user._id) {
+        this.loggedIn = true;
       }
+      console.log(this.loggedIn);
     });
-
     return (
     <div className="Harmonize-container u-flexColumn">
       <Dialogue id = "saveDialogue"
@@ -236,7 +236,7 @@ class Harmonize extends Component {
           ? <button type="button" className="greyButton" onClick={this.stop}>Stop</button>
           : <button type="button" className="greyButton" onClick={this.play}>Play</button>
         }
-        {loggedIn
+        {this.loggedIn
           ? <button type="button" className="greyButton" onClick={alert("Log in first!")}>Save</button>
           : <button type="button" className="goodButton" onClick={this.openSaveDialogue}>Save</button>
         }
