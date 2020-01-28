@@ -32,12 +32,19 @@ class Harmonize extends Component {
       harmonyOption: 1,
       isPlayingBack: false,
       song: undefined,
+      loggedIn : false,
     };
     this.audioContext = new AudioContext();
     this.harmonyChords = [];
   }
 
   componentDidMount() {
+    get("/api/whoami").then((user) => {
+      if (user._id) {
+        this.state.loggedIn = true;
+      }
+      console.log(this.state.loggedIn);
+    });
     get("/api/song", { _id: this.props.songId }).then((song) => {
       song.content.notes.sort();
       //TODO: try/catch for melodies with no harmony (but for some reason this doesnt work idk)
@@ -203,13 +210,6 @@ class Harmonize extends Component {
     if (!this.state.song) {
       return <div>Loading...</div>;
     }
-    this.loggedIn = false;
-    get("/api/whoami").then((user) => {
-      if (user._id) {
-        this.loggedIn = true;
-      }
-      console.log(this.loggedIn);
-    });
     return (
     <div className="Harmonize-container u-flexColumn">
       <Dialogue id = "saveDialogue"
@@ -236,9 +236,9 @@ class Harmonize extends Component {
           ? <button type="button" className="greyButton" onClick={this.stop}>Stop</button>
           : <button type="button" className="greyButton" onClick={this.play}>Play</button>
         }
-        {this.loggedIn
-          ? <button type="button" className="greyButton" onClick={alert("Log in first!")}>Save</button>
-          : <button type="button" className="goodButton" onClick={this.openSaveDialogue}>Save</button>
+        {this.state.loggedIn
+          ? <button type="button" className="goodButton" onClick={this.openSaveDialogue}>Save</button>
+          : <button type="button" className="goodButton" onClick={alert("Log in first!")} >Save</button>
         }
         <HarmonyInput
           harmonyOption={this.state.harmonyOption}
