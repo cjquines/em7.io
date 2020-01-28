@@ -10,7 +10,7 @@ import "../../utilities.css"
  * @param {[string]} keys: keyboard keys
  * @param {[integer]} notes: nani nani notes
  */
-class PianoKey extends Component {
+class Piano extends Component {
   constructor(props) {
     super(props);
     this.left = [0, 20/3, 10, 50/3, 20, 30, 110/3, 40, 140/3, 50, 170/3, 60, 70, 230/3, 80, 260/3, 90];
@@ -20,24 +20,23 @@ class PianoKey extends Component {
   componentDidMount() { }
 
   render() {
+    console.log(this.props.keys);
     return (
       <div className="Piano">
         {
-          this.props.keys.map((key, index) => {
+          this.props.keys.map((key, index) => (
             <PianoKey
               key={key}
               key_={key}
               note={this.props.notes[index]}
               isWhite={this.isWhite[index]}
-              style={{
-                left: this.left[index] + "%"
-              }}
+              left={this.left[index]}
             />
-          })
+          ))
         }
       </div>
     )
   }
 }
 
-export default PianoKey;
+export default Piano;

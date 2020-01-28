@@ -13,7 +13,7 @@ import TempoInput from "../modules/TempoInput.js";
 
 import "../../utilities.css";
 import "./Compose.css"
-import Piano from "../../public/piano.jpg";
+import Piano from "../modules/Piano.js";
 import { get, post } from "../../utilities.js";
 
 
