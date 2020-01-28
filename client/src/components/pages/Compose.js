@@ -62,18 +62,35 @@ class Compose extends Component {
     Soundfont.instrument(this.audioContext, 'acoustic_grand_piano')
     .then((piano) => {
       this.piano = piano;
-      for (let i = 0; i < this.state.keys.length; i++) {
-        const key = this.state.keys[i];
-        const pitch = this.state.pitchMap[i];
-        keyboardjs.bind(key, (e) => {
-          e.preventRepeat();
-          this.pressKey(key, pitch);
-        }, (e) => {
-          this.releaseKey(key, pitch);
-        });
-      }
-      keyboardjs.pause();
+      this.updateKeyBindings();
     });
+    keyboardjs.bind("[", (e) => {
+      e.preventRepeat();
+      this.setState({pitchMap : this.state.pitchMap.map((note) => {note - 12})}, () => {
+        this.updateKeyBindings();
+      });
+    });
+    keyboardjs.bind("]", (e) => {
+      e.preventRepeat();
+      this.setState({pitchMap : this.state.pitchMap.map((note) => {note + 12})}, () => {
+        this.updateKeyBindings();
+      });
+    });
+  };
+
+  updateKeyBindings = () => {
+    keyboardjs.reset();
+    for (let i = 0; i < this.state.keys.length; i++) {
+      const key = this.state.keys[i];
+      const pitch = this.state.pitchMap[i];
+      keyboardjs.bind(key, (e) => {
+        e.preventRepeat();
+        this.pressKey(key, pitch);
+      }, (e) => {
+        this.releaseKey(key, pitch);
+      });
+    }
+    keyboardjs.pause();
   };
 
   handleTitleChange = (event) => {
