@@ -23,7 +23,7 @@ class PianoKey extends Component {
       <div
         className={"PianoKey "
                 + (this.props.isWhite ? "PianoKey-white" : "PianoKey-black")
-                + this.props.isPressed && " PianoKey-pressed"}
+                + (this.props.isPressed ? " PianoKey-pressed" : "")}
         style={{left: this.props.left + "%"}}
       >
         <span className="PianoKey-note">{this.props.note}</span>

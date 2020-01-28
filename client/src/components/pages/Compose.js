@@ -153,13 +153,13 @@ class Compose extends Component {
   };
 
   pressKey = (key, pitch) => {
-    this.setState({pressed: ...this.state.pressed, [key]: true});
+    this.setState({pressed: {...this.state.pressed, [key]: true}});
     this.piano.play(pitch);
     this.curKey[key] = Date.now();
   };
 
   releaseKey = (key, pitch) => {
-    this.setState({pressed: ...this.state.pressed, [key]: false});
+    this.setState({pressed: {...this.state.pressed, [key]: false}});
     this.piano.play(pitch).stop();
     const id = this.state.song.notes.length;
     const onset = this.curKey[key] - this.state.start;
@@ -263,7 +263,7 @@ class Compose extends Component {
 
       <div className="piano-row">
         <div className="Record-button">{recordButton}</div>
-        <Piano keys={this.state.keys} notes={this.state.pitchMap}/>
+        <Piano keys={this.state.keys} notes={this.state.pitchMap} pressed={this.state.pressed}/>
       </div>
 
       <div className="playback-row">
