@@ -74,7 +74,7 @@ class Listen extends Component {
           <div className="big-noteblock-container">
             <NoteBlock
               song={this.state.song}
-              harmony={this.state.song.harmony}
+              //harmony={this.state.song.harmony}
               snapInterval={this.state.snapInterval}
             />
           </div>

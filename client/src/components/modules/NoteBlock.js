@@ -126,7 +126,7 @@ class NoteBlock extends Component {
           }}
           />))
         }
-        {/* {this.props.harmony && this.props.harmony.notes.map((note, index) => (
+        {this.props.harmony && this.props.harmony.notes.map((note, index) => (
           <div
           key={note.id}
           data-id={note.id}
@@ -138,7 +138,7 @@ class NoteBlock extends Component {
             left: (note.onset / this.state.widthUnit) + "px",
           }}
           />))
-        } */}
+        } 
         {Array.from(Array(this.props.song.duration).keys()).filter((x) => (x% this.props.song.signature[0]===0)).map((x, index) => (
           <div
             key={index}
