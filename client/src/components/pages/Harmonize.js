@@ -69,13 +69,23 @@ class Harmonize extends Component {
 
   saveSong = () => {
     get("/api/whoami").then((user) => {
-      const song = {...this.state.song, harmony: this.state.harmony.notes};
-      const body = { creator_id: user._id, name: this.state.song.title, content: song };
+      this.setState({ song: {...this.state.song, harmony: this.state.harmony.notes}});
+      let body = { creator_id: "guest", name: this.state.song.title, content: this.state.song };
+      if (user._id) {
+        body = { ...body, creator_id: user._id };
+      }
+      if (this.state.song._id) {
+        body = { ...body, song_id: this.state.song._id };
+      }
       post("/api/song", body).then((response) => {
-        console.log(response);
-        this.setState({ song: {...this.state.song, _id: response._id } });
+          console.log(response);
+          if (response._id) {
+            this.setState({ song: {...this.state.song, _id: response._id } });
+          }
       });
     });
+    console.log(this.state.song)
+    console.log("saving from harmonizing page")
   };
 
   harmonizeHelper = (curPath) => {
