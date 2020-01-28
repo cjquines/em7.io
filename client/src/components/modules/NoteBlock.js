@@ -126,7 +126,7 @@ class NoteBlock extends Component {
           }}
           />))
         }
-        {this.props.harmony && this.props.harmony.map((note, index) => (
+        {this.props.harmony && this.props.harmony.notes.map((note, index) => (
           <div
           key={note.id}
           data-id={note.id}
