@@ -78,7 +78,7 @@ class Harmonize extends Component {
   };
 
   harmonizePossibilities = (i) => {
-    if (!this.harmonyChords) return;
+    if (!this.chordChoices) return;
     let result = [];
     console.log(this.chordChoices);
     console.log(i);

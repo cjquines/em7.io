@@ -108,9 +108,12 @@ class NoteBlock extends Component {
     let options = {};
     if (this.props.harmony) {
       for (let i = 0; i < this.props.song.notes.length; i++) {
-        options.i = this.props.possibilities(i).map((note, index) => (
-          <option key={index} value={note}>{note}</option>
-        ));
+        const possibilities = this.props.possibilities(i);
+        if (possibilities) {
+          options[i] = possibilities.map((note, index) => (
+            <option key={index} value={note}>{note}</option>
+          ));
+        }
       }
     }
     return (
@@ -162,7 +165,7 @@ class NoteBlock extends Component {
             left: (note.onset / this.state.widthUnit) + "px",
           }}
           >
-          {options.i}
+          {options[index]}
           </select>
           ))
         }
