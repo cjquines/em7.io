@@ -54,8 +54,6 @@ class Compose extends Component {
           song: song.content,
         });
       });
-    } else {
-      this.setState({isLoaded : true});
     }
     Soundfont.instrument(this.audioContext, 'woodblock')
     .then((metronome) => this.metronome = metronome);
@@ -63,6 +61,7 @@ class Compose extends Component {
     .then((piano) => {
       this.piano = piano;
       this.updateKeyBindings();
+      this.setState({isLoaded: true});
     });
   };
 
