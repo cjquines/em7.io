@@ -28,6 +28,7 @@ class Harmonize extends Component {
       keyToChord: {},
       chordArray: {},
       harmony: undefined,
+      isProcessed: false,
       saving: false,
       isPlayingBack: false,
       song: undefined,
@@ -47,21 +48,25 @@ class Harmonize extends Component {
     get("/api/song", { _id: this.props.songId }).then((song) => {
       song.content.notes.sort();
       //TODO: try/catch for melodies with no harmony (but for some reason this doesnt work idk)
-      try{
-        this.setState({
-          harmony: {...song.content, notes: []},
-          song: song.content,
-        }, () => {
-          this.changeChordMaps();
-          for (const note of this.chordChoices[0]) {
-            this.harmonizeHelper([[note, 0]]);
+      this.setState({
+        harmony: {...song.content, notes: []},
+        song: song.content,
+      }, () => {
+        let success = false;
+        this.changeChordMaps();
+        for (const note of this.chordChoices[0]) {
+          if (this.harmonizeHelper([[note, 0]])) {
+            success = true;
+            break;
           }
+        }
+        if (!success) {
+          console.log("no harmonies found!");
+        } else {
           this.harmonizeAlgorithm(this.state.harmonyOption);
-        });
-      }
-      catch(err) {
-        console.log("oops");
-      }
+        }
+        this.setState({isProcessed: true});
+      });
     });
     Soundfont.instrument(this.audioContext, 'acoustic_grand_piano', {gain : 1})
     .then((piano) => {
@@ -235,13 +240,13 @@ class Harmonize extends Component {
   };
 
   render() {
-    if (this.state.song && this.state.harmony){
-      console.log(this.state.song);
-      console.log(this.state.harmony);
-    }
-      
-    if (!this.state.song || !this.state.harmony) {
+    if (!this.state.isProcessed) {
       return <div>Loading...</div>;
+    }
+    if (!this.state.harmony) {
+      return <div>
+      No harmonies found! Your song is still saved, but we couldn't automatically find a harmony for you. Try clicking the Back button on your browser and changing the key of the song.
+      </div>;
     }
     return (
     <div className="Harmonize-container u-flexColumn">
@@ -283,12 +288,6 @@ class Harmonize extends Component {
           onChange={(harmonyOption) => {this.setState({harmonyOption : harmonyOption}), 
           this.harmonizeAlgorithm(harmonyOption)}}
         />
-      </div>
-      <div>
-      {this.state.harmony
-        ? ""
-        : "No harmony detected"
-      }
       </div>
     </div>
     );
