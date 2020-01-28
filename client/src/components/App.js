@@ -60,6 +60,7 @@ class App extends Component {
             <Compose path="/compose" />
             <Compose path="/compose/:songId" />
             <Harmonize path="/harmonize/:songId" />
+            <Listen path="/listen" />
             <Listen path="/listen/:songId" />
             <Profile path="/profile/:userId" />
             <NotFound default />

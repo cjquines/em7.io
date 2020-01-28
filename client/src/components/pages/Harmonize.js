@@ -100,6 +100,9 @@ class Harmonize extends Component {
     //account for major/minor changes in the secondary harmony chords (only major is accounted for for now)
     //black key tonics dont work because string issues oops, will fix
     //mess around with the order of the arrays to give preference to some harmonies
+
+    //choose paths that dont use V/V V/ii, etc. (create on harmonize algorithm that doesn't have 
+    //secondary harmony chords, prioritize that over the one that does)
     console.log(this.harmonyChords[harmonyOption-1]);
     let harmony = [];
     for (let i = 0; i < this.state.song.notes.length; i++) {
@@ -135,24 +138,24 @@ class Harmonize extends Component {
     const subdominant = tonic +5;
     const dominant = tonic + 7;
     const submediant = tonic + 10-this.state.song.key.length;
-    // const subtonic = tonic + 12-this.state.song.key.length; natural minor
-    const subtonic = tonic + 11;
+     const subtonic = tonic + 12-this.state.song.key.length;
+    //const subtonic = tonic + 11;
     keyToChord[tonic % 12] = ["I",  "IV", "vi"];
     keyToChord[(tonic+1) % 12] = ["V/ii"];
     keyToChord[supertonic % 12] = ["ii",  "V",  "vii", "V/V"];
     keyToChord[(supertonic+1) % 12] = ["V/iii"]
-    keyToChord[mediant % 12] = ["I", "iii", "vi", "V/ii"];
+    keyToChord[mediant % 12] = ["I", "iii", "vi"];
     keyToChord[subdominant % 12] = [ "IV", "ii",  "vii"];
     keyToChord[(subdominant+1) % 12] = ["V/V"]
     keyToChord[dominant % 12] = ["I", "iii", "V"];
     keyToChord[(dominant+1) % 12] = ["V/vi"];
-    keyToChord[submediant % 12] = ["ii", "IV", "vi", "V/V", "V/ii"];
+    keyToChord[submediant % 12] = ["ii", "IV", "vi", "V/V"];
     keyToChord[(subtonic-1) % 12] = ["V7/IV"];
     keyToChord[subtonic % 12] = [ "V",  "vii", "iii" ];
     chordToPitch["I"] = [tonic-12, mediant-12, dominant-12];
     chordToPitch["ii"] = [supertonic-12, subdominant-12, submediant-12];
     chordToPitch["IV"] = [subdominant-12, submediant-12, tonic-12];
-    chordToPitch["V"] = [dominant-24, subtonic-24, supertonic-12];
+    chordToPitch["V"] = [dominant-12, subtonic-24, supertonic-12];
     chordToPitch["vi"] = [submediant-24, tonic-12, mediant-12];
     chordToPitch["vii"] = [subtonic-24, supertonic-12, subdominant-12];
     chordToPitch["V/V"] = [supertonic-12, subdominant-11, submediant-12];
