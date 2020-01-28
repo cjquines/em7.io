@@ -3,8 +3,6 @@ import { Link } from "@reach/router";
 const keyboardjs = require("keyboardjs");
 const Soundfont = require("soundfont-player");
 
-import Harmonize from "./Harmonize.js"; // TODO: REMOVE LATER
-
 import KeyInput from "../modules/KeyInput.js";
 import Note from "../common/Note.js";
 import NoteBlock from "../modules/NoteBlock.js";
@@ -27,8 +25,8 @@ class Compose extends Component {
     super(props);
     this.state = {
       start: Date.now(),
-      keys: ["a", "w", "s", "e", "d", "f", "t", "g", "y", "h", "u", "j", "k", "o", "l", "p", ";", "'"],
-      pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77], // TODO: factor these out
+      keys: ["a", "w", "s", "e", "d", "f", "t", "g", "y", "h", "u", "j", "k", "o", "l", "p", ";"],
+      pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76],
       originalSong: new Song("C", [4,4], 120),
       song: new Song("C", [4, 4], 120),
       isLoaded: false,
@@ -250,7 +248,7 @@ class Compose extends Component {
 
       <div className="piano-row">
         <div className="Record-button">{recordButton}</div>
-        <img src={Piano} className="piano-img"/>
+        <Piano keys={this.state.keys} notes={this.state.pitchMap}/>
       </div>
 
       <div className="playback-row">
