@@ -260,7 +260,7 @@ class Harmonize extends Component {
             harmony={this.state.harmony}
             song={this.state.song}
             harmonyChords={this.harmonyChords}
-            onHarmonyChange={(index, value) => {this.harmonyChords[index] = value;}}
+            onHarmonyChange={(index, value) => {this.harmonyChords[index] = value; this.harmonizeAlgorithm();}}
             possibilities={this.harmonizePossibilities}
           />
         </div>
