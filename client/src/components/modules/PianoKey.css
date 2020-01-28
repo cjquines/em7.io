@@ -18,6 +18,14 @@
   z-index: 4;
 }
 
+.PianoKey-white.PianoKey-pressed {
+  background-color: #000;
+}
+
+.PianoKey-black.PianoKey-pressed {
+  background-color: #fff;
+}
+
 .PianoKey-note {
   bottom: 2em;
   position: absolute;

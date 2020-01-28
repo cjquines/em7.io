@@ -7,6 +7,7 @@ import "../../utilities.css"
  * Proptypes
  * @param {string} key_: keyboard key
  * @param {string} note: nani nani note
+ * @param {boolean} isPressed: is pressed??
  * @param {boolean} isWhite: is white??
  * @param {integer} left: how left
  */
@@ -20,7 +21,9 @@ class PianoKey extends Component {
   render() {
     return (
       <div
-        className={"PianoKey " + (this.props.isWhite ? "PianoKey-white" : "PianoKey-black")}
+        className={"PianoKey "
+                + (this.props.isWhite ? "PianoKey-white" : "PianoKey-black")
+                + this.props.isPressed && " PianoKey-pressed"}
         style={{left: this.props.left + "%"}}
       >
         <span className="PianoKey-note">{this.props.note}</span>

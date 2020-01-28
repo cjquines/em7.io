@@ -9,6 +9,7 @@ import "../../utilities.css"
  * Proptypes
  * @param {[string]} keys: keyboard keys
  * @param {[integer]} notes: nani nani notes
+ * @param {[boolean]} pressed: is key pressed?
  */
 class Piano extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ class Piano extends Component {
               key_={key}
               note={this.props.notes[index]}
               isWhite={this.isWhite[index]}
+              isPressed={this.props.pressed[key]}
               left={this.left[index]}
             />
           ))

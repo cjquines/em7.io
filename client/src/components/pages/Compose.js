@@ -28,6 +28,7 @@ class Compose extends Component {
       start: Date.now(),
       keys: ["a", "w", "s", "e", "d", "f", "t", "g", "y", "h", "u", "j", "k", "o", "l", "p", ";"],
       pitchMap: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76],
+      pressed: {},
       originalSong: new Song("C", [4,4], 120),
       song: new Song("C", [4, 4], 120),
       isLoaded: false,
@@ -66,6 +67,7 @@ class Compose extends Component {
 
   updateKeyBindings = () => {
     keyboardjs.reset();
+    let newPressed = {};
     for (let i = 0; i < this.state.keys.length; i++) {
       const key = this.state.keys[i];
       const pitch = this.state.pitchMap[i];
@@ -75,7 +77,9 @@ class Compose extends Component {
       }, (e) => {
         this.releaseKey(key, pitch);
       });
+      newPressed[key] = false;
     }
+    this.setState({pressed: newPressed});
     keyboardjs.bind("[", (e) => {
       e.preventRepeat();
       if (this.state.pitchMap[0] !== 48) {
@@ -149,11 +153,13 @@ class Compose extends Component {
   };
 
   pressKey = (key, pitch) => {
+    this.setState({pressed: ...this.state.pressed, [key]: true});
     this.piano.play(pitch);
     this.curKey[key] = Date.now();
   };
 
   releaseKey = (key, pitch) => {
+    this.setState({pressed: ...this.state.pressed, [key]: false});
     this.piano.play(pitch).stop();
     const id = this.state.song.notes.length;
     const onset = this.curKey[key] - this.state.start;
