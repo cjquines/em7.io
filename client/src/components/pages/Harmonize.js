@@ -44,7 +44,6 @@ class Harmonize extends Component {
         this.state.loggedIn = true;
       }
       console.log(this.state.loggedIn);
-
     });
     get("/api/song", { _id: this.props.songId }).then((song) => {
       song.content.notes.sort();

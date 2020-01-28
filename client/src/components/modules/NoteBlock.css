@@ -16,6 +16,7 @@
   border-radius: 3px;
   box-shadow: 0 0 2px #ccc;
   box-sizing: border-box;
+  z-index: 4;
 }
 
 .NoteBlock-harmony {
@@ -27,6 +28,7 @@
   border-radius: 3px;
   box-shadow: 0 0 2px #ccc;
   box-sizing: border-box;
+  z-index: 3;
 }
 
 .big-tempo-bar {

@@ -64,18 +64,6 @@ class Compose extends Component {
       this.piano = piano;
       this.updateKeyBindings();
     });
-    keyboardjs.bind("[", (e) => {
-      e.preventRepeat();
-      this.setState({pitchMap : this.state.pitchMap.map((note) => {note - 12})}, () => {
-        this.updateKeyBindings();
-      });
-    });
-    keyboardjs.bind("]", (e) => {
-      e.preventRepeat();
-      this.setState({pitchMap : this.state.pitchMap.map((note) => {note + 12})}, () => {
-        this.updateKeyBindings();
-      });
-    });
   };
 
   updateKeyBindings = () => {
@@ -90,7 +78,27 @@ class Compose extends Component {
         this.releaseKey(key, pitch);
       });
     }
-    keyboardjs.pause();
+    keyboardjs.bind("[", (e) => {
+      e.preventRepeat();
+      if (this.state.pitchMap[0] !== 48) {
+        this.setState({pitchMap : this.state.pitchMap.map((note) => note - 12)}, () => {
+          console.log(this.state.pitchMap);
+          this.updateKeyBindings();
+        });
+      }
+    });
+    keyboardjs.bind("]", (e) => {
+      e.preventRepeat();
+      if (this.state.pitchMap[0] !== 72) {
+        this.setState({pitchMap : this.state.pitchMap.map((note) => note + 12)}, () => {
+          console.log(this.state.pitchMap);
+          this.updateKeyBindings();
+        });
+      }
+    });
+    if (!this.state.isRecording) {
+      keyboardjs.pause();
+    }
   };
 
   handleTitleChange = (event) => {
