@@ -3,7 +3,7 @@ import { Link } from "@reach/router";
 import { get } from "../../utilities";
 import NoteBlock from "../modules/NoteBlock.js";
 const Soundfont = require("soundfont-player");
-
+import UserBlock from "../modules/UserBlock.js"
 import "../../utilities.css";
 
 /**
@@ -17,6 +17,7 @@ class Listen extends Component {
       song: undefined,
       snapInterval: 125,
       isPlayingBack: false,
+      users: undefined,
     };
     this.audioContext = new AudioContext();
   }
@@ -27,6 +28,11 @@ class Listen extends Component {
       song.content.notes.sort();
       this.setState({
         song: song.content,
+      })
+    });
+    get("/api/users").then((users) => {
+      this.setState({
+        users: users,
       })
     });
     Soundfont.instrument(this.audioContext, 'acoustic_grand_piano')
@@ -65,8 +71,23 @@ class Listen extends Component {
   };
 
   render() {
-    if (this.state.song == undefined) {
+    let displayedList = null;
+    if (this.state.song == undefined && this.state.users == undefined) {
       return (<div>loading...</div>)
+    }
+    else if (this.state.song == undefined){
+      displayedList = this.state.users.map((user) =>
+      <UserBlock
+        name = {user.name}
+        id = {user._id}
+      />)
+      return (
+        <div className = "profile-container">
+        <h1 className="profile-name u-textCenter">User List</h1>
+        <div className="grid-container">{displayedList}
+        </div>
+      </div>
+      )
     }
     return (
       <>

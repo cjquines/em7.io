@@ -72,6 +72,12 @@ router.get("/user", (req, res) => {
   });
 });
 
+router.get("/users", (req, res) => {
+  User.find().then((user) => {
+    res.send(user);
+  });
+});
+
 
 router.get("/songs", (req, res) => {
   Song.find({creator_id : req.query.creator_id}).then((songs) => res.send(songs));

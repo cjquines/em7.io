@@ -55,26 +55,50 @@ class Compose extends Component {
           song: {...song.content, _id: undefined }
         });
       });
-    } else {
-      this.setState({isLoaded : true});
     }
     Soundfont.instrument(this.audioContext, 'woodblock')
     .then((metronome) => this.metronome = metronome);
     Soundfont.instrument(this.audioContext, 'acoustic_grand_piano')
     .then((piano) => {
       this.piano = piano;
-      for (let i = 0; i < this.state.keys.length; i++) {
-        const key = this.state.keys[i];
-        const pitch = this.state.pitchMap[i];
-        keyboardjs.bind(key, (e) => {
-          e.preventRepeat();
-          this.pressKey(key, pitch);
-        }, (e) => {
-          this.releaseKey(key, pitch);
+      this.updateKeyBindings();
+      this.setState({isLoaded: true});
+    });
+  };
+
+  updateKeyBindings = () => {
+    keyboardjs.reset();
+    for (let i = 0; i < this.state.keys.length; i++) {
+      const key = this.state.keys[i];
+      const pitch = this.state.pitchMap[i];
+      keyboardjs.bind(key, (e) => {
+        e.preventRepeat();
+        this.pressKey(key, pitch);
+      }, (e) => {
+        this.releaseKey(key, pitch);
+      });
+    }
+    keyboardjs.bind("[", (e) => {
+      e.preventRepeat();
+      if (this.state.pitchMap[0] !== 48) {
+        this.setState({pitchMap : this.state.pitchMap.map((note) => note - 12)}, () => {
+          console.log(this.state.pitchMap);
+          this.updateKeyBindings();
         });
       }
-      keyboardjs.pause();
     });
+    keyboardjs.bind("]", (e) => {
+      e.preventRepeat();
+      if (this.state.pitchMap[0] !== 72) {
+        this.setState({pitchMap : this.state.pitchMap.map((note) => note + 12)}, () => {
+          console.log(this.state.pitchMap);
+          this.updateKeyBindings();
+        });
+      }
+    });
+    if (!this.state.isRecording) {
+      keyboardjs.pause();
+    }
   };
 
   handleTitleChange = (event) => {
