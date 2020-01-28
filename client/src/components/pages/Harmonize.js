@@ -44,6 +44,7 @@ class Harmonize extends Component {
         this.state.loggedIn = true;
       }
       console.log(this.state.loggedIn);
+
     });
     get("/api/song", { _id: this.props.songId }).then((song) => {
       song.content.notes.sort();
@@ -201,7 +202,11 @@ class Harmonize extends Component {
     this.setState({saving: false});
   };
 
+  alert = () => {
+    alert("Log in first and refresh the page!");
+  }
   render() {
+    console.log(this.props.userId);
     if (this.state.song && this.state.harmony){
       console.log(this.state.song)
       console.log(this.state.harmony)
@@ -238,15 +243,15 @@ class Harmonize extends Component {
         }
         {this.state.loggedIn
           ? <button type="button" className="goodButton" onClick={this.openSaveDialogue}>Save</button>
-          : <button type="button" className="goodButton" onClick={alert("Log in first!")} >Save</button>
+          : <button type="button" className="goodButton" onClick={this.alert} >Save</button>
         }
-        <HarmonyInput
+        {/* <HarmonyInput
           harmonyOption={this.state.harmonyOption}
           harmonyChords = {this.harmonyChords.length}
           defaultHarmony="1"
           onChange={(harmonyOption) => {this.setState({harmonyOption : harmonyOption}), 
           this.harmonizeAlgorithm(harmonyOption)}}
-        />
+        /> */}
       </div>
       <div>
       {this.state.harmony
