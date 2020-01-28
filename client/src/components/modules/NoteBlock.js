@@ -13,7 +13,8 @@ import "./NoteBlock.css";
  * @param {Song} song: the song that we're changing the notes of
  * @param {number} snapInterval: the snap interval in ms
  * @param {(Song) => void} onChange: (function) triggered when editing notes
- * @param {Song} harmony
+ * @param {Song} harmony: harmony
+ * @param {(number) => [number]} possibilities: (function) returns possibility given index
  */
 class NoteBlock extends Component {
   constructor(props) {
@@ -77,7 +78,7 @@ class NoteBlock extends Component {
     }
     this.props.onChange({...this.props.song, notes: newNotes});
     this.render();
-  }
+  };
 
   resizeMoveListener = (event) => {
     let target = event.target;
@@ -93,13 +94,25 @@ class NoteBlock extends Component {
     }
     this.props.onChange({...this.props.song, notes: newNotes});
     this.render();
-  }
+  };
 
   getSongLength = () => {
     return Math.max(...this.props.song.notes.map((note) => (note.onset + note.length)),100)
-  }
+  };
+
+  handleHarmonyChange = (id, event) => {
+    return;
+  };
 
   render() {
+    let options = {};
+    if (this.props.harmony) {
+      for (let i = 0; i < this.props.song.notes.length; i++) {
+        options.i = this.props.possibilities(i).map((note, index) => (
+          <option key={index} value={note}>{note}</option>
+        ));
+      }
+    }
     return (
       <div className="NoteBlock-container" id="NoteBlock-container" style = {{width: this.getSongLength()/this.state.widthUnit+ 24 + "px"}}>
         {this.props.song.notes.map((note, index) => (
@@ -117,8 +130,7 @@ class NoteBlock extends Component {
         {this.props.song.harmony.map((note, index) => (
           <div
           key={note.id}
-          data-id={note.id}
-          className="NoteBlock-note NoteBlock-harmony"
+          className="NoteBlock-harmony"
           style={{
             bottom: (note.pitch - 36)*this.state.heightUnit + "px",
             width: (note.length / this.state.widthUnit) + "px",
@@ -129,15 +141,30 @@ class NoteBlock extends Component {
         {this.props.harmony && this.props.harmony.notes.map((note, index) => (
           <div
           key={note.id}
-          data-id={note.id}
-          className="NoteBlock-note NoteBlock-harmony"
+          className="NoteBlock-harmony"
           style={{
             // fix this
             bottom: (note.pitch - 36)*this.state.heightUnit + "px",
             width: (note.length / this.state.widthUnit) + "px",
             left: (note.onset / this.state.widthUnit) + "px",
           }}
-          />))
+          />
+          ))
+        }
+        {this.props.harmony && this.props.song.notes.map((note, index) => (
+          <select
+          key={note.id}
+          //value={this.state.harmonySelect[note.id]}
+          onChange={(e) => this.handleHarmonyChange(note.id, e)}
+          style={{
+            position: "absolute",
+            bottom: -20 + "px",
+            left: (note.onset / this.state.widthUnit) + "px",
+          }}
+          >
+          {options.i}
+          </select>
+          ))
         }
         {Array.from(Array(this.props.song.duration).keys()).filter((x) => (x% this.props.song.signature[0]===0)).map((x, index) => (
           <div
