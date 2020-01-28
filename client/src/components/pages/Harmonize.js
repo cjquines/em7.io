@@ -144,10 +144,8 @@ class Harmonize extends Component {
     //TODO: base chordChoices on notes timing and not note ID to account for editing
     //TODO: also add more chords progressions and stuff
     //account for major/minor changes in the secondary harmony chords (only major is accounted for for now)
-    //black key tonics dont work because string issues oops, will fix
     //mess around with the order of the arrays to give preference to some harmonies
-    //choose paths that dont use V/V V/ii, etc. (create on harmonize algorithm that doesn't have 
-    //secondary harmony chords, prioritize that over the one that does)
+
     console.log(this.harmonyChords);
     let harmony = [];
     for (let i = 0; i < this.state.song.notes.length; i++) {
@@ -177,13 +175,13 @@ class Harmonize extends Component {
     chordProgression["vi"] = ["ii", "IV", "vi", "V/V", "V/ii", "V/vi", "V7/IV", "V/iii"];
     chordProgression["vii"] = ["I", "vii", "V/V", "V/ii", "V/vi", "V7/IV", "iii","V/iii"];
     chordProgression["iii"] = ["iii", "vi"];
-    const tonic = this.state.pitchMap[this.state.pitch.indexOf(this.state.song.key[0])];
+    const tonic = this.state.pitchMap[this.state.pitch.indexOf(this.state.song.key.replace('m', ''))];
     const supertonic = tonic + 2;
-    const mediant = tonic + 5-this.state.song.key.length;
+    const mediant = tonic + 4-(+this.state.song.key.includes('m'));
     const subdominant = tonic +5;
     const dominant = tonic + 7;
-    const submediant = tonic + 10-this.state.song.key.length;
-     const subtonic = tonic + 12-this.state.song.key.length;
+    const submediant = tonic + 9- (+this.state.song.key.includes('m'));
+     const subtonic = tonic + 11-(+this.state.song.key.includes('m'));
     //const subtonic = tonic + 11;
     keyToChord[tonic % 12] = ["I",  "IV", "vi"];
     keyToChord[(tonic+1) % 12] = ["V/ii"];
