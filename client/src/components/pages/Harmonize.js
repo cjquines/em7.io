@@ -182,7 +182,7 @@ class Harmonize extends Component {
     const dominant = tonic + 7;
     const submediant = tonic + 9- (+this.state.song.key.includes('m'));
      const subtonic = tonic + 11-(+this.state.song.key.includes('m'));
-    //const subtonic = tonic + 11;
+    //const subtonic = tonic + 11; (harmonic minor)
     keyToChord[tonic % 12] = ["I",  "IV", "vi"];
     keyToChord[(tonic+1) % 12] = ["V/ii"];
     keyToChord[supertonic % 12] = ["ii",  "V",  "vii", "V/V"];
