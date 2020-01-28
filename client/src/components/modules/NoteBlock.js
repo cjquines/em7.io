@@ -14,7 +14,9 @@ import "./NoteBlock.css";
  * @param {number} snapInterval: the snap interval in ms
  * @param {(Song) => void} onChange: (function) triggered when editing notes
  * @param {Song} harmony: harmony
- * @param {(number) => [number]} possibilities: (function) returns possibility given index
+ * @param {[string]} harmonyChords: harmonyChords
+ * @param {([string]) => void} onHarmonyChange: (function) triggered when editing harmonyChords
+ * @param {(number) => [string]} possibilities: (function) returns possibility given index
  */
 class NoteBlock extends Component {
   constructor(props) {
@@ -100,18 +102,14 @@ class NoteBlock extends Component {
     return Math.max(...this.props.song.notes.map((note) => (note.onset + note.length)),100)
   };
 
-  handleHarmonyChange = (id, event) => {
-    return;
-  };
-
   render() {
     let options = {};
     if (this.props.harmony) {
       for (let i = 0; i < this.props.song.notes.length; i++) {
         const possibilities = this.props.possibilities(i);
         if (possibilities) {
-          options[i] = possibilities.map((note, index) => (
-            <option key={index} value={note}>{note}</option>
+          options[i] = possibilities.map((chord, index) => (
+            <option key={index} value={chord}>{chord}</option>
           ));
         }
       }
@@ -157,8 +155,8 @@ class NoteBlock extends Component {
         {this.props.harmony && this.props.song.notes.map((note, index) => (
           <select
           key={note.id}
-          //value={this.state.harmonySelect[note.id]}
-          onChange={(e) => this.handleHarmonyChange(note.id, e)}
+          value={this.props.harmonyChords[index]}
+          onChange={(e) => this.props.onHarmonyChange(index, e.target.value)}
           style={{
             position: "absolute",
             bottom: -20 + "px",

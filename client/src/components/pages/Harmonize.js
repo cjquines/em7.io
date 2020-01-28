@@ -259,6 +259,8 @@ class Harmonize extends Component {
           <NoteBlock
             harmony={this.state.harmony}
             song={this.state.song}
+            harmonyChords={this.harmonyChords}
+            onHarmonyChange={(index, value) => {this.harmonyChords[index] = value;}}
             possibilities={this.harmonizePossibilities}
           />
         </div>
