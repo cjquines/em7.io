@@ -23,7 +23,8 @@ class Listen extends Component {
   }
 
   componentDidMount() {
-    
+    this.count = 0
+    this.userdata = {};
     get("/api/song", { _id: this.props.songId }).then((song) => {
       song.content.notes.sort();
       this.setState({
@@ -32,9 +33,14 @@ class Listen extends Component {
     });
 
     get("/api/users").then((users) => {
-      this.setState({
-        users: users,
-      });
+      users.map((user) => 
+      get(`/api/songs`, {creator_id: user._id}).then((songList) => {
+          this.userdata[user._id] = songList.length
+          this.setState({
+            users: users,
+          });
+        }))
+
     });
 
     
@@ -93,9 +99,7 @@ class Listen extends Component {
       <UserBlock
         name = {user.name}
         id = {user._id}
-        // song = {get(`/api/songs`, {creator_id: user._id}).then((songList) => {
-        //   return songList.length
-        // })}
+        songs = {this.userdata[user._id]}
       />)
       return (
         <div className = "profile-container">
