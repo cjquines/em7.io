@@ -46,7 +46,7 @@ class Harmonize extends Component {
       console.log(this.state.loggedIn);
     });
     get("/api/song", { _id: this.props.songId }).then((song) => {
-      song.content.notes.sort();
+      song.content.notes.sort((a, b) => a.onset - b.onset);
       //TODO: try/catch for melodies with no harmony (but for some reason this doesnt work idk)
       this.setState({
         harmony: {...song.content, notes: []},
@@ -236,6 +236,12 @@ class Harmonize extends Component {
 
   stop = () => {
     this.setState({isPlayingBack: false,});
+    clearTimeout(this.timeout);
+    this.piano.stop();
+    this.harmonyPiano.stop();
+  };
+
+  componentWillUnmount() {
     clearTimeout(this.timeout);
     this.piano.stop();
     this.harmonyPiano.stop();

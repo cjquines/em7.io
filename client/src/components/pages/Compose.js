@@ -125,7 +125,7 @@ class Compose extends Component {
     });
     console.log(this.state.song._id)
     console.log("saving from compose page")
-    get("/api/song", { _id: this.props.songId }).then((song) => console.log("funny song", song)).catch((err) => {console.log("err")});
+    // get("/api/song", { _id: this.props.songId }).then((song) => console.log("funny song", song)).catch((err) => {console.log("err")});
   };
 
   auxMetronome = () => {
@@ -212,6 +212,11 @@ class Compose extends Component {
     this.piano.stop();
   };
 
+  componentWillUnmount() {
+    clearTimeout(this.timeout)
+    this.piano.stop();
+  };
+
   render() {
     if (!this.state.isLoaded) {
       return <div>Loading...</div>;
@@ -226,7 +231,7 @@ class Compose extends Component {
         ? <button type="button" className="greyButton" onClick={this.stop}>Stop</button>
         : <button type="button" className="greyButton" onClick={this.play}>Play</button>);
     }
-    let harmonizeButton = (<button type="button" className="greyButton">Save and harmonize</button>);
+    let harmonizeButton = (<button type="button" className="greyButton">Harmonize</button>);
     if (this.state.song._id !== undefined) {
       harmonizeButton = (<Link to={`/harmonize/${this.state.song._id}`}><button type="button" className="goodButton" onClick={this.saveSong}>Harmonize</button></Link>);
     }
@@ -275,7 +280,7 @@ class Compose extends Component {
           <NoteBlock
             song={this.state.song}
             snapInterval={this.state.snapInterval}
-            onChange={(song) => {this.setState({song: song}); this.render(); this.saveSong();}}
+            onChange={(song) => {this.setState({song: song}); this.saveSong(); this.render(); }}
           />
         </div>
       </div>
