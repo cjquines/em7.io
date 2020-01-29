@@ -26,8 +26,7 @@ class PianoKey extends Component {
                 + (this.props.isPressed ? " PianoKey-pressed" : "")}
         style={{left: this.props.left + "%"}}
       >
-        <span className="PianoKey-note">{this.props.note}</span>
-        <span className="PianoKey-key">{this.props.key_}</span>
+        <span className={(this.props.isWhite ? "PianoKey-whitekey" : "PianoKey-blackkey")}>{this.props.key_.toUpperCase()}</span>
       </div>
     )
   }

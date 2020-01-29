@@ -18,7 +18,7 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800|Open+Sans:300,400,600&display=swap');
 
 :root {
-  --darkred: #8C1B3D;
+  --darkred: rgb(114, 27, 27);
   --darkergrey: #333333;
   --darkgrey: #585858;
   --medgrey: #aaaaaa;
@@ -31,7 +31,6 @@
   --l: 24px;
   --xl: 32px;
   --xxl: 40px;
-  --largeBlock: 192px;
 }
 
 body {
@@ -63,7 +62,7 @@ h6,
 }
 h1 {
   font-size: var(--xxl);
-  margin: var(--m) 0 var(--xl);
+  margin: var(--m) 0 var(--xxl);
   text-align: left;
 }
 #song-title {
@@ -79,13 +78,14 @@ h2 {
 
 .titles {
   min-height: 15vh;
+  max-width: calc(100% - 500px);
 }
 
 h6 {
   font-size: 12px;
   margin: 16px 0 -16px;
   font-weight: 300;
-  color: rgb(82, 27, 43);
+  color: rgb(114, 27, 27);
 }
 
 .noselect {
@@ -110,13 +110,13 @@ h6 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0 -22px var(--xl) -22px;
+  margin: -16px -22px var(--xl) -22px;
 }
 
 .navbar-link{
-  font-size: var(--m);
+  font-size: 14px;
   font-weight: 400;
-  color: #999 !important;
+  color: #888 !important;
   text-decoration: none;
   margin: 0 var(--l);
   transition: all 0.2s;
@@ -128,10 +128,9 @@ h6 {
 
 
 .navbar-login {
-  font-weight: 400 !important;
+  font-weight: 400;
   border: none !important;
-  box-shadow: 1px 2px 3px rgba(68, 68, 68, 0.15) !important;
-
+  box-shadow: 1px 1px 4px rgba(68, 68, 68, 0.15) !important;
   justify-content: end !important;
   font-family: "Montserrat", sans-serif !important;
 }
@@ -208,7 +207,7 @@ h6 {
   text-align: center;
   transition: all 0.2s;
   border: none;
-  border-radius: 6px;
+  border-radius: 0;
   margin: 0 var(--l);
 }
 
@@ -223,14 +222,16 @@ h6 {
   font-size: var(--m);
   text-decoration: none;
   padding: var(--m) var(--xxl);
-  min-width: 120px;
+  min-width: 140px;
+  height: 52px;
+  border-radius: 50px;
   color: #333333 !important;
   text-shadow: 0px 0px 6px rgba(255, 255, 255, 0.2);
   background: #e2e2e2;
   text-align: center;
   transition: all 0.2s;
   border: none;
-  margin:0 var(--m);
+  margin:0 var(--m) 0 var(--l);
 }
 
 .greyButton:hover {
@@ -239,24 +240,63 @@ h6 {
   margin:0 var(var(--m));
 }
 
-.goodButton {
+.hollowButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: "Montserrat", "Open Sans", sans-serif;
   font-weight: 400 !important;
   font-size: var(--m);
+  color: rgba(151, 6, 6, 0.9);
+  text-shadow: 0px 0px 6px rgba(200,30,30, 0.1);
+  box-shadow: 0px 0px 3px rgb(218, 62, 0, 0.1);
   text-decoration: none;
-  padding: var(--m) var(--xxl);
-  min-width: 120px;
-  color: #fff !important;
-  text-shadow: 0px 0px 6px rgba(255, 255, 255, 0.2);
-  background: rgba(140, 27, 61, 0.87);
+  width: 170px;
+  height: 50px;
+  border-radius: 50px;
   text-align: center;
-  transition: all 0.2s;
+  margin: 0 var(--m);
+
+  border: double 2px transparent;
+  background-image: linear-gradient(white, white), radial-gradient(circle at top left, rgb(224, 62, 0, 0.7),rgba(151, 6, 6, 0.8));
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+.hollowButton:hover {
+  color: rgba(151, 6, 6);
+  border: double 2px transparent;
+  background-image: linear-gradient(white, white), radial-gradient(circle at top left, rgb(224, 62, 0, 1),rgba(151, 6, 6, 1));
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  box-shadow: 0px 0px 3px rgb(218, 62, 0, 0.2);
+}
+
+.goodButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Montserrat", "Open Sans", sans-serif;
+  font-weight: 400 !important;
+  font-size: var(--m);
+  color: #fff;
+  text-shadow: 0px 0px 6px #fff;
+  text-decoration: none;
+  width: 170px;
+  height: 50px;
+  border-radius: 50px;
+  background:  linear-gradient(to bottom right, rgba(197, 56, 0, 0.9) -40%, rgba(136, 16, 16, 0.82) 60%);
+  -webkit-background-clip: content-box;
+  text-shadow: 0px 0px 6px rgba(255, 255, 255, 0.2);
+  box-shadow: 0px 0px 3px rgb(218, 62, 0, 0.1);
   border: none;
-  margin:0 var(--m);
+  text-align: center;
+  margin: 0 var(--m);
 }
 
 .goodButton:hover {
-  background: rgba(140, 27, 61, 0.95);
+  background:  linear-gradient(to bottom right, rgba(197, 56, 0, 1) -80%, rgba(139, 45, 45, 0.92) 100%);
+  -webkit-background-clip: content-box;
   transition: all 0.2s;
   margin:0 var(var(--m));
 }
@@ -266,3 +306,9 @@ h6 {
   margin: 0 -16px;
 }
 
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}

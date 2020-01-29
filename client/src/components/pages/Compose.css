@@ -1,3 +1,12 @@
+:root {
+  --largeBlock: 180px;
+}
+
+.Compose-container {
+  width: calc(min(90%, 900px));
+  margin-left: calc((100% - min(90%, 900px)) / 2 - 4px);
+  margin-top: 4%;
+}
 
 .startStop {
     font-family: "Montserrat", "Open Sans", sans-serif;
@@ -18,10 +27,91 @@
     height: var(--largeBlock);
     cursor: pointer;
 }
+
+
   
 .startStop:hover {
     background: rgba(140, 27, 61, 0.8);
     transition: all 0.2s;
+}
+
+.startRound {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Montserrat", "Open Sans", sans-serif;
+  font-weight: 500 !important;
+  font-size: 24px;
+  letter-spacing: 0.3px;
+  color: rgba(170, 6, 6, 0.9);
+  text-decoration: none;
+  width: var(--largeBlock);
+  height: var(--largeBlock);
+  border-radius: var(--largeBlock);
+  text-shadow: 0px 0px 6px rgba(220,30,30, 0.1);
+  box-shadow: 0px 0px 3px rgb(231, 62, 0, 0.1);
+
+  border: double 3px transparent;
+  background-image: linear-gradient(white, white), radial-gradient(circle at top left, rgba(231, 63, 0, 0.65),rgba(138, 23, 23, 0.8));
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  margin-right: 40px;
+}
+
+.startRound:hover {
+  text-shadow: 0px 0px 6px rgba(200,30,30, 0.15);
+  color: rgba(160, 6, 6, 1);
+  background-image: linear-gradient(white, white), radial-gradient(circle at top left, rgba(231, 63, 0, 1),rgba(138, 23, 23, 1));
+}
+
+.stopRound {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Montserrat", "Open Sans", sans-serif;
+  font-weight: 500 !important;
+  font-size: 24px;
+  letter-spacing: 0.3px;
+  color: rgba(97, 42, 76, 0.9);
+  text-decoration: none;
+  width: var(--largeBlock);
+  height: var(--largeBlock);
+  border-radius: var(--largeBlock);
+  text-shadow: 0px 0px 6px rgba(71, 24, 109, 0.1);
+  box-shadow: 0px 0px 3px rgba(71, 24, 109, 0.1);
+
+  border: double 3px transparent;
+  background-image: linear-gradient(white, white), radial-gradient(circle at top left, rgba(156, 50, 50, 0.65),rgba(126, 47, 106, 0.8));
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  margin-right: 40px;
+}
+
+
+.stopRound:hover {
+  text-shadow: 0px 0px 6px rgba(71, 24, 109, 0.15);
+  color: rgba(97, 42, 76, 1);
+  background-image: linear-gradient(white, white), radial-gradient(circle at top left, rgba(156, 50, 50, 0.88),rgba(126, 47, 106, 0.9));
+}
+  
+.colorfulRound {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Montserrat", "Open Sans", sans-serif;
+  font-weight: 500 !important;
+  font-size: 24px;
+  color: #fff;
+  text-shadow: 0px 0px 6px #fff;
+  text-decoration: none;
+  width: var(--largeBlock);
+  height: var(--largeBlock);
+  border-radius: var(--largeBlock);
+  background:  linear-gradient(to bottom right, rgb(218, 62, 0, 0.88) -50%, rgba(151, 6, 6, 0.72) 70%);
+  -webkit-background-clip: content-box;
+  text-shadow: 0px 0px 6px rgba(200,30,30, 0.1);
+  box-shadow: 0px 0px 3px rgb(218, 62, 0, 0.1);
+  margin-right: 40px;
 }
   
 .Timesig-block {
@@ -30,7 +120,7 @@
     align-content: center;
     vertical-align: middle;
     height: 100%;
-    margin: 0 -16px var(--m);
+    margin: 0 -16px var(--m) !important;
 }
 
 
@@ -45,6 +135,8 @@
     vertical-align: top;
     background-color: var(--lightgrey);
     height: 64px;
+    width: 64px;
+    border-radius: 64px;
     padding: var(--xl);
     margin: 0 var(--m);
     transition: all 0.2s;
@@ -104,12 +196,6 @@ input {
     margin-top: 2vh;
 }
 
-.piano-img {
-    height: var(--largeBlock);
-    opacity: 0.75;
-    width: 75vw;
-}
-  
 
   
 .playback-row {
@@ -119,7 +205,7 @@ input {
   
 .big-noteblock-container {
     width: 100%;
-    background-color: #f3f3f3;
+    background-color: #fff;
     overflow: scroll;
 }
   

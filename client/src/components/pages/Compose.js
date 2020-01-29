@@ -221,9 +221,9 @@ class Compose extends Component {
     if (!this.state.isLoaded) {
       return <div>Loading...</div>;
     }
-    let recordButton = (<button type="button" className="startStop" onClick={this.record}>Record</button>);
+    let recordButton = (<button type="button" className="startRound" onClick={this.record}>Record</button>);
     if (this.state.isRecording) {
-      recordButton = (<button type="button" className="startStop" onClick={this.stopRecord}>Stop</button>);
+      recordButton = (<button type="button" className="stopRound" onClick={this.stopRecord}>Stop</button>);
     }
     let playButton = (null);
     if (this.state.hasRecorded) {
@@ -285,16 +285,17 @@ class Compose extends Component {
         </div>
       </div>
 
-      <div className="u-flex confirm-buttons-container">
+      {this.state.hasRecorded ? (
+      <div className="u-flex confirm-buttons-container u-flex-spaceBetween">
         <SnapIntervalInput
           song={this.state.song}
           defaultValue="0.25"
           onChange={(snapInterval) => this.setState({snapInterval: snapInterval})}
         />
         {playButton}
-        <button type="button" className="goodButton" onClick={this.snapNotes}>Snap notes</button>
+        <button type="button" className="hollowButton" onClick={this.snapNotes}>Snap notes</button>
         {harmonizeButton}
-      </div>
+      </div>) : (null)}
     </div>
     );
   }

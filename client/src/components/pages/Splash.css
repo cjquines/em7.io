@@ -1,15 +1,22 @@
-
+:root {
+    --splashRed: rgba(151, 6, 6);
+}
+button {
+  padding: 0;
+  margin: 0;
+}
 .title {
     font-family: "Montserrat", "Open Sans", sans-serif;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
     font-size: 80px;
-    background: linear-gradient(to right, rgb(206, 65, 0) -20%, #8C1B3D 60%);
+    background: linear-gradient(to right, rgb(218, 62, 0) -17%, rgb(163, 15, 15) 60%);
+    border-image-slice: 1;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-top: 16vh;
+    margin-top: 15vh;
     margin-bottom: -1.5vh;
-    text-shadow: 0 0 5px rgb(206, 65, 0, 0.1);
+    text-shadow: 0 0 5px rgb(206, 65, 0, 0.15);
 }
 
 .subtitle {
@@ -18,7 +25,8 @@
     font-weight: 300;
     font-size: 20px;
     color: #333333;
-    text-shadow: 0 0 5px rgb(80, 65, 65, 0.1);
+    text-shadow: 0 0 5px rgba(175, 67, 67, 0.2);
+    margin-bottom: 12vh;
 }
 
 .logo {
@@ -31,15 +39,14 @@
   
 
 .splash-piano-png {
-    top: 12vh;
+    top: 11vh;
     opacity: 0.07 !important;
-    height: 24vh !important;
+    height: 28vh !important;
     width: 80vh !important;
     position: absolute;
     z-index: -1;
-    border-radius: 3px;
-    -webkit-filter: blur(1px); /* Safari 6.0 - 9.0 */
-    filter: blur(1px);
+    -webkit-filter: blur(0.5px); /* Safari 6.0 - 9.0 */
+    filter: blur(0.5px);
 }
 
 .Splash-container {
@@ -56,3 +63,95 @@
     text-align: center;
 }
 
+.splashButton {
+    font-family: "Montserrat", "Open Sans", sans-serif;
+    font-weight: 600 !important;
+    text-decoration: none;
+    padding: 14px 16px;
+    min-width: 120px;
+    background:  linear-gradient(to bottom right, rgb(218, 62, 0, 0.2) 1%, rgb(218, 62, 0) 30%, var(--splashRed) 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0px 0px 6px rgba(200,30,30, 0.1);
+    box-shadow: 0px 0px 3px rgb(218, 62, 0, 0.1);
+    border-width: 2px;
+    border-style: solid;
+    border-image: linear-gradient(to bottom right, rgb(218, 62, 0, 0.3) 0%, rgb(218, 62, 0) 70%, rgba(151, 6, 6, 0.6) 90%);
+    border-image-slice: 1;
+    text-align: center;
+    margin: 0 var(--xl);
+  }
+
+  .splashButton:hover {
+
+    text-shadow: 0px 0px 4px rgba(200,30,30, 0.2);
+    border-width: 2px;
+    border-style: solid;
+    border-image: linear-gradient(to bottom right, rgb(218, 62, 0, 0.5) 1%, rgb(218, 62, 0) 40%, var(--splashRed) 90%);
+    border-image-slice: 1;
+    box-shadow: 0px 0px 6px rgb(218, 62, 0, 0.2);
+  }
+
+  .splashRound {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Montserrat", "Open Sans", sans-serif;
+    font-weight: 500 !important;
+    font-size: 18px;
+    letter-spacing: 0.3px;
+    color: rgba(151, 6, 6, 0.9);
+    text-decoration: none;
+    width: 232px;
+    height: 58px;
+    border-radius: 50px;
+    background:  linear-gradient(to bottom right, rgb(218, 62, 0, 0.03) 1%, rgb(218, 62, 0, 0.03) 30%, rgba(151, 6, 6, 0.1) 70%);
+    -webkit-background-clip: content-box;
+    text-shadow: 0px 0px 6px rgba(200,30,30, 0.1);
+    box-shadow: 0px 0px 3px rgb(218, 62, 0, 0.1);
+
+    text-align: center;
+    margin: 0 var(--xl);
+
+    border: double 2px transparent;
+    background-image: linear-gradient(white, white), radial-gradient(circle at top left, rgb(218, 62, 0, 0.7),rgba(151, 6, 6, 0.8));
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+  }
+
+  .splashRound:hover {
+    color: rgba(151, 6, 6);
+    border: double 2px transparent;
+    background-image: linear-gradient(white, white), radial-gradient(circle at top left, rgb(218, 62, 0, 1),rgba(151, 6, 6, 1));
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    box-shadow: 0px 0px 3px rgb(218, 62, 0, 0.2);
+  }
+
+  .splashRoundFilled {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Montserrat", "Open Sans", sans-serif;
+    font-weight: 500 !important;
+    font-size: 18px;
+    color: #fff;
+    text-shadow: 0px 0px 6px #fff;
+    text-decoration: none;
+    width: 232px;
+    height: 62px;
+    border-radius: 58px;
+    background:  linear-gradient(to bottom right, rgb(218, 62, 0, 0.95) -80%, rgba(151, 6, 6, 0.82) 100%);
+    -webkit-background-clip: content-box;
+    text-shadow: 0px 0px 6px rgba(200,30,30, 0.1);
+    box-shadow: 0px 0px 3px rgb(218, 62, 0, 0.1);
+    text-align: center;
+    margin: 0 var(--xl);
+  }
+
+  .splashRoundFilled:hover {
+    background:  linear-gradient(to bottom right, rgb(218, 62, 0, 1) -60%, rgba(151, 6, 6, 0.88) 50%);
+    -webkit-background-clip: content-box;
+    text-shadow: 0px 0px 6px rgba(200,30,30, 0.1);
+    box-shadow: none;
+  }
