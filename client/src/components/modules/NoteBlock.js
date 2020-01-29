@@ -103,7 +103,7 @@ class NoteBlock extends Component {
   };
 
   getSongRange = () => {
-    return Math.max(...this.props.song.notes.map(note => note.pitch))*12
+    return (Math.max(...this.props.song.notes.map(note => note.pitch))-35)*12
   };
 
   render() {
@@ -121,7 +121,7 @@ class NoteBlock extends Component {
     return (
       <div className="NoteBlock-container" id="NoteBlock-container" style = {{
         width: this.getSongLength()/this.state.widthUnit+ 24 + "px",
-        height: Math.min(500, this.getSongRange()) + "px",
+        height: Math.max(500, this.getSongRange()) + "px",
       }}>
         {this.props.song.notes.map((note, index) => (
           <div
