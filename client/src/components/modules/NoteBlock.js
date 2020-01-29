@@ -103,7 +103,7 @@ class NoteBlock extends Component {
   };
 
   getSongRange = () => {
-    return Math.max(...this.props.song.notes.map(note => note.pitch*12))
+    return Math.max(...this.props.song.notes.map(note => note.pitch))*12
   };
 
   render() {
@@ -121,7 +121,7 @@ class NoteBlock extends Component {
     return (
       <div className="NoteBlock-container" id="NoteBlock-container" style = {{
         width: this.getSongLength()/this.state.widthUnit+ 24 + "px",
-        height: Math.min(500, ) + "px",
+        height: Math.min(500, this.getSongRange()) + "px",
       }}>
         {this.props.song.notes.map((note, index) => (
           <div
@@ -166,7 +166,7 @@ class NoteBlock extends Component {
           onChange={(e) => this.props.onHarmonyChange(index, e.target.value)}
           style={{
             position: "absolute",
-            bottom: -20 + "px",
+            bottom: 5 + "%",
             left: (note.onset / this.state.widthUnit) + "px",
           }}
           >

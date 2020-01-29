@@ -5,8 +5,7 @@
     border: 0.2px solid rgba(0, 0, 0, 0.1);
     padding: 32px;
     text-align: left;
-    min-height: 160px;
-    justify-content: flex-end;
+    min-width: 160px;
     transition: all 0.2s;
 }
 
@@ -21,7 +20,7 @@
 }
 
 .smallSongSubtitle {
-    font-size: 12px;
+    font-size: 14px;
     color: #333333;
 }
 

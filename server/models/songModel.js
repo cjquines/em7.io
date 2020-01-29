@@ -4,6 +4,7 @@ const SongSchema = new mongoose.Schema({
   name: String,
   creator_id: String,
   content: Object,
+  key: String,
 });
 
 // compile model from schema

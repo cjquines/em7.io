@@ -48,10 +48,13 @@ class Compose extends Component {
 
   componentDidMount() {
     if (this.props.songId) {
+      this.setState({
+        hasRecorded: true,
+      })
       get("/api/song", { _id: this.props.songId }).then((song) => {
         this.setState({
           originalSong: song.content,
-          song: {...song.content, _id: undefined }
+          song: {...song.content, _id: this.props.songId }
         });
       });
     }
@@ -109,7 +112,7 @@ class Compose extends Component {
 
   saveSong = () => {
     get("/api/whoami").then((user) => {
-      let body = { creator_id: "guest", name: this.state.song.title, content: this.state.song };
+      let body = { creator_id: "guest", name: this.state.song.title, content: this.state.song, key: this.state.song.key };
       if (user._id) {
         body = { ...body, creator_id: user._id };
       }
@@ -181,7 +184,7 @@ class Compose extends Component {
       song: {...this.state.song, duration: this.state.song.duration+1}});
     clearInterval(this.metronomeInterval);
     keyboardjs.pause();
-    this.saveSong();
+    //this.saveSong();
   };
 
   //TODO: snap correctly after changing tempo
@@ -193,7 +196,7 @@ class Compose extends Component {
       return new Note(note.id, note.pitch, newOnset, newLength);
     });
     this.setState({ song: {...this.state.song, notes: newNotes}, hasSnapped: true});
-    this.saveSong();
+    //this.saveSong();
   };
 
   play = () => {
@@ -201,7 +204,7 @@ class Compose extends Component {
     this.piano.schedule(this.audioContext.currentTime, this.state.song.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
-    this.timeout = setTimeout(this.stop, this.state.song.duration*1000-3000);
+    this.timeout = setTimeout(this.stop, this.state.song.duration*1000-1000);
   };
 
 
@@ -221,9 +224,9 @@ class Compose extends Component {
     if (!this.state.isLoaded) {
       return <div>Loading...</div>;
     }
-    let recordButton = (<button type="button" className="startStop" onClick={this.record}>Record</button>);
+    let recordButton = (<button type="button" className="startRound" onClick={this.record}>Record</button>);
     if (this.state.isRecording) {
-      recordButton = (<button type="button" className="startStop" onClick={this.stopRecord}>Stop</button>);
+      recordButton = (<button type="button" className="stopRound" onClick={this.stopRecord}>Stop</button>);
     }
     let playButton = (null);
     if (this.state.hasRecorded) {
@@ -232,8 +235,8 @@ class Compose extends Component {
         : <button type="button" className="greyButton" onClick={this.play}>Play</button>);
     }
     let harmonizeButton = (<button type="button" className="greyButton">Harmonize</button>);
-    if (this.state.song._id !== undefined) {
-      harmonizeButton = (<Link to={`/harmonize/${this.state.song._id}`}><button type="button" className="goodButton" onClick={this.saveSong}>Harmonize</button></Link>);
+    if (this.state.song.duration !== 0 && !this.state.isRecording && !this.state.isPlayingBack) {
+      harmonizeButton = (<Link to={`/harmonize/${this.state.song._id}`}><button type="button" className="goodButton" onClick={this.saveSong()}>Harmonize</button></Link>);
     }
     let defaultTonic = this.state.song.key;
     let defaultMode = "";
@@ -280,21 +283,22 @@ class Compose extends Component {
           <NoteBlock
             song={this.state.song}
             snapInterval={this.state.snapInterval}
-            onChange={(song) => {this.setState({song: song}); this.saveSong(); this.render(); }}
+            onChange={(song) => {this.setState({song: song}); this.render(); }}
           />
         </div>
       </div>
 
-      <div className="u-flex confirm-buttons-container">
+      {this.state.hasRecorded ? (
+      <div className="u-flex confirm-buttons-container u-flex-spaceBetween">
         <SnapIntervalInput
           song={this.state.song}
           defaultValue="0.25"
           onChange={(snapInterval) => this.setState({snapInterval: snapInterval})}
         />
         {playButton}
-        <button type="button" className="goodButton" onClick={this.snapNotes}>Snap notes</button>
+        <button type="button" className="hollowButton" onClick={this.snapNotes}>Snap notes</button>
         {harmonizeButton}
-      </div>
+      </div>) : (null)}
     </div>
     );
   }

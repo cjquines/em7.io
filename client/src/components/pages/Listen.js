@@ -23,7 +23,8 @@ class Listen extends Component {
   }
 
   componentDidMount() {
-    
+    this.count = 0
+    this.userdata = {};
     get("/api/song", { _id: this.props.songId }).then((song) => {
       song.content.notes.sort();
       this.setState({
@@ -32,9 +33,14 @@ class Listen extends Component {
     });
 
     get("/api/users").then((users) => {
-      this.setState({
-        users: users,
-      });
+      users.map((user) => 
+      get(`/api/songs`, {creator_id: user._id}).then((songList) => {
+          this.userdata[user._id] = songList.length
+          this.setState({
+            users: users,
+          });
+        }))
+
     });
 
     
@@ -67,7 +73,7 @@ class Listen extends Component {
     this.harmonyPiano.schedule(this.audioContext.currentTime, this.state.song.harmony.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
-    this.timeout = setTimeout(this.stop, this.state.song.duration*1000-3000);
+    this.timeout = setTimeout(this.stop, this.state.song.duration*1000-1000);
   };
 
   stop = () => {
@@ -93,9 +99,7 @@ class Listen extends Component {
       <UserBlock
         name = {user.name}
         id = {user._id}
-        // song = {get(`/api/songs`, {creator_id: user._id}).then((songList) => {
-        //   return songList.length
-        // })}
+        songs = {this.userdata[user._id]}
       />)
       return (
         <div className = "profile-container">
@@ -107,6 +111,9 @@ class Listen extends Component {
     }
     return (
       <>
+        <div className = "titles" style={{marginBottom: -6+"vh"}}>
+          <h1>{this.state.song.title}</h1>
+        </div>
         <div className="playback-row">
           <div className="big-noteblock-container">
             <NoteBlock

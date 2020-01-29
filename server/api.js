@@ -48,18 +48,26 @@ router.post("/song", (req, res) => {
   console.log(req.body)
   if (req.body.song_id) {
     console.log("in if")
-    Song.updateOne({_id: req.body.song_id}, { $set: {content: req.body.content} }).then((response) => res.send(response)).catch((err) => {console.log("ahh save")});
+    Song.findOne({_id : req.body.song_id}).then((song) => {
+      song.content = req.body.content;
+      song.name = req.body.name;
+      song.key = req.body.key;
+      song.save()
+    });
+    // Song.findOne({_id: req.body.song_id}, { $set: {content: req.body.content, name: req.body.name} }).then((response) => res.send(response)).catch((err) => {console.log("ahh save")});
   } else {
     console.log("in else")
     const newSong = new Song({
       creator_id: req.body.creator_id,
       content: req.body.content,
       name: req.body.name,
+      key: req.body.key,
     });
     newSong.save().then((response) => res.send(response)).catch((err)=> {console.log("holy last log")});
   }
   
 });
+
 
 
 // |------------------------------|

@@ -1,5 +1,5 @@
 .NoteBlock-container {
-  background-color: #f3f3f3 !important;
+  background-color: #fff !important;
   display: flex;
   height: 500px;
   margin: 0;
@@ -8,33 +8,33 @@
 }
 
 .NoteBlock-note {
-  background: #333;
+  background: rgb(134, 51, 51);
   height: 12px;
   position: absolute;
   touch-action: none;
   min-width: 10px;
-  border-radius: 3px;
-  box-shadow: 0 0 2px #ccc;
+  border-radius: 2px;
+  box-shadow: 0 0 2px #fff;
   box-sizing: border-box;
   z-index: 4;
 }
 
 .NoteBlock-harmony {
-  background: #888;
+  background: #ccc;
   height: 12px;
   position: absolute;
   touch-action: none;
   min-width: 10px;
-  border-radius: 3px;
-  box-shadow: 0 0 2px #ccc;
   box-sizing: border-box;
+  border-radius: 2px;
+  border: 1px solid #fff;
   z-index: 3;
 }
 
 .big-tempo-bar {
   top: 5%;
   width: 1px !important;
-  height: 90%;
+  height: 85%;
   position: absolute;
   background-color: #777;
   z-index: 2;
@@ -43,7 +43,7 @@
 .small-tempo-bar {
   top: 15%;
   width: 1px !important;
-  height: 70%;
+  height: 65%;
   position: absolute;
   background-color: #c5c5c5;
   z-index: 2;

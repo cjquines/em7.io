@@ -32,7 +32,7 @@ class Dialogue extends Component {
             <h2>Name</h2>
             <input className="formInput" type="text" value={this.state.value} name="title" onChange={this.handleTitleChange} />
             <div className="save-button-container" style = {{justifyContent: "flex-end", marginTop: "24px", marginRight: "-12px"}}>
-            <button type="button" className="greyButton" onClick={this.props.closeFunction}>Cancel</button>
+            <button type="button" className="greyButton" onClick={this.props.closingFunction}>Cancel</button>
             <button type="submit" className="goodButton" onClick={this.props.saveFunction}>Save</button>
             </div>
           </div>

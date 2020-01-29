@@ -28,8 +28,9 @@ class Splash extends Component {
         </div>
         
         <div className="splash-button-container">
-          <a href="/compose" className="redButton">Compose</a>
-          <a href="/listen" className="redButton">Listen</a>
+          <a href="/listen" className="splashRound">Listen</a>
+          <a href="/compose" className="splashRoundFilled">Compose</a>
+
         </div>
       </div>
     );
