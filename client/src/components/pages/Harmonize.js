@@ -81,13 +81,7 @@ class Harmonize extends Component {
   saveSong = () => {
     get("/api/whoami").then((user) => {
       const content = {...this.state.song, harmony: this.state.harmony.notes};
-      let body = { creator_id: "guest", name: this.state.song.title, content: content };
-      if (user._id) {
-        body = { ...body, creator_id: user._id };
-      }
-      if (this.state.song._id) {
-        body = { ...body, song_id: this.state.song._id };
-      }
+      let body = { song_id: this.state.song._id, content: content };
       post("/api/song", body).then((response) => {
           console.log(response);
           if (response._id) {
