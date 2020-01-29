@@ -333,9 +333,14 @@ class Harmonize extends Component {
     this.setState({saving: false});
   };
 
+  link = () => {
+    window.location.replace(`/compose/${this.props.songId}`);
+  }
+
   alert = () => {
     alert("Log in first and refresh the page!");
   }
+
   render() {
     if (!this.state.isProcessed) {
       return <div>Loading...</div>;
@@ -356,7 +361,7 @@ class Harmonize extends Component {
         <div className = "titles">
           <h2> No harmonies found! Your song is still saved, but we couldn't automatically find a harmony for you. 
         </h2>
-        <h2>Try clicking <Link to={`/compose/${this.props.songId}`}>here</Link> and changing the key of the song.</h2>
+        <h2>Try changing the key of the song.</h2>
           <h1>{this.state.song.title}</h1>
         </div>
         <div className="big-noteblock-container">
@@ -370,6 +375,7 @@ class Harmonize extends Component {
         </div>
       </div>
       <div className="u-flex confirm-buttons-container">
+      <button type="button" className="goodButton" onClick = {this.link}>Back</button>
         {this.state.isPlayingBack
           ? <button type="button" className="greyButton" onClick={this.stop}>Stop</button>
           : <button type="button" className="greyButton" onClick={this.play}>Play</button>
@@ -415,6 +421,7 @@ class Harmonize extends Component {
         </div>
       </div>
       <div className="u-flex confirm-buttons-container">
+      <button type="button" className="goodButton" onClick = {this.link}>Back</button>
         {this.state.isPlayingBack
           ? <button type="button" className="greyButton" onClick={this.stop}>Stop</button>
           : <button type="button" className="greyButton" onClick={this.play}>Play</button>
