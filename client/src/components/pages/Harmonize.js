@@ -80,8 +80,8 @@ class Harmonize extends Component {
 
   saveSong = () => {
     get("/api/whoami").then((user) => {
-      this.setState({ song: {...this.state.song, harmony: this.state.harmony.notes}});
-      let body = { creator_id: "guest", name: this.state.song.title, content: this.state.song };
+      const content = {...this.state.song, harmony: this.state.harmony.notes};
+      let body = { creator_id: "guest", name: this.state.song.title, content: content };
       if (user._id) {
         body = { ...body, creator_id: user._id };
       }
