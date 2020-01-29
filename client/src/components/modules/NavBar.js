@@ -28,21 +28,28 @@ class NavBar extends Component {
           <div className="navbar-title u-inlineBlock">
             <Link to="/" className="navbar-link">Home</Link>
           </div>
-          <div className="navbar-linkContainer u-inlineBlock">
+          {/* <div className="navbar-linkContainer u-inlineBlock">
+            {this.props.userId && (
+              <Link to={`/profile/${this.props.userId}`} className="navbar-link">
+                Profile
+              </Link>
+            )}
+          </div> */}
+        </div>
+        <div className="navbar-subcontainer">
+        <div className="navbar-linkContainer u-inlineBlock">
             {this.props.userId && (
               <Link to={`/profile/${this.props.userId}`} className="navbar-link">
                 Profile
               </Link>
             )}
           </div>
-        </div>
-        <div className="navbar-subcontainer">
-          <div className="u-inlineBlock">
+          {/* <div className="u-inlineBlock">
             <Link to="/" className="navbar-link">Help</Link>
           </div>
           <div className="u-inlineBlock">
             <Link to="/" className="navbar-link">Preferences</Link>
-          </div>
+          </div> */}
           <div className="u-inlineBlock">
             {this.props.userId ? (
               <GoogleLogout

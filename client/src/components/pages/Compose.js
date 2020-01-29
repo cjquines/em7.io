@@ -51,7 +51,7 @@ class Compose extends Component {
       get("/api/song", { _id: this.props.songId }).then((song) => {
         this.setState({
           originalSong: song.content,
-          song: {...song.content, _id: undefined }
+          song: {...song.content, _id: this.props.songId }
         });
       });
     }
