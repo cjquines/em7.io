@@ -109,7 +109,7 @@ class Compose extends Component {
 
   saveSong = () => {
     get("/api/whoami").then((user) => {
-      let body = { creator_id: "guest", name: this.state.song.title, content: this.state.song };
+      let body = { creator_id: "guest", name: this.state.song.title, content: this.state.song, key: this.state.song.key };
       if (user._id) {
         body = { ...body, creator_id: user._id };
       }

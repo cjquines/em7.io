@@ -60,6 +60,7 @@ router.post("/song", (req, res) => {
       creator_id: req.body.creator_id,
       content: req.body.content,
       name: req.body.name,
+      key: req.body.key,
     });
     newSong.save().then((response) => res.send(response)).catch((err)=> {console.log("holy last log")});
   }
