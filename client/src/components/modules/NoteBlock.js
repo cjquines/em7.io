@@ -102,6 +102,10 @@ class NoteBlock extends Component {
     return Math.max(...this.props.song.notes.map((note) => (note.onset + note.length)),100)
   };
 
+  getSongRange = () => {
+    return Math.max(...this.props.song.notes.map(note => note.pitch*12))
+  };
+
   render() {
     let options = {};
     if (this.props.harmony) {
@@ -115,7 +119,10 @@ class NoteBlock extends Component {
       }
     }
     return (
-      <div className="NoteBlock-container" id="NoteBlock-container" style = {{width: this.getSongLength()/this.state.widthUnit+ 24 + "px"}}>
+      <div className="NoteBlock-container" id="NoteBlock-container" style = {{
+        width: this.getSongLength()/this.state.widthUnit+ 24 + "px",
+        height: Math.min(500, ) + "px",
+      }}>
         {this.props.song.notes.map((note, index) => (
           <div
           key={note.id}
