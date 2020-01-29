@@ -212,6 +212,11 @@ class Compose extends Component {
     this.piano.stop();
   };
 
+  componentWillUnmount() {
+    clearTimeout(this.timeout)
+    this.piano.stop();
+  };
+
   render() {
     if (!this.state.isLoaded) {
       return <div>Loading...</div>;

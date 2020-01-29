@@ -72,6 +72,12 @@ class Listen extends Component {
     this.harmonyPiano.stop();
   };
 
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+    this.piano.stop();
+    this.harmonyPiano.stop();
+  };
+
   render() {
     let displayedList = null;
     if (this.state.song == undefined && this.state.users == undefined) {

@@ -241,6 +241,12 @@ class Harmonize extends Component {
     this.harmonyPiano.stop();
   };
 
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+    this.piano.stop();
+    this.harmonyPiano.stop();
+  };
+
   openSaveDialogue = () => {
     this.setState({saving: true});
   };
