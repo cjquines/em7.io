@@ -341,10 +341,54 @@ class Harmonize extends Component {
       return <div>Loading...</div>;
     }
     if (this.state.harmony.notes.length === 0) {
-      return <div>
-      No harmonies found! Your song is still saved, but we couldn't automatically find a harmony for you. 
-      Try clicking <Link to={`/compose/${this.props.songId}`}>here</Link> and changing the key of the song.
-      </div>;
+      return (
+
+<div className="Harmonize-container u-flexColumn">
+      <Dialogue id = "saveDialogue"
+        closingFunction={this.closeDialogue}
+        display={this.state.saving}
+        title={this.state.song.title}
+        saveFunction={this.saveSong}
+        onChange={(title) => this.setState({song: {...this.state.song, title: title}})}
+      />
+
+      <div className = "u-flex-spaceBetween u-flexColumn">
+        <div className = "titles">
+          <h2> No harmonies found! Your song is still saved, but we couldn't automatically find a harmony for you. 
+        </h2>
+        <h2>Try clicking <Link to={`/compose/${this.props.songId}`}>here</Link> and changing the key of the song.</h2>
+          <h1>{this.state.song.title}</h1>
+        </div>
+        <div className="big-noteblock-container">
+          <NoteBlock
+            //harmony={this.state.harmony}
+            song={this.state.song}
+            //harmonyChords={this.harmonyChords}
+            //onHarmonyChange={(index, value) => {this.harmonyChords[index] = value; this.harmonizeAlgorithm();}}
+            //possibilities={this.harmonizePossibilities}
+          />
+        </div>
+      </div>
+      <div className="u-flex confirm-buttons-container">
+        {this.state.isPlayingBack
+          ? <button type="button" className="greyButton" onClick={this.stop}>Stop</button>
+          : <button type="button" className="greyButton" onClick={this.play}>Play</button>
+        }
+        {this.state.loggedIn
+          ? <button type="button" className="goodButton" onClick={this.openSaveDialogue}>Save</button>
+          : <button type="button" className="greyButton" onClick={this.alert} >Save</button>
+        }
+        {/* <HarmonyInput
+          harmonyOption={this.state.harmonyOption}
+          harmonyChords = {this.harmonyChords.length}
+          defaultHarmony="1"
+          onChange={(harmonyOption) => {this.setState({harmonyOption : harmonyOption}), 
+          this.harmonizeAlgorithm(harmonyOption)}}
+        /> */}
+      </div>
+    </div>
+    );
+      
     }
     return (
     <div className="Harmonize-container u-flexColumn">
@@ -377,7 +421,7 @@ class Harmonize extends Component {
         }
         {this.state.loggedIn
           ? <button type="button" className="goodButton" onClick={this.openSaveDialogue}>Save</button>
-          : <button type="button" className="goodButton" onClick={this.alert} >Save</button>
+          : <button type="button" className="greyButton" onClick={this.alert} >Save</button>
         }
         {/* <HarmonyInput
           harmonyOption={this.state.harmonyOption}
