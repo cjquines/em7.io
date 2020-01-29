@@ -107,6 +107,7 @@ class Harmonize extends Component {
         body = { ...body, song_id: this.props.songId };
       }
       post("/api/song", body).then((response) => {
+        console.log(response);
 
           if (response._id) {
             this.setState({ song: {...this.state.song, _id: response._id } });
