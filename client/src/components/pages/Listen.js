@@ -30,11 +30,16 @@ class Listen extends Component {
         song: song.content,
       })
     });
+
     get("/api/users").then((users) => {
       this.setState({
         users: users,
-      })
+      });
     });
+
+    
+
+
     Soundfont.instrument(this.audioContext, 'acoustic_grand_piano')
     .then((piano) => {
       this.piano = piano;
@@ -82,10 +87,13 @@ class Listen extends Component {
       <UserBlock
         name = {user.name}
         id = {user._id}
+        // song = {get(`/api/songs`, {creator_id: user._id}).then((songList) => {
+        //   return songList.length
+        // })}
       />)
       return (
         <div className = "profile-container">
-        <h1 className="profile-name u-textCenter">User List</h1>
+        <h1 className="profile-name u-textCenter">Search songs by composer!</h1>
         <div className="grid-container">{displayedList}
         </div>
       </div>
