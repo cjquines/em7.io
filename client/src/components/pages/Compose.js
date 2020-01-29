@@ -48,6 +48,9 @@ class Compose extends Component {
 
   componentDidMount() {
     if (this.props.songId) {
+      this.setState({
+        hasRecorded: true,
+      })
       get("/api/song", { _id: this.props.songId }).then((song) => {
         this.setState({
           originalSong: song.content,
