@@ -123,14 +123,14 @@ class NoteBlock extends Component {
       }
     }
     let noteRange = [];
-    for (let i = this.getSongMin() - 1, i <= this.getSongMax() + 1, i++) {
+    for (let i = Math.min(60, this.getSongMin() - 1); i < Math.max(72, this.getSongMax()+2); i++) {
       noteRange.push(i);
     }
     const horizontalBars = noteRange.map((note) => (
       <div
         key={note}
         style={{
-          height: (note - 36)*this.state.heightUnit + "px",
+          bottom: (note - 36)*this.state.heightUnit + "px",
         }}
         className="NoteBlock-horizontal-bars"
       />));
@@ -207,6 +207,7 @@ class NoteBlock extends Component {
             className = "small-tempo-bar"
           />
         ))}
+        {horizontalBars}
       </div>
     );
   }
