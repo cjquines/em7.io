@@ -53,7 +53,12 @@ class Harmonize extends Component {
         song: song.content,
       }, () => {
         let success = false;
-        this.changeChordMaps();
+        if(song.key.includes('m')){
+          this.changeChordMinorMaps();
+        }
+        else{
+          this.changeChordMajorMaps();
+        }
         for (const note of this.chordChoices[0]) {
           if (this.harmonizeHelper([[note, 0]])) {
             success = true;
@@ -183,13 +188,70 @@ class Harmonize extends Component {
     this.setState({harmony: {...this.state.harmony, notes: harmony}});
   };
 
-  changeChordMaps = () => {
+  changeChordMinorMaps = () => {
     const chordProgression = {}; 
     const keyToChord = {};
     const chordToPitch = {};
-    chordProgression["I"] = ["I", "ii", "iii", "IV", "V", "vi", "vii", "V/V", "V/ii", "V/vi", "V7/IV", "V/iii"];
-    chordProgression["ii"] = ["ii", "V", "vii", "V/V", "V/ii", "V/vi", "V7/IV", "V/iii"];
-    chordProgression["IV"] = ["I", "ii", "IV", "V", "vii", "V/V", "V/ii", "V/vi", "V7/IV", "V/iii"];
+
+      chordProgression["i"] = ["i", "ii°", "III", "iv", "v", "V", "VI", "VII", "V/v", "V7/VI", "V/iv"];
+      chordProgression["ii°"] = ["ii°", "v", "V", "VII", "V/v", "V7/VI"];
+      chordProgression["iv"] = ["i", "ii°", "iv", "v", "V", "VII", "V/v", "V7/VI"];
+      chordProgression["v"] = ["i", "v", "V", "VI", "V/v", "V7/VI"];
+      chordProgression["V"] = ["i", "v", "V", "VI", "V/v", "V7/VI"];
+      chordProgression["V/v"] = ["v", "V", "V/v"];
+      chordProgression["V/iv"] = ["iv", "V/iv"];
+      chordProgression["V7/VI"] = ["vi", "V7/VI"];
+      chordProgression["VI"] = ["ii°", "iv", "VI", "V/v", "V7/VI"];
+      chordProgression["VII"] = ["i", "VII", "V/v", "V7/VI", "III"];
+      chordProgression["III"] = ["III", "VI"];
+      const tonic = this.state.pitchMap[this.state.pitch.indexOf(this.state.song.key.replace('m', ''))];
+      const supertonic = tonic + 2;
+      const mediant = tonic + 4-(+this.state.song.key.includes('m'));
+      const subdominant = tonic +5;
+      const dominant = tonic + 7;
+      const submediant = tonic + 9- (+this.state.song.key.includes('m'));
+      const subtonic = tonic + 11-(+this.state.song.key.includes('m'));
+      //const subtonic = tonic + 11; (harmonic minor)
+      keyToChord[tonic % 12] = ["i",  "iv", "VI"];
+      keyToChord[(tonic+1) % 12] = ["V7/VI"];
+      keyToChord[supertonic % 12] = ["ii°",  "v", "V",  "VII", "V/v"];
+      keyToChord[mediant % 12] = ["i", "III", "VI", "V7/VI"];
+      keyToChord[(mediant+1) % 12] = ["V/iv"];
+      keyToChord[subdominant % 12] = [ "iv", "ii°", "VII"];
+      keyToChord[(subdominant+1) % 12] = ["V/v"]
+      keyToChord[dominant % 12] = ["i", "III", "v", "V", "V7/VI"];
+      keyToChord[submediant % 12] = ["ii°", "iv", "VI", "V/v"];
+      keyToChord[(subtonic-1) % 12] = ["V/v"];
+      keyToChord[(subtonic+1) % 12] = ["V"];
+      keyToChord[subtonic % 12] = [ "v",  "VII", "III", "V7/VI" ];
+      chordToPitch["i"] = [tonic-12, mediant-12, dominant-12];
+      chordToPitch["ii°"] = [supertonic-12, subdominant-12, submediant-12];
+      chordToPitch["iv"] = [subdominant-12, submediant-12, tonic-12];
+      chordToPitch["v"] = [dominant-12, subtonic-24, supertonic-12];
+      chordToPitch["V"] = [dominant-12, subtonic-23, supertonic-12];
+      chordToPitch["VI"] = [submediant-24, tonic-12, mediant-12];
+      chordToPitch["VII"] = [subtonic-24, supertonic-12, subdominant-12];
+      chordToPitch["V/iv"] = [tonic-12, mediant-11, dominant-12];
+      chordToPitch["V/v"] = [supertonic-12, subdominant-11, submediant-11];
+      chordToPitch["V7/VI"] = [mediant-12, dominant-12, subtonic-12, tonic-11];
+      chordToPitch["III"] = [mediant-12, dominant-12, subtonic-12]
+
+
+      this.chordToPitch = chordToPitch;
+      this.keyToChord = keyToChord;
+      this.chordProgression = chordProgression;
+      this.chordChoices = this.state.song.notes.map((note) => keyToChord[note.pitch % 12]);
+    };
+  
+    changeChordMajorMaps = () => {
+      const chordProgression = {}; 
+      const keyToChord = {};
+      const chordToPitch = {};
+  
+
+    chordProgression["I"] = ["I", "ii", "iii", "IV", "V", "vi", "vii°", "V/V", "V/ii", "V/vi", "V7/IV", "V/iii"];
+    chordProgression["ii"] = ["ii", "V", "vii°", "V/V", "V/ii", "V/vi", "V7/IV", "V/iii"];
+    chordProgression["IV"] = ["I", "ii", "IV", "V", "vii°", "V/V", "V/ii", "V/vi", "V7/IV", "V/iii"];
     chordProgression["V"] = ["I", "V", "vi", "V/V", "V/ii", "V/vi", "V7/IV", "V/iii"];
     chordProgression["V/V"] = ["V", "V/V"];
     chordProgression["V/ii"] = ["ii", "V/ii"];
@@ -197,7 +259,7 @@ class Harmonize extends Component {
     chordProgression["V7/IV"] = ["IV", "V7/IV"];
     chordProgression["V/iii"] = ["iii", "V/iii"];
     chordProgression["vi"] = ["ii", "IV", "vi", "V/V", "V/ii", "V/vi", "V7/IV", "V/iii"];
-    chordProgression["vii"] = ["I", "vii", "V/V", "V/ii", "V/vi", "V7/IV", "iii","V/iii"];
+    chordProgression["vii°"] = ["I", "vii°", "V/V", "V/ii", "V/vi", "V7/IV", "iii","V/iii"];
     chordProgression["iii"] = ["iii", "vi"];
     const tonic = this.state.pitchMap[this.state.pitch.indexOf(this.state.song.key.replace('m', ''))];
     const supertonic = tonic + 2;
@@ -209,28 +271,30 @@ class Harmonize extends Component {
     //const subtonic = tonic + 11; (harmonic minor)
     keyToChord[tonic % 12] = ["I",  "IV", "vi"];
     keyToChord[(tonic+1) % 12] = ["V/ii"];
-    keyToChord[supertonic % 12] = ["ii",  "V",  "vii", "V/V"];
+    keyToChord[supertonic % 12] = ["ii",  "V",  "vii°", "V/V"];
     keyToChord[(supertonic+1) % 12] = ["V/iii"]
     keyToChord[mediant % 12] = ["I", "iii", "vi", "V/ii"];
-    keyToChord[subdominant % 12] = [ "IV", "ii",  "vii"];
+    keyToChord[subdominant % 12] = [ "IV", "ii",  "vii°"];
     keyToChord[(subdominant+1) % 12] = ["V/V"]
     keyToChord[dominant % 12] = ["I", "iii", "V"];
     keyToChord[(dominant+1) % 12] = ["V/vi"];
     keyToChord[submediant % 12] = ["ii", "IV", "vi", "V/V", "V/ii"];
     keyToChord[(subtonic-1) % 12] = ["V7/IV"];
-    keyToChord[subtonic % 12] = [ "V",  "vii", "iii" ];
+    keyToChord[subtonic % 12] = [ "V",  "vii°", "iii" ];
     chordToPitch["I"] = [tonic-12, mediant-12, dominant-12];
     chordToPitch["ii"] = [supertonic-12, subdominant-12, submediant-12];
     chordToPitch["IV"] = [subdominant-12, submediant-12, tonic-12];
     chordToPitch["V"] = [dominant-12, subtonic-24, supertonic-12];
     chordToPitch["vi"] = [submediant-24, tonic-12, mediant-12];
-    chordToPitch["vii"] = [subtonic-24, supertonic-12, subdominant-12];
+    chordToPitch["vii°"] = [subtonic-24, supertonic-12, subdominant-12];
     chordToPitch["V/V"] = [supertonic-12, subdominant-11, submediant-12];
     chordToPitch["V/ii"] = [submediant-12, tonic-11, mediant-12];
     chordToPitch["V/vi"] = [mediant-12, dominant-11, subtonic-12];
     chordToPitch["V7/IV"] = [tonic-12, mediant-12, dominant-12, subtonic-13]; 
     chordToPitch["iii"] = [mediant-12, dominant-12, subtonic-12];
     chordToPitch["V/iii"] = [subtonic-12, supertonic-11, subdominant-11];
+    
+
     this.chordToPitch = chordToPitch;
     this.keyToChord = keyToChord;
     this.chordProgression = chordProgression;
