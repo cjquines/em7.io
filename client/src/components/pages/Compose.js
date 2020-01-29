@@ -235,7 +235,7 @@ class Compose extends Component {
         : <button type="button" className="greyButton" onClick={this.play}>Play</button>);
     }
     let harmonizeButton = (<button type="button" className="greyButton">Harmonize</button>);
-    if (this.state.song.duration !== 0 && !this.state.isRecording && !this.state.isPlayingBack) {
+    if (this.state.song.notes.length !== 0 && !this.state.isRecording && !this.state.isPlayingBack) {
       harmonizeButton = (<Link to={`/harmonize/${this.state.song._id}`}><button type="button" className="goodButton" onClick={this.saveSong()}>Harmonize</button></Link>);
     }
     let defaultTonic = this.state.song.key;
