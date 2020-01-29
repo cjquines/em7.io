@@ -78,19 +78,39 @@ class Harmonize extends Component {
     });
   }
 
+  // saveSong = () => {
+  //   get("/api/whoami").then((user) => {
+  //     const content = {...this.state.song, harmony: this.state.harmony.notes};
+  //     let body = { song_id: this.state.song._id, content: content, name: this.state.song.title };
+  //     post("/api/song", body).then((response) => {
+  //         console.log(response);
+  //         if (response._id) {
+  //           this.setState({ song: {...this.state.song, _id: response._id } });
+  //         }
+  //     });
+  //   });
+  //   console.log(this.state.song)
+  //   console.log("saving from harmonizing page")
+  // };
+
   saveSong = () => {
     get("/api/whoami").then((user) => {
       const content = {...this.state.song, harmony: this.state.harmony.notes};
-      let body = { song_id: this.state.song._id, content: content };
+      let body = { content: content, creator_id: user._id, name: this.state.song.title };
+
+      if (this.props.songId) {
+        body = { ...body, song_id: this.props.songId };
+      }
       post("/api/song", body).then((response) => {
-          console.log(response);
+
           if (response._id) {
             this.setState({ song: {...this.state.song, _id: response._id } });
           }
       });
     });
-    console.log(this.state.song)
-    console.log("saving from harmonizing page")
+    console.log(this.state.song._id)
+    console.log("saving from harmonize page")
+    // get("/api/song", { _id: this.props.songId }).then((song) => console.log("funny song", song)).catch((err) => {console.log("err")});
   };
 
   harmonizePossibilities = (i) => {
@@ -225,7 +245,7 @@ class Harmonize extends Component {
     this.harmonyPiano.schedule(this.audioContext.currentTime, this.state.harmony.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
-    this.timeout = setTimeout(this.stop, this.state.song.duration*1000-3000);
+    this.timeout = setTimeout(this.stop, this.state.song.duration*1000-1000);
   };
 
   stop = () => {

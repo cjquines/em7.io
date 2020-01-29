@@ -40,7 +40,7 @@ class Profile extends Component {
     else {
       displayedList = this.state.songList.map((aSong) =>
       <SongBlock
-        key = {aSong.content}
+        key = {aSong._id}
         song_id = {aSong._id}
         creator_id = {aSong.creator_id}
         name = {aSong.name}

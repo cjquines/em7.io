@@ -181,7 +181,7 @@ class Compose extends Component {
       song: {...this.state.song, duration: this.state.song.duration+1}});
     clearInterval(this.metronomeInterval);
     keyboardjs.pause();
-    this.saveSong();
+    //this.saveSong();
   };
 
   //TODO: snap correctly after changing tempo
@@ -193,7 +193,7 @@ class Compose extends Component {
       return new Note(note.id, note.pitch, newOnset, newLength);
     });
     this.setState({ song: {...this.state.song, notes: newNotes}, hasSnapped: true});
-    this.saveSong();
+    //this.saveSong();
   };
 
   play = () => {
@@ -201,7 +201,7 @@ class Compose extends Component {
     this.piano.schedule(this.audioContext.currentTime, this.state.song.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
-    this.timeout = setTimeout(this.stop, this.state.song.duration*1000-3000);
+    this.timeout = setTimeout(this.stop, this.state.song.duration*1000-1000);
   };
 
 
@@ -232,8 +232,8 @@ class Compose extends Component {
         : <button type="button" className="greyButton" onClick={this.play}>Play</button>);
     }
     let harmonizeButton = (<button type="button" className="greyButton">Harmonize</button>);
-    if (this.state.song._id !== undefined) {
-      harmonizeButton = (<Link to={`/harmonize/${this.state.song._id}`}><button type="button" className="goodButton" onClick={this.saveSong}>Harmonize</button></Link>);
+    if (this.state.song.duration !== 0 && !this.state.isRecording && !this.state.isPlayingBack) {
+      harmonizeButton = (<Link to={`/harmonize/${this.state.song._id}`}><button type="button" className="goodButton" onClick={this.saveSong()}>Harmonize</button></Link>);
     }
     let defaultTonic = this.state.song.key;
     let defaultMode = "";
@@ -280,7 +280,7 @@ class Compose extends Component {
           <NoteBlock
             song={this.state.song}
             snapInterval={this.state.snapInterval}
-            onChange={(song) => {this.setState({song: song}); this.saveSong(); this.render(); }}
+            onChange={(song) => {this.setState({song: song});  this.render(); }}
           />
         </div>
       </div>
