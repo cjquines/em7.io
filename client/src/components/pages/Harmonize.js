@@ -342,7 +342,8 @@ class Harmonize extends Component {
     }
     if (this.state.harmony.notes.length === 0) {
       return <div>
-      No harmonies found! Your song is still saved, but we couldn't automatically find a harmony for you. Try clicking the Back button on your browser and changing the key of the song.
+      No harmonies found! Your song is still saved, but we couldn't automatically find a harmony for you. 
+      Try clicking <Link to={`/compose/${this.props.songId}`}>here</Link> and changing the key of the song.
       </div>;
     }
     return (
