@@ -5,6 +5,7 @@ import Note from "../common/Note.js";
 
 // TODO: make this fancier
 import "./NoteBlock.css";
+import { noteToName } from "../../utilities.js";
 
 /**
  * Block that contains the notes that we can edit and stuff.
@@ -138,7 +139,7 @@ class NoteBlock extends Component {
           bottom: (note - 36)*this.state.heightUnit + "px",
         }}
         className="NoteBlock-horizontal-bars"
-      >{note}
+      >{noteToName(note)}
       </div>));
 
     return (
