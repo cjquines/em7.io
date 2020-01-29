@@ -103,11 +103,16 @@ class NoteBlock extends Component {
   };
 
   getSongMax = () => {
-    return Math.max(...this.props.song.notes.map(note => note.pitch))
+    return Math.max(...this.props.song.notes.map(note => note.pitch));
   };
 
   getSongMin = () => {
-    return Math.min(...this.props.song.notes.map(note => note.pitch))
+    const songMin = Math.min(...this.props.song.notes.map(note => note.pitch));
+    if (this.props.harmony) {
+      const harmonyMin = Math.min(...this.props.harmony.notes.map(note => note.pitch));
+      return Math.min(songMin, harmonyMin);
+    }
+    return songMin;
   };
 
   render() {
