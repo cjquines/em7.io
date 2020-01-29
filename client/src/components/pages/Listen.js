@@ -111,6 +111,9 @@ class Listen extends Component {
     }
     return (
       <>
+        <div className = "titles" style={{marginBottom: -6+"vh"}}>
+          <h1>{this.state.song.title}</h1>
+        </div>
         <div className="playback-row">
           <div className="big-noteblock-container">
             <NoteBlock

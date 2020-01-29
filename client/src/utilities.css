@@ -110,7 +110,7 @@ h6 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: -16px -22px var(--xl) -22px;
+  margin:0 -22px var(--xl) -22px;
 }
 
 .navbar-link{

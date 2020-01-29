@@ -358,10 +358,9 @@ class Harmonize extends Component {
       />
 
       <div className = "u-flex-spaceBetween u-flexColumn">
+        <p style= {{lineHeight: 1.7}}> No harmonies found! Your song is still saved, but we couldn't automatically find a harmony for you. 
+        <br></br>Try changing the key of the song.</p>
         <div className = "titles">
-          <h2> No harmonies found! Your song is still saved, but we couldn't automatically find a harmony for you. 
-        </h2>
-        <h2>Try changing the key of the song.</h2>
           <h1>{this.state.song.title}</h1>
         </div>
         <div className="big-noteblock-container">
