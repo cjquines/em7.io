@@ -51,6 +51,7 @@ router.post("/song", (req, res) => {
     Song.findOne({_id : req.body.song_id}).then((song) => {
       song.content = req.body.content;
       song.name = req.body.name;
+      song.key = req.body.key;
       song.save()
     });
     // Song.findOne({_id: req.body.song_id}, { $set: {content: req.body.content, name: req.body.name} }).then((response) => res.send(response)).catch((err) => {console.log("ahh save")});
