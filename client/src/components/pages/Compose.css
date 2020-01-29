@@ -150,43 +150,6 @@
 }
 
 
-select {
-    font-family: 'Montserrat', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
-    border: none;
-    color: var(--darkgrey);
-    background-color: transparent;
-    font-size: 14px;
-    @media (min-width: 768px) {
-      width: 70%;
-    }
-    
-    @media (min-width: 992px) {
-      width: 50%;
-    }
-    
-    @media (min-width: 1200px) {
-      width: 30%;
-    }
-}
-  
-input {
-    font-family: 'Montserrat', 'Helvetica Neue', 'Segoe UI', 'Calibri', 'Arial', sans-serif;
-    border: none;
-    color: var(--darkgrey);
-    background-color: transparent;
-    font-size: 24px;
-    @media (min-width: 768px) {
-      width: 70%;
-    }
-    
-    @media (min-width: 992px) {
-      width: 50%;
-    }
-    
-    @media (min-width: 1200px) {
-      width: 30%;
-    }
-}
 
 
 
