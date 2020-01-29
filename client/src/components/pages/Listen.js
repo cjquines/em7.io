@@ -62,10 +62,12 @@ class Listen extends Component {
     this.harmonyPiano.schedule(this.audioContext.currentTime, this.state.song.harmony.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
+    this.timeout = setTimeout(this.stop, this.state.song.duration*1000-3000);
   };
 
   stop = () => {
-    this.setState({isPlayingBack: false,});
+    this.setState({isPlayingBack: false});
+    clearTimeout(this.timeout);
     this.piano.stop();
     this.harmonyPiano.stop();
   };
