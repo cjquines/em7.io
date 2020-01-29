@@ -102,8 +102,12 @@ class NoteBlock extends Component {
     return Math.max(...this.props.song.notes.map((note) => (note.onset + note.length)),100)
   };
 
-  getSongRange = () => {
-    return (Math.max(...this.props.song.notes.map(note => note.pitch))-35)*12
+  getSongMax = () => {
+    return Math.max(...this.props.song.notes.map(note => note.pitch))
+  };
+
+  getSongMin = () => {
+    return Math.min(...this.props.song.notes.map(note => note.pitch))
   };
 
   render() {
@@ -118,10 +122,23 @@ class NoteBlock extends Component {
         }
       }
     }
+    let noteRange = [];
+    for (let i = this.getSongMin() - 1, i <= this.getSongMax() + 1, i++) {
+      noteRange.push(i);
+    }
+    const horizontalBars = noteRange.map((note) => (
+      <div
+        key={note}
+        style={{
+          height: (note - 36)*this.state.heightUnit + "px",
+        }}
+        className="NoteBlock-horizontal-bars"
+      />));
+
     return (
       <div className="NoteBlock-container" id="NoteBlock-container" style = {{
         width: this.getSongLength()/this.state.widthUnit+ 24 + "px",
-        height: Math.max(500, this.getSongRange()) + "px",
+        height: Math.max(500, (this.getSongMax() - 35)*12) + "px",
       }}>
         {this.props.song.notes.map((note, index) => (
           <div
