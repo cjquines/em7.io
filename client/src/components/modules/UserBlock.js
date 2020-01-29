@@ -24,7 +24,7 @@ class UserBlock extends Component {
             <Link to={`/profile/${this.props.id}`}>
             <div className = "smallSongContainer">
                 <div className = "smallSongTitle">{this.props.name}</div>
-                <div className = "smallSongSubtitle">Songs: {this.props.songs}</div>
+                <div className = "smallSongSubtitle">Songs composed: {this.props.songs}</div>
                 {/* TODO: make these make a DUPLICATE of the original rather than editing the original*/}
             </div>
             </Link>
