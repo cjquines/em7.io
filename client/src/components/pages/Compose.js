@@ -125,7 +125,7 @@ class Compose extends Component {
     });
     console.log(this.state.song._id)
     console.log("saving from compose page")
-    get("/api/song", { _id: this.props.songId }).then((song) => console.log("funny song", song)).catch((err) => {console.log("err")});
+    // get("/api/song", { _id: this.props.songId }).then((song) => console.log("funny song", song)).catch((err) => {console.log("err")});
   };
 
   auxMetronome = () => {

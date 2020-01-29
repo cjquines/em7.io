@@ -48,7 +48,7 @@ router.post("/song", (req, res) => {
   console.log(req.body)
   if (req.body.song_id) {
     console.log("in if")
-    Song.updateOne({_id: req.body.song_id}, {content: req.body.content}).then((response) => res.send(response)).catch((err) => {console.log("ahh save")});
+    Song.updateOne({_id: req.body.song_id}, { $set: {content: req.body.content} }).then((response) => res.send(response)).catch((err) => {console.log("ahh save")});
   } else {
     console.log("in else")
     const newSong = new Song({
