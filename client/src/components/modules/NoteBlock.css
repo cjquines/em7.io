@@ -49,9 +49,9 @@
 }
 
 .NoteBlock-horizontal-bars {
-  height: 1px !important;
+  height: 12px;
   width: 100%;
   position: absolute;
-  background-color: #ddd;
+  border-bottom: 1px solid #ddd;
   z-index: 2;
 }

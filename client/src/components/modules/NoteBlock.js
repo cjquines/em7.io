@@ -138,7 +138,8 @@ class NoteBlock extends Component {
           bottom: (note - 36)*this.state.heightUnit + "px",
         }}
         className="NoteBlock-horizontal-bars"
-      />));
+      >{note}
+      </div>));
 
     return (
       <div className="NoteBlock-container" id="NoteBlock-container" style = {{
