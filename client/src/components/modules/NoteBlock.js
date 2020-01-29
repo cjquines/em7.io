@@ -122,7 +122,7 @@ class NoteBlock extends Component {
           data-id={note.id}
           className="NoteBlock-note"
           style={{
-            bottom: (note.pitch - 40)*this.state.heightUnit + "px",
+            bottom: (note.pitch - 36)*this.state.heightUnit + "px",
             width: (note.length / this.state.widthUnit) + "px",
             left: (note.onset / this.state.widthUnit) + "px",
           }}
@@ -133,7 +133,7 @@ class NoteBlock extends Component {
           key={note.id}
           className="NoteBlock-harmony"
           style={{
-            bottom: (note.pitch - 40)*this.state.heightUnit + "px",
+            bottom: (note.pitch - 36)*this.state.heightUnit + "px",
             width: (note.length / this.state.widthUnit) + "px",
             left: (note.onset / this.state.widthUnit) + "px",
           }}
@@ -145,7 +145,7 @@ class NoteBlock extends Component {
           className="NoteBlock-harmony"
           style={{
             // fix this
-            bottom: (note.pitch - 40)*this.state.heightUnit + "px",
+            bottom: (note.pitch - 36)*this.state.heightUnit + "px",
             width: (note.length / this.state.widthUnit) + "px",
             left: (note.onset / this.state.widthUnit) + "px",
           }}
