@@ -90,11 +90,11 @@ class Harmonize extends Component {
     });
   }
 
-  attemptHarmonize = () => {
-    if (this.state.song.key.includes('m')) {
-      this.changeChordMinorMaps();
+  attemptHarmonize = (key, notes) => {
+    if (key.includes('m')) {
+      this.changeChordMinorMaps(key, notes);
     } else {
-      this.changeChordMajorMaps();
+      this.changeChordMajorMaps(key, notes);
     }
     for (const note of this.chordChoices[0]) {
       if (this.harmonizeHelper([[note, 0]])) {
