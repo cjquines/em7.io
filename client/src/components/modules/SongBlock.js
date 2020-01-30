@@ -24,11 +24,18 @@ class SongBlock extends Component {
 
   componentDidMount() { }
 
+
   delete = () => {
+      if(confirm("Are you sure you want to delete this song?")){
       this.setState({deleted : true})
     post("/api/song/delete", { song_id: this.props.song_id }).then((response) => {
       console.log(response);
     });
+    }
+    else {
+        
+    }
+
   };
 
   render() {
