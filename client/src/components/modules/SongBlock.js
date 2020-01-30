@@ -31,7 +31,7 @@ class SongBlock extends Component {
         :
           <div className = "smallSongSubtitle">{this.props.keys+ " major"}</div>
         }
-        {(user._id === this.props.creator_id)
+        {this.props.is_owner &&
           (<>
           <Link to={`/compose/${this.props.song_id}`}>
             <button type="button" className="greyButton">

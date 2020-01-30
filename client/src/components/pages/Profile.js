@@ -14,12 +14,16 @@ class Profile extends Component {
     super(props);
     this.state = {
       user: undefined,
+      currentUser: undefined,
       songList: [],
     }
   }
 
   componentDidMount() { 
     document.title = "Profile Page";
+    get("/api/whoami").then((user) => {
+      this.setState({ currentUser: user });
+    });
     get(`/api/user`, { userId: this.props.userId }).then((user) => {
       console.log("got user!");
       this.setState({ user : user });
@@ -38,12 +42,17 @@ class Profile extends Component {
       return <div>Loading...</div>;
     }
     else {
+      let isOwner = false;
+      if (currentUser._id) {
+        let isOwner = currentUser._id === user._id;
+      }
       displayedList = this.state.songList.map((aSong) =>
       <SongBlock
         keys = {aSong.key}
         song_id = {aSong._id}
         creator_id = {aSong.creator_id}
         name = {aSong.name}
+        is_owner = {isOwner}
       />)
     }
     return (
