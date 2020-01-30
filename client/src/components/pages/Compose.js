@@ -213,12 +213,13 @@ class Compose extends Component {
     this.setState({isPlayingBack: false});
     clearTimeout(this.timeout);
     clearInterval(this.curTimeInterval);
+    this.setState({curTime: undefined});
     this.piano.stop();
   };
 
   updateCurTime = () => {
     this.setState({curTime : Date.now() - this.state.start});
-  }
+  };
 
   componentWillUnmount() {
     clearTimeout(this.timeout)

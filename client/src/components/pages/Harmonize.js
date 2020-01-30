@@ -336,6 +336,7 @@ class Harmonize extends Component {
     }));
     const duration = Math.max(...this.state.song.notes.map((notes) => notes.onset+notes.length));
     this.timeout = setTimeout(this.stop, duration);
+    this.curTimeInterval = setInterval(this.updateCurTime, 15);
   };
 
   stop = () => {
@@ -343,6 +344,12 @@ class Harmonize extends Component {
     clearTimeout(this.timeout);
     this.piano.stop();
     this.harmonyPiano.stop();
+    clearInterval(this.curTimeInterval);
+    this.setState({curTime: undefined});
+  };
+
+  updateCurTime = () => {
+    this.setState({curTime : Date.now() - this.state.start});
   };
 
   componentWillUnmount() {
@@ -391,6 +398,7 @@ class Harmonize extends Component {
             //harmonyChords={this.harmonyChords}
             //onHarmonyChange={(index, value) => {this.harmonyChords[index] = value; this.harmonizeAlgorithm();}}
             //possibilities={this.harmonizePossibilities}
+            curTime={this.state.curTime}
           />
         </div>
       </div>
@@ -440,6 +448,7 @@ class Harmonize extends Component {
             harmonyChords={this.harmonyChords}
             onHarmonyChange={(index, value) => {this.harmonyChords[index] = value; this.harmonizeAlgorithm();}}
             possibilities={this.harmonizePossibilities}
+            curTime={this.state.curTime}
           />
         </div>
       </div>

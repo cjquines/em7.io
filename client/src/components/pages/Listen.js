@@ -75,6 +75,7 @@ class Listen extends Component {
     }));
     const duration = Math.max(...this.state.song.notes.map((notes) => notes.onset+notes.length));
     this.timeout = setTimeout(this.stop, duration);
+    this.curTimeInterval = setInterval(this.updateCurTime, 15);
   };
 
   stop = () => {
@@ -82,6 +83,12 @@ class Listen extends Component {
     clearTimeout(this.timeout);
     this.piano.stop();
     this.harmonyPiano.stop();
+    clearInterval(this.curTimeInterval);
+    this.setState({curTime: undefined});
+  };
+
+  updateCurTime = () => {
+    this.setState({curTime : Date.now() - this.state.start});
   };
 
   componentWillUnmount() {
@@ -121,6 +128,7 @@ class Listen extends Component {
               song={this.state.song}
               harmony={{...this.state.song, notes: this.state.song.harmony}}
               snapInterval={this.state.snapInterval}
+              curTime={this.state.curTime}
             />
           </div>
         </div>
