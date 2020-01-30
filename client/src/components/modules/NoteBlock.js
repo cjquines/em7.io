@@ -130,7 +130,7 @@ class NoteBlock extends Component {
     }
     let noteRange = [];
     for (let i = Math.min(36, this.getSongMin() - 1); i < Math.max(72, this.getSongMax()+2); i++) {
-      if (i % 2) {noteRange.push(i);}
+      if (i % 2 === 0) {noteRange.push(i);}
     }
     const horizontalBars = noteRange.map((note) => (
       <div
@@ -139,7 +139,7 @@ class NoteBlock extends Component {
           bottom: (note - 36)*this.state.heightUnit + "px",
         }}
         className="NoteBlock-horizontal-bars"
-      >{noteToName(note)}
+      >{(note % 12 === 0) ? noteToName(note) : ""}
       </div>));
 
     return (
