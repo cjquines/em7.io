@@ -4,7 +4,7 @@
     display: inline-block;
     border: none;
     background: #f1f1f1;
-    z-index: 4;
+    z-index: 6;
     font-size: 16px;
 }
 
@@ -16,13 +16,13 @@
 
 .formContainer {
     padding: 40px;
-    z-index: 4;
+    z-index: 6;
 }
 
 
 .modal {
     position: fixed; /* Stay in place */
-    z-index: 5; /* Sit on top */
+    z-index: 7; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -30,16 +30,30 @@
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0,0.04);
     padding-top: 50px;
-    z-index: 4;
+    z-index: 6;
 }
 
 .modal-content {
     background-color: #fff;
     margin: 20vh auto 20vh auto; /* 5% from the top, 15% from the bottom and centered */
     width: calc(min(380px, 40vw)); /* Could be more or less, depending on screen size */
-    z-index: 4;
+    z-index: 6;
     border-radius: 24px;
     box-shadow: 0 0 16px #888888;
+}
+.helpFormContainer {
+    padding: 50px;
+    z-index: 6;
+}
+.help-modal-content {
+    background-color: #fff;
+    margin: 6vh auto; /* 5% from the top, 15% from the bottom and centered */
+    height: 72vh;
+    width: calc(min(600px, 80vw)); /* Could be more or less, depending on screen size */
+    z-index: 6;
+    border-radius: 24px;
+    box-shadow: 0 0 16px #888888;
+    overflow: scroll;
 }
 
 .save-button-container {
@@ -57,3 +71,15 @@
     }
 }
 
+h4{
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 180%;
+    margin-top: 30px;
+    margin-bottom: -12px;
+}
+p {
+    line-height: 180%;
+    font-size: 15px;
+    margin: 24px 0;
+}

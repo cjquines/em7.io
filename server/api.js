@@ -12,6 +12,7 @@ const express = require("express");
 // import models so we can interact with the database
 const User = require("./models/user");
 const Song = require("./models/songModel");
+const Text = require("./models/textModel");
 
 // import authentication library
 const auth = require("./auth");
@@ -79,6 +80,13 @@ router.post("/song", (req, res) => {
   
 });
 
+router.post("/text", (req, res) => {
+  console.log(req.body)
+  const newText = new Text({
+    content: req.body.content,
+  });
+  newText.save().then((response) => res.send(response));
+});
 
 
 // |------------------------------|

@@ -1,31 +1,28 @@
 .NoteBlock-container {
   background-color: transparent !important;
   display: flex;
-  margin: 0;
   position: relative;
   z-index: 1;
 }
 
 .NoteBlock-note {
-  background: #333;
+  background: rgb(153, 66, 66);
+  border: 0.4px solid #fff;
   height: 12px;
   position: absolute;
   touch-action: none;
   min-width: 10px;
-  border-radius: 3px;
-  box-shadow: 0 0 2px #ccc;
+  border-radius: 2px;
   box-sizing: border-box;
   z-index: 4;
 }
 
 .NoteBlock-harmony {
-  background: #888;
+  background-color: #cacaca;
   height: 12px;
   position: absolute;
   touch-action: none;
   min-width: 10px;
-  border-radius: 3px;
-  box-shadow: 0 0 2px #ccc;
   box-sizing: border-box;
   z-index: 3;
 }
@@ -62,6 +59,13 @@
   width: 1px !important;
   height: 100%;
   position: absolute;
-  background-color: #f00;
+  background-color: rgb(143, 40, 40);
+  box-shadow: 0 0 1px rgb(138, 56, 56);
   z-index: 4;
+}
+
+.sideNote {
+  color: #777777;
+  margin-left: 6px;
+  font-size: 10px;
 }

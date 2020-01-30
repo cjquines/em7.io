@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
 import GoogleLogin, { GoogleLogout } from "react-google-login";
+import Help from "../modules/Help.js";
+import { post } from "../../utilities.js"
 
 // TODO: write NavBar css
 // import "./NavBar.css";
@@ -19,15 +21,34 @@ const GOOGLE_CLIENT_ID = "500052314351-0etpe2e520de1vf9121pb37fscm9t52o.apps.goo
 class NavBar extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      helping : false,
+    }
   }
+
+  openHelpDialogue = () => {
+    this.setState({helping: true});
+  };
+  
+  closeDialogue = () => {
+    this.setState({helping: false});
+  };
+
+
 
   render() {
     return (
+      <>
+      <Help id = "help"
+        closingFunction={this.closeDialogue}
+        display={this.state.helping}
+      />
       <nav className="navbar-container">
         <div className="navbar-subcontainer">
-          <div className="navbar-title u-inlineBlock">
+          <div className="navbar-linkContainer u-inlineBlock">
             <Link to="/" className="navbar-link">Home</Link>
           </div>
+          {/*<div onClick={this.openHelpDialogue} className="navbar-link">About</div>*/}
           {/* <div className="navbar-linkContainer u-inlineBlock">
             {this.props.userId && (
               <Link to={`/profile/${this.props.userId}`} className="navbar-link">
@@ -44,6 +65,7 @@ class NavBar extends Component {
               </Link>
             )}
           </div>
+          
           {/* <div className="u-inlineBlock">
             <Link to="/" className="navbar-link">Help</Link>
           </div>
@@ -71,6 +93,7 @@ class NavBar extends Component {
           </div>
         </div>
       </nav>
+      </>
     );
   }
 }

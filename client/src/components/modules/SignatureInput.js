@@ -35,7 +35,7 @@ class SignatureInput extends Component {
   render() {
     return (
       <div className="SignatureInput-container">
-        Time signature
+        Time
         <select value={this.state.upper} onChange={this.handleUpperChange}>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -53,7 +53,7 @@ class SignatureInput extends Component {
           <option value="15">15</option>
           <option value="16">16</option>
         </select>
-        <select value={this.state.lower} onChange={this.handleLowerChange}>
+        <select className="select-style" value={this.state.lower} onChange={this.handleLowerChange}>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="4">4</option>

@@ -257,7 +257,7 @@ class Compose extends Component {
       <div className="u-flex-spaceBetween">
         <div className = "titles">
           <h2>Compose</h2>
-          <input id="song-title" value={this.state.song.title} type = "text" onChange={this.handleTitleChange}></input>
+          <input className="song-title" id="song-title" value={this.state.song.title} type = "text" onChange={this.handleTitleChange}></input>
         </div>
         <div className = "Timesig-block">
           <KeyInput className = "select-box"
@@ -285,7 +285,7 @@ class Compose extends Component {
         <div className="Record-button">{recordButton}</div>
         <Piano keys={this.state.keys} notes={this.state.pitchMap} pressed={this.state.pressed}/>
       </div>
-
+      {this.state.hasRecorded || this.state.isRecording ? (
       <div className="playback-row">
         <div className="big-noteblock-container">
           <NoteBlock
@@ -295,19 +295,20 @@ class Compose extends Component {
             curTime={this.state.curTime}
           />
         </div>
-      </div>
+      </div>): (null)}
 
-      {this.state.hasRecorded ? (
+      {this.state.hasRecorded ? (<div className = "compose-bottom-row">
+        {playButton}
       <div className="u-flex confirm-buttons-container u-flex-spaceBetween">
         <SnapIntervalInput
           song={this.state.song}
           defaultValue="0.25"
           onChange={(snapInterval) => this.setState({snapInterval: snapInterval})}
         />
-        {playButton}
+        
         <button type="button" className="hollowButton" onClick={this.snapNotes}>Snap notes</button>
         {harmonizeButton}
-      </div>) : (null)}
+      </div></div>) : (null)}
     </div>
     );
   }

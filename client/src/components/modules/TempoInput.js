@@ -28,7 +28,7 @@ class TempoInput extends Component {
     return (
       <div className="TempoInput-container">
         Tempo
-        <input value={this.state.tempo} type="number" min="30" max="300" onChange={this.handleTempoChange}/>
+        <input className="input-bar-small" value={this.state.tempo} type="number" min="30" max="300" onChange={this.handleTempoChange}/>
       </div>
     );
   }

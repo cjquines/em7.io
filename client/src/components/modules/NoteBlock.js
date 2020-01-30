@@ -139,12 +139,12 @@ class NoteBlock extends Component {
           bottom: (note - 36)*this.state.heightUnit + "px",
         }}
         className="NoteBlock-horizontal-bars"
-      >{(note % 12 === 0) ? noteToName(note) : ""}
+      ><div className = "sideNote"> {(note % 4 === 0) ? noteToName(note) : ""}</div>
       </div>));
 
     return (
       <div className="NoteBlock-container" id="NoteBlock-container" style = {{
-        width: this.getSongLength()/this.state.widthUnit+ 24 + "px",
+        width: this.getSongLength()/this.state.widthUnit+ 160 + "px",
         height: Math.max(500, (this.getSongMax() - 35)*12) + "px",
       }}>
         {this.props.curTime &&

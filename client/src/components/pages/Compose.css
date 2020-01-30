@@ -55,7 +55,7 @@
   background-image: linear-gradient(white, white), radial-gradient(circle at top left, rgba(231, 63, 0, 0.65),rgba(138, 23, 23, 0.8));
   background-origin: border-box;
   background-clip: content-box, border-box;
-  margin-right: 40px;
+  margin-right: 60px;
 }
 
 .startRound:hover {
@@ -84,7 +84,7 @@
   background-image: linear-gradient(white, white), radial-gradient(circle at top left, rgba(156, 50, 50, 0.65),rgba(126, 47, 106, 0.8));
   background-origin: border-box;
   background-clip: content-box, border-box;
-  margin-right: 40px;
+  margin-right: 60px;
 }
 
 
@@ -131,25 +131,30 @@
     display: flex;
     flex-direction: column;
     align-content: center;
-    justify-content: space-between;
+    text-align: center;
     vertical-align: top;
-    background-color: var(--lightgrey);
-    height: 64px;
-    width: 64px;
-    border-radius: 64px;
-    padding: var(--xl);
-    margin: 0 var(--m);
+    justify-content: space-between;
+    background-color: #fff;
+    box-shadow: 0 0 2px -2px #f8f8f8;
+    height: 80px;
+    width: 70px;
+    padding: 12px var(--m) 20px;
+    margin: 0 var(--m) 10px;
     transition: all 0.2s;
+    line-height: 240%;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 0px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid  #ccc;
 }
 
 .KeyInput-container:hover,
 .SignatureInput-container:hover,
 .TempoInput-container:hover {
-    background-color: #eaeaea;
+    background-color: #f8f8f8;
     transition: all 0.2s;
 }
-
-
 
 
 
@@ -175,6 +180,22 @@
   
 .SnapIntervalInput-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
     vertical-align: middle;
+    line-height: 130%;
+}
+
+.input-bar-small {
+  text-align: center;
+  font-weight: 300;
+  vertical-align: middle;
+  margin-bottom: 6px;
+  margin-left: 12px;
+}
+
+.compose-bottom-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

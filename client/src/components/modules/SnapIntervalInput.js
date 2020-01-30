@@ -25,7 +25,7 @@ class SnapIntervalInput extends Component {
   render() {
     return (
       <div className="SnapIntervalInput-container">
-        Snap interval
+        <>Snap interval</>
         <select value={this.state.value} onChange={this.handleChange}>
           <option value="0.0625">1/16 beat</option>
           <option value="0.125">1/8 beat</option>

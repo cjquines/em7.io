@@ -5,7 +5,7 @@ import "./SongBlock.css"
 import "../../utilities.css"
 import { post } from "../../utilities.js"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrashAlt, faMusic, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faTrashAlt, faEdit, faGuitar } from '@fortawesome/free-solid-svg-icons'
 
 class SongBlock extends Component {
 
@@ -60,7 +60,7 @@ class SongBlock extends Component {
           </Link>
           <Link className = "songBlockLink"to={`/harmonize/${this.props.song_id}`}>
             <span className="songBlockLinkTooltip">Reharmonize</span>
-            <FontAwesomeIcon icon = {faMusic}/>
+            <FontAwesomeIcon icon = {faGuitar}/>
           </Link>
           
           <Link className = "songBlockLink" onClick = {this.delete} to={`/profile/${this.props.creator_id}`}>

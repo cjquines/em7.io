@@ -9,13 +9,13 @@ button {
     font-family: "Montserrat", "Open Sans", sans-serif;
     font-style: normal;
     font-weight: 500;
-    font-size: 80px;
+    font-size: 12vh;
     background: linear-gradient(to right, rgb(218, 62, 0) -17%, rgb(163, 15, 15) 60%);
     border-image-slice: 1;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-top: 15vh;
-    margin-bottom: -1.5vh;
+    margin-top: 11vh;
+    margin-bottom: -6vh;
     text-shadow: 0 0 5px rgb(206, 65, 0, 0.15);
 }
 
@@ -23,7 +23,7 @@ button {
     font-family: "Montserrat", "Open Sans", sans-serif;
     font-style: normal;
     font-weight: 300;
-    font-size: 20px;
+    font-size: 3vh;
     color: #333333;
     text-shadow: 0 0 5px rgba(175, 67, 67, 0.2);
     margin-bottom: 12vh;
@@ -41,7 +41,7 @@ button {
 .splash-piano-png {
     top: 11vh;
     opacity: 0.07 !important;
-    height: 28vh !important;
+    height: 29vh !important;
     width: 80vh !important;
     position: absolute;
     z-index: -1;
@@ -141,7 +141,7 @@ button {
     width: 232px;
     height: 62px;
     border-radius: 58px;
-    background:  linear-gradient(to bottom right, rgb(218, 62, 0, 0.95) -80%, rgba(151, 6, 6, 0.82) 100%);
+    background:  linear-gradient(to bottom right, rgba(189, 55, 3, 0.95) -60%, rgba(151, 6, 6, 0.87) 100%);
     -webkit-background-clip: content-box;
     text-shadow: 0px 0px 6px rgba(200,30,30, 0.1);
     box-shadow: 0px 0px 3px rgb(218, 62, 0, 0.1);
@@ -150,7 +150,7 @@ button {
   }
 
   .splashRoundFilled:hover {
-    background:  linear-gradient(to bottom right, rgb(218, 62, 0, 1) -60%, rgba(151, 6, 6, 0.88) 50%);
+    background:  linear-gradient(to bottom right, rgba(151, 6, 6, 0.88) 0%,rgb(187, 56, 5) 200% );
     -webkit-background-clip: content-box;
     text-shadow: 0px 0px 6px rgba(200,30,30, 0.1);
     box-shadow: none;

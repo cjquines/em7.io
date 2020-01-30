@@ -1,38 +1,41 @@
 .PianoKey {
   display: flex;
   justify-content: center;
-  border: 0.7px solid #555;
+  border: 1px solid #777;
+  border-radius: 5px;
+
   position: absolute;
   top: 0;
   box-shadow: 1px 1px 2px rgba(0,0,0,0.3);
 }
 
 .PianoKey-white {
-  background-color: #fefefe;
-  height: 100%;
+  background-color: #fff;
+  height: 95%;
+  top: 5%;
   width: 10%;
   z-index: 3;
-  border-radius: 7px;
 }
 
 .PianoKey-black {
   background-color: #302c2c;
-  height: 65%;
+  height: 62%;
+  top: 5%;
   width: 6.67%;
   z-index: 4;
-  border-radius: 4px;
-  box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+  border-radius: 3px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
 
 }
 
 .PianoKey-white.PianoKey-pressed {
   -webkit-background-clip: content-box;
-  background: linear-gradient(to bottom right, rgba(158, 76, 76, 0.7) -50%, rgba(153, 56, 80, 0.7) 200%);
+  background: linear-gradient(to bottom right, rgba(134, 29, 29, 0.7) -50%, rgba(139, 45, 58, 0.7) 200%);
 }
 
 .PianoKey-black.PianoKey-pressed {
   -webkit-background-clip: content-box;
-  background: linear-gradient(to bottom right, rgb(131, 49, 49) -50%, rgb(131, 30, 55) 200%);
+  background: linear-gradient(to bottom right, rgba(134, 29, 29, 0.7) -50%, rgba(139, 45, 58, 0.7) 200%);
 }
 
 .PianoKey-whitenote {
@@ -46,7 +49,7 @@
   font-weight: 500;
   bottom: 1em;
   position: absolute;
-  text-shadow: 0 0 2px #fff;
+  text-shadow: 0 0 8px #fff;
 
 }
 

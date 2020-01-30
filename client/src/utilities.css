@@ -106,11 +106,20 @@ h6 {
   font-weight: 300;
 }
 
+.body {
+  background-color: #aaaaaa;
+}
+
 .navbar-container{
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin:0 -22px var(--xl) -22px;
+}
+.navbar-subcontainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .navbar-link{
@@ -124,6 +133,7 @@ h6 {
 .navbar-link:hover{
   color: black !important;
   transition: all 0.2s;
+  cursor: pointer;
 }
 
 
@@ -231,13 +241,44 @@ h6 {
   text-align: center;
   transition: all 0.2s;
   border: none;
-  margin:0 var(--m) 0 var(--l);
+  margin:0 var(--m) 0 var(--m);
 }
 
 .greyButton:hover {
   background: #ccc;
   transition: all 0.2s;
   margin:0 var(var(--m));
+}
+
+.checkButton {
+  font-family: "Montserrat", "Open Sans", sans-serif;
+  font-weight: 400 !important;
+  font-size: var(--m);
+  text-decoration: none;
+  padding: var(--m) var(--xxl);
+  height: 52px;
+  border-radius: 50px;
+  color: #333 !important;
+  text-shadow: 0px 0px 6px rgba(255, 255, 255, 0.2);
+  background: #f1f1f1;
+  text-align: center;
+  transition: all 0.2s;
+  border: none;
+  margin:0 var(--m) 0 var(--n);
+}
+
+.checkButton:hover {
+  font-family: "Montserrat", "Open Sans", sans-serif;
+  font-weight: 400 !important;
+  font-size: var(--m);
+  text-decoration: none;
+  padding: var(--m) var(--xxl);
+  height: 52px;
+  border-radius: 50px;
+  color: #333333 !important;
+  text-shadow: 0px 0px 6px rgba(255, 255, 255, 0.2);
+  background: #e8e8e8;
+  
 }
 
 .hollowButton {
