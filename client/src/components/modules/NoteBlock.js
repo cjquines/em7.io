@@ -159,17 +159,6 @@ class NoteBlock extends Component {
           }}
           />))
         }
-        {this.props.song.harmony.map((note, index) => (
-          <div
-          key={note.id}
-          className="NoteBlock-harmony"
-          style={{
-            bottom: (note.pitch - 36)*this.state.heightUnit + "px",
-            width: (note.length / this.state.widthUnit) + "px",
-            left: (note.onset / this.state.widthUnit) + "px",
-          }}
-          />))
-        }
         {this.props.harmony && this.props.harmony.notes.map((note, index) => (
           <div
           key={note.id}
