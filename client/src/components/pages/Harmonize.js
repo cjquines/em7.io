@@ -40,7 +40,10 @@ class Harmonize extends Component {
   }
 
   componentDidMount() {
-    //const timer = window.setTimeout(window.location.reload(), 10*1000);
+    const timer = setTimeout(function(){
+      window.location.reload(1);
+   }, 5000);
+   
     get("/api/whoami").then((user) => {
       if (user._id) {
         this.state.loggedIn = true;
@@ -76,7 +79,7 @@ class Harmonize extends Component {
           }
           console.log("no key found where the song has a harmony");
         }
-        //window.clearTimeout(timer);
+        window.clearTimeout(timer);
         this.setState({isProcessed: true});
       });
     });
