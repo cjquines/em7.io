@@ -129,8 +129,8 @@ class NoteBlock extends Component {
       }
     }
     let noteRange = [];
-    for (let i = Math.min(60, this.getSongMin() - 1); i < Math.max(72, this.getSongMax()+2); i++) {
-      noteRange.push(i);
+    for (let i = Math.min(36, this.getSongMin() - 1); i < Math.max(72, this.getSongMax()+2); i++) {
+      if (i % 2) {noteRange.push(i);}
     }
     const horizontalBars = noteRange.map((note) => (
       <div
