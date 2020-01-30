@@ -54,30 +54,25 @@ class Harmonize extends Component {
         harmony: {...song.content, notes: []},
         song: song.content,
       }, () => {
-        if (this.attemptHarmonize()) {
+        if (this.attemptHarmonize(this.state.song.key, this.state.song.notes)) {
           this.harmonizeAlgorithm();
         } else {
           console.log("no harmonies found; trying different keys");
-          const originalKey = this.state.song.key;
-          const success = false;
+          let goodKey = undefined;
           for (const tonic of this.state.pitch) {
-            this.setState({ song: {...this.state.song, key: tonic}}, () => {
-              if (this.attemptHarmonize()) {
-                success = true;
-                
-              }
-            })
-            if(success){ break }
-            this.setState({ song: {...this.state.song, key: tonic + "m"}}, () => {
-              if (this.attemptHarmonize()) {
-                success = true;
-              }
-            })
-            if(success){ break }
+            if (this.attemptHarmonize(tonic, this.state.song.notes)) {
+              goodKey = tonic;
+              break;
+            }
+            if (this.attemptHarmonize(tonic + "m", this.state.song.notes)) {
+              goodKey = tonic + "m";
+              break;
+            }
           }
-          if (success) {
-            this.setState({isKeyChanged: true});
-            this.harmonizeAlgorithm();
+          if (goodKey) {
+            this.setState({isKeyChanged: true, song: {...this.state.song, key: goodKey}}, () => {
+              this.harmonizeAlgorithm();
+            });
           }
           console.log("no key found where the song has a harmony");
         }
@@ -215,7 +210,7 @@ class Harmonize extends Component {
     this.setState({harmony: {...this.state.harmony, notes: harmony}});
   };
 
-  changeChordMinorMaps = () => {
+  changeChordMinorMaps = (key, notes) => {
     const chordProgression = {}; 
     const keyToChord = {};
     const chordToPitch = {};
@@ -231,13 +226,13 @@ class Harmonize extends Component {
       chordProgression["VI"] = ["ii°", "iv", "VI", "V/v", "V7/VI"];
       chordProgression["VII"] = ["i", "VII", "V/v", "V7/VI", "III"];
       chordProgression["III"] = ["III", "VI"];
-      const tonic = this.state.pitchMap[this.state.pitch.indexOf(this.state.song.key.replace('m', ''))];
+      const tonic = this.state.pitchMap[this.state.pitch.indexOf(key.replace('m', ''))];
       const supertonic = tonic + 2;
-      const mediant = tonic + 4-(+this.state.song.key.includes('m'));
+      const mediant = tonic + 4-(+key.includes('m'));
       const subdominant = tonic +5;
       const dominant = tonic + 7;
-      const submediant = tonic + 9- (+this.state.song.key.includes('m'));
-      const subtonic = tonic + 11-(+this.state.song.key.includes('m'));
+      const submediant = tonic + 9- (+key.includes('m'));
+      const subtonic = tonic + 11-(+key.includes('m'));
       //const subtonic = tonic + 11; (harmonic minor)
       keyToChord[tonic % 12] = ["i",  "iv", "VI"];
       keyToChord[(tonic+1) % 12] = ["V7/VI"];
@@ -267,10 +262,10 @@ class Harmonize extends Component {
       this.chordToPitch = chordToPitch;
       this.keyToChord = keyToChord;
       this.chordProgression = chordProgression;
-      this.chordChoices = this.state.song.notes.map((note) => keyToChord[note.pitch % 12]);
+      this.chordChoices = notes.map((note) => keyToChord[note.pitch % 12]);
     };
   
-    changeChordMajorMaps = () => {
+    changeChordMajorMaps = (key, notes) => {
       const chordProgression = {}; 
       const keyToChord = {};
       const chordToPitch = {};
@@ -288,13 +283,13 @@ class Harmonize extends Component {
     chordProgression["vi"] = ["ii", "IV", "vi", "V/V", "V/ii", "V/vi", "V7/IV", "V/iii"];
     chordProgression["vii°"] = ["I", "vii°", "V/V", "V/ii", "V/vi", "V7/IV", "iii","V/iii"];
     chordProgression["iii"] = ["iii", "vi"];
-    const tonic = this.state.pitchMap[this.state.pitch.indexOf(this.state.song.key.replace('m', ''))];
+    const tonic = this.state.pitchMap[this.state.pitch.indexOf(key.replace('m', ''))];
     const supertonic = tonic + 2;
-    const mediant = tonic + 4-(+this.state.song.key.includes('m'));
+    const mediant = tonic + 4-(+key.includes('m'));
     const subdominant = tonic +5;
     const dominant = tonic + 7;
-    const submediant = tonic + 9- (+this.state.song.key.includes('m'));
-     const subtonic = tonic + 11-(+this.state.song.key.includes('m'));
+    const submediant = tonic + 9- (+key.includes('m'));
+     const subtonic = tonic + 11-(+key.includes('m'));
     //const subtonic = tonic + 11; (harmonic minor)
     keyToChord[tonic % 12] = ["I",  "IV", "vi"];
     keyToChord[(tonic+1) % 12] = ["V/ii"];
@@ -325,7 +320,7 @@ class Harmonize extends Component {
     this.chordToPitch = chordToPitch;
     this.keyToChord = keyToChord;
     this.chordProgression = chordProgression;
-    this.chordChoices = this.state.song.notes.map((note) => keyToChord[note.pitch % 12]);
+    this.chordChoices = notes.map((note) => keyToChord[note.pitch % 12]);
   };
 
   play = () => {
