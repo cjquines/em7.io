@@ -63,7 +63,7 @@ export function post(endpoint, params = {}) {
 }
 
 export function noteToName(note) {
-  const tone = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#" "B"];
+  const tone = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
   const octave = Math.floor(note/12).toString();
   return tone[note % 12] + octave;
 }

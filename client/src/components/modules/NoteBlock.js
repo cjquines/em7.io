@@ -118,7 +118,7 @@ class NoteBlock extends Component {
 
   render() {
     let options = {};
-    if (this.props.harmony) {
+    if (this.props.possibilities && this.props.harmony) {
       for (let i = 0; i < this.props.song.notes.length; i++) {
         const possibilities = this.props.possibilities(i);
         if (possibilities) {
@@ -172,7 +172,7 @@ class NoteBlock extends Component {
           />
           ))
         }
-        {this.props.harmony && this.props.song.notes.map((note, index) => (
+        {this.props.possibilities && this.props.harmony && this.props.song.notes.map((note, index) => (
           <select
           key={note.id}
           value={this.props.harmonyChords[index]}
