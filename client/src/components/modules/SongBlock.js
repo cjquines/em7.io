@@ -55,13 +55,16 @@ class SongBlock extends Component {
         {this.props.is_owner &&
           (<><div className = "songBlockLinkContainer">
           <Link className = "songBlockLink" to={`/compose/${this.props.song_id}`}>
+            <span className="songBlockLinkTooltip">Edit</span>
             <FontAwesomeIcon icon = {faEdit}/>
           </Link>
           <Link className = "songBlockLink"to={`/harmonize/${this.props.song_id}`}>
+            <span className="songBlockLinkTooltip">Reharmonize</span>
             <FontAwesomeIcon icon = {faMusic}/>
           </Link>
           
           <Link className = "songBlockLink"to={`/profile/${this.props.creator_id}`}>
+            <span className="songBlockLinkTooltip">Delete</span>
             <FontAwesomeIcon icon = {faTrashAlt}/>
           </Link> </div></>)
         }
