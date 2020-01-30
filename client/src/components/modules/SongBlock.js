@@ -15,18 +15,24 @@ class SongBlock extends Component {
    */
   constructor(props) {
     super(props);
+    this.state = {
+        deleted : false
+    }
   }
 
   componentDidMount() { }
 
   delete = () => {
+      this.setState({deleted : true})
     post("/api/song/delete", { song_id: this.props.song_id }).then((response) => {
       console.log(response);
     });
   };
 
   render() {
-    console.log(this.props)
+    if(this.state.deleted){
+        return ("");
+    }
     return (
       <Link to={`/listen/${this.props.song_id}`}>
       <div className = "smallSongContainer">
@@ -49,9 +55,11 @@ class SongBlock extends Component {
               Reharmonize
             </button>
           </Link>
-          <button type="button" className="greyButton" onClick={this.delete()}>
+          <Link to={`/profile/${this.props.creator_id}`}>
+          <button type="button" className="greyButton" onClick={this.delete}>
             Delete
           </button>
+          </Link>
           </>)
         }
       </div>
