@@ -10,7 +10,7 @@ import HarmonyInput from "../modules/HarmonyInput.js";
 import "./Compose.css";
 import SnapIntervalInput from "../modules/SnapIntervalInput";
 import Dialogue from "../modules/Dialogue.js";
-import { get, post } from "../../utilities.js";
+import { get, post, keyToName } from "../../utilities.js";
 
 /**
  * Page where people can select harmonies.
@@ -429,7 +429,7 @@ class Harmonize extends Component {
           <h2>Harmonize</h2>
           <h1>{this.state.song.title}</h1>
         </div>
-    {this.state.isKeyChanged && (<p style= {{lineHeight: 1.7}}> No harmonies found in the original key. We've changed the key to {this.state.song.key} and made a new harmony for you.</p>)}
+    {this.state.isKeyChanged && (<p style= {{lineHeight: 1.7}}> No harmonies found in the original key. We've changed the key to {keyToName(this.state.song.key)} and made a new harmony for you.</p>)}
         <div className="big-noteblock-container">
           <NoteBlock
             harmony={this.state.harmony}

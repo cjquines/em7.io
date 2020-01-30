@@ -67,3 +67,9 @@ export function noteToName(note) {
   const octave = (Math.floor(note/12) - 1).toString();
   return tone[note % 12] + octave;
 }
+
+export function keyToName(key) {
+  const tone = key.replace("m", "");
+  const mode = key.includes("m") ? " minor" : " major";
+  return tone + mode;
+}
