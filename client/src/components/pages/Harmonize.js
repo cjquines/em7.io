@@ -455,7 +455,7 @@ class Harmonize extends Component {
       </div>
       <div className="u-flex confirm-buttons-container">
       <Link to={`/compose/${this.props.songId}`}>
-        <button type="button" className="goodButton">Back</button>
+        <button type="button" className="greyButton">Back</button>
       </Link>
         {this.state.isPlayingBack
           ? <button type="button" className="greyButton" onClick={this.stop}>Stop</button>
