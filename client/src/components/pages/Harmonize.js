@@ -40,7 +40,7 @@ class Harmonize extends Component {
   }
 
   componentDidMount() {
-    const timer = window.setTimeout(Location.reload(), 5*1000);
+    //const timer = window.setTimeout(window.location.reload(), 10*1000);
     get("/api/whoami").then((user) => {
       if (user._id) {
         this.state.loggedIn = true;
@@ -64,15 +64,16 @@ class Harmonize extends Component {
             this.setState({ song: {...this.state.song, key: tonic}}, () => {
               if (this.attemptHarmonize()) {
                 success = true;
-                break;
+                
               }
             })
+            if(success){ break }
             this.setState({ song: {...this.state.song, key: tonic + "m"}}, () => {
               if (this.attemptHarmonize()) {
                 success = true;
-                break;
               }
             })
+            if(success){ break }
           }
           if (success) {
             this.setState({isKeyChanged: true});
@@ -80,7 +81,7 @@ class Harmonize extends Component {
           }
           console.log("no key found where the song has a harmony");
         }
-        window.clearTimeout(timer);
+        //window.clearTimeout(timer);
         this.setState({isProcessed: true});
       });
     });
@@ -433,7 +434,7 @@ class Harmonize extends Component {
           <h2>Harmonize</h2>
           <h1>{this.state.song.title}</h1>
         </div>
-        {this.state.isKeyChanged ? (<p style= {{lineHeight: 1.7}}> No harmonies found! Your song is still saved, but we couldn't automatically find a harmony for you.</p>) : ()}
+        {this.state.isKeyChanged && (<p style= {{lineHeight: 1.7}}> No harmonies found! Your song is still saved, but we couldn't automatically find a harmony for you.</p>)}
         <div className="big-noteblock-container">
           <NoteBlock
             harmony={this.state.harmony}
