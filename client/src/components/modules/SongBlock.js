@@ -4,7 +4,7 @@ import { Link } from "@reach/router";
 import "./SongBlock.css"
 import "../../utilities.css"
 import { post } from "../../utilities.js"
-
+import Dialogue from "../modules/Dialogue.js";
 class SongBlock extends Component {
 
   /**
@@ -22,11 +22,18 @@ class SongBlock extends Component {
 
   componentDidMount() { }
 
+
   delete = () => {
+      if(confirm("Are you sure you want to delete this song?")){
       this.setState({deleted : true})
     post("/api/song/delete", { song_id: this.props.song_id }).then((response) => {
       console.log(response);
     });
+    }
+    else {
+        
+    }
+
   };
 
   render() {
