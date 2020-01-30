@@ -63,8 +63,8 @@ class SongBlock extends Component {
             <FontAwesomeIcon icon = {faMusic}/>
           </Link>
           
-          <Link className = "songBlockLink"to={`/profile/${this.props.creator_id}`}>
-            <span className="songBlockLinkTooltip">Delete</span>
+          <Link className = "songBlockLink" onClick = {this.delete} to={`/profile/${this.props.creator_id}`}>
+            <span className="songBlockLinkTooltip" >Delete</span>
             <FontAwesomeIcon icon = {faTrashAlt}/>
           </Link> </div></>)
         }
