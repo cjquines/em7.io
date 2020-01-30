@@ -43,8 +43,10 @@ class Profile extends Component {
     }
     else {
       let isOwner = false;
-      if (currentUser._id) {
-        let isOwner = currentUser._id === user._id;
+      console.log(this.state.currentUser._id);
+      console.log(this.state.user._id);
+      if (this.state.currentUser._id) {
+        isOwner = this.state.currentUser._id === this.state.user._id;
       }
       displayedList = this.state.songList.map((aSong) =>
       <SongBlock
