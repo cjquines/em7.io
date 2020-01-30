@@ -44,6 +44,16 @@ router.post("/user", (req, res) => {
   newUser.save().then((response) => res.send(response));
 });
 
+router.post("/song/delete", (req, res) => {
+  Song.findOne({_id: req.body.song_id}).then((song) => {
+    if (song.creator_id === req.user._id) {
+      Song.deleteOne({_id: req.body.song_id}).then((response) => res.send(response)).catch((err) => console.log(err));
+    } else {
+      console.log("bad user");
+    }
+  });
+});
+
 router.post("/song", (req, res) => {
   console.log(req.body)
   if (req.body.song_id) {

@@ -3,6 +3,7 @@ import { Link } from "@reach/router";
 
 import "./SongBlock.css"
 import "../../utilities.css"
+import { post } from "../../utilities.js"
 
 class SongBlock extends Component {
 
@@ -17,6 +18,12 @@ class SongBlock extends Component {
   }
 
   componentDidMount() { }
+
+  delete = () => {
+    post("/api/song/delete", { song_id: this.props.song_id }).then((response) => {
+      console.log(response);
+    });
+  };
 
   render() {
     console.log(this.props)
@@ -42,7 +49,9 @@ class SongBlock extends Component {
               Reharmonize
             </button>
           </Link>
-        
+          <button type="button" className="greyButton" onClick={this.delete()}>
+            Delete
+          </button>
           </>)
         }
       </div>
