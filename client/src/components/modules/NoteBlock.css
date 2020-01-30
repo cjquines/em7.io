@@ -55,3 +55,13 @@
   border-bottom: 1px solid #eee;
   z-index: 2;
 }
+
+.NoteBlock-scroll-line {
+  top: 0%;
+  height: 100%;
+  width: 1px !important;
+  height: 100%;
+  position: absolute;
+  background-color: #f00;
+  z-index: 4;
+}

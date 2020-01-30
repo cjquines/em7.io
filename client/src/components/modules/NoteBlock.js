@@ -147,18 +147,13 @@ class NoteBlock extends Component {
         width: this.getSongLength()/this.state.widthUnit+ 24 + "px",
         height: Math.max(500, (this.getSongMax() - 35)*12) + "px",
       }}>
-        {
-          <div
+        {(this.props.startTime !== 0) &&
+          (<div
+          className="NoteBlock-scroll-line"
           style={{
-            top: "0",
-            height: "100%",
-            width: "1px !important",
-            position: "absolute",
-            backgroundColor: "#f00",
-            zIndex: "2",
-            left: this.props.curTime,
+            left: (Date.now() - this.props.startTime)/this.state.widthUnit + "px",
           }}
-          />
+          />)
         }
         {this.props.song.notes.map((note, index) => (
           <div

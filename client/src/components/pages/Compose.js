@@ -200,15 +200,13 @@ class Compose extends Component {
   };
 
   play = () => {
-    this.setState({isPlayingBack: true});
+    this.setState({isPlayingBack: true, start: Date.now()});
     this.piano.schedule(this.audioContext.currentTime, this.state.song.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
     const duration = Math.max(...this.state.song.notes.map((notes) => notes.onset+notes.length));
     this.timeout = setTimeout(this.stop, duration);
   };
-
-
 
   stop = () => {
     this.setState({isPlayingBack: false});
@@ -285,7 +283,7 @@ class Compose extends Component {
             song={this.state.song}
             snapInterval={this.state.snapInterval}
             onChange={(song) => {this.setState({song: song}); this.render(); }}
-            curTime={10}
+            startTime={this.state.isPlayingBack ? this.state.start : 0}
           />
         </div>
       </div>
