@@ -6,40 +6,49 @@ import "../../utilities.css"
 
 class SongBlock extends Component {
 
-    /**
-     * 
-     * @param {String} song_id
-     * @param {String} name
-     * @param {String} creator_id
-     */
-    constructor(props) {
-        super(props);
-    }
+  /**
+   * 
+   * @param {String} song_id
+   * @param {String} name
+   * @param {String} creator_id
+   */
+  constructor(props) {
+    super(props);
+  }
 
-    componentDidMount() { }
+  componentDidMount() { }
 
-    render() {
-        console.log(this.props)
-        return (
-            <Link to={`/listen/${this.props.song_id}`}>
-            <div className = "smallSongContainer">
-                <div className = "smallSongTitle">{this.props.name}</div>
-                {
-                this.props.keys.includes('m') ?
-                    <div className = "smallSongSubtitle">{this.props.keys.replace('m','')+ " minor"}</div>
-                
-                :
-                    <div className = "smallSongSubtitle">{this.props.keys+ " major"}</div>
-                }
-                
-                
-                {/* TODO: make these make a DUPLICATE of the original rather than editing the original*/}
-                {/* <Link to={`/compose/${this.props.song_id}`}>Edit</Link>
-                <Link to={`/harmonize/${this.props.song_id}`}>Reharmonize</Link> */}
-            </div>
-            </Link>
-        )
-    }
+  render() {
+    console.log(this.props)
+    return (
+      <Link to={`/listen/${this.props.song_id}`}>
+      <div className = "smallSongContainer">
+        <div className = "smallSongTitle">{this.props.name}</div>
+        {
+        this.props.keys.includes('m') ?
+          <div className = "smallSongSubtitle">{this.props.keys.replace('m','')+ " minor"}</div>
+        :
+          <div className = "smallSongSubtitle">{this.props.keys+ " major"}</div>
+        }
+        {(user._id === this.props.creator_id)
+          (<>
+          <Link to={`/compose/${this.props.song_id}`}>
+            <button type="button" className="greyButton">
+              Edit
+            </button>
+          </Link>
+          <Link to={`/harmonize/${this.props.song_id}`}>
+            <button type="button" className="greyButton">
+              Reharmonize
+            </button>
+          </Link>
+          // <button type="button" className="greyButton" onClick={this.delete}}>Delete</button>
+          </>)
+        }
+      </div>
+      </Link>
+    )
+  }
 }
 
 export default SongBlock;
