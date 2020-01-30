@@ -285,6 +285,7 @@ class Compose extends Component {
             song={this.state.song}
             snapInterval={this.state.snapInterval}
             onChange={(song) => {this.setState({song: song}); this.render(); }}
+            curTime={10}
           />
         </div>
       </div>

@@ -147,6 +147,19 @@ class NoteBlock extends Component {
         width: this.getSongLength()/this.state.widthUnit+ 24 + "px",
         height: Math.max(500, (this.getSongMax() - 35)*12) + "px",
       }}>
+        {
+          <div
+          style={{
+            top: "0",
+            height: "100%",
+            width: "1px !important",
+            position: "absolute",
+            backgroundColor: "#f00",
+            zIndex: "2",
+            left: this.props.curTime,
+          }}
+          />
+        }
         {this.props.song.notes.map((note, index) => (
           <div
           key={note.id}
