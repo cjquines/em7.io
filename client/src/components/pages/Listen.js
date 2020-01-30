@@ -66,7 +66,7 @@ class Listen extends Component {
   };
 
   play = () => {
-    this.setState({isPlayingBack: true,});
+    this.setState({isPlayingBack: true, start: Date.now()});
     this.piano.schedule(this.audioContext.currentTime, this.state.song.notes.map((note) => {
       return { time: note.onset/1000, note: note.pitch, duration: note.length/1000 }
     }));
