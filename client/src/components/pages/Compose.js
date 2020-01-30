@@ -222,8 +222,10 @@ class Compose extends Component {
   };
 
   componentWillUnmount() {
-    clearTimeout(this.timeout)
+    clearTimeout(this.timeout);
+    clearInterval(this.curTimeInterval);
     this.piano.stop();
+    this.metronome.stop();
   };
 
   render() {

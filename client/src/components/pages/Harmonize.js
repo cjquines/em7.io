@@ -354,6 +354,7 @@ class Harmonize extends Component {
 
   componentWillUnmount() {
     clearTimeout(this.timeout);
+    clearInterval(this.curTimeInterval);
     this.piano.stop();
     this.harmonyPiano.stop();
   };
