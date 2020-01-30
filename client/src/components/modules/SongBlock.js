@@ -4,6 +4,8 @@ import { Link } from "@reach/router";
 import "./SongBlock.css"
 import "../../utilities.css"
 import { post } from "../../utilities.js"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashAlt, faMusic, faEdit } from '@fortawesome/free-solid-svg-icons'
 
 class SongBlock extends Component {
 
@@ -44,23 +46,17 @@ class SongBlock extends Component {
           <div className = "smallSongSubtitle">{this.props.keys+ " major"}</div>
         }
         {this.props.is_owner &&
-          (<>
-          <Link to={`/compose/${this.props.song_id}`}>
-            <button type="button" className="greyButton">
-              Edit
-            </button>
+          (<><div className = "songBlockLinkContainer">
+          <Link className = "songBlockLink" to={`/compose/${this.props.song_id}`}>
+            <FontAwesomeIcon icon = {faEdit}/>
           </Link>
-          <Link to={`/harmonize/${this.props.song_id}`}>
-            <button type="button" className="greyButton">
-              Reharmonize
-            </button>
+          <Link className = "songBlockLink"to={`/harmonize/${this.props.song_id}`}>
+            <FontAwesomeIcon icon = {faMusic}/>
           </Link>
-          <Link to={`/profile/${this.props.creator_id}`}>
-          <button type="button" className="greyButton" onClick={this.delete}>
-            Delete
-          </button>
-          </Link>
-          </>)
+          
+          <Link className = "songBlockLink"to={`/profile/${this.props.creator_id}`}>
+            <FontAwesomeIcon icon = {faTrashAlt}/>
+          </Link> </div></>)
         }
       </div>
       </Link>

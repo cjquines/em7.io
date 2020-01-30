@@ -10,7 +10,7 @@
 }
 
 .smallSongContainer:hover {
-    background-color: #f0f0f0;
+    background-color: #fff;
 }
 
 .smallSongTitle {
@@ -26,4 +26,21 @@
 
 a {
     text-decoration: none;
+}
+
+.songBlockLinkContainer {
+    position: relative;
+    margin-top: 12px;
+}
+
+.songBlockLink {
+    font-size: 14px;
+    color: #888 !important;
+    margin-right: 12px;
+    transition: all 0.2s;
+}
+
+.songBlockLink:hover {
+    color: #444 !important;
+    transition: all 0.2s;
 }
