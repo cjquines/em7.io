@@ -1,5 +1,5 @@
 .NoteBlock-container {
-  background-color: #f3f3f3 !important;
+  background-color: transparent !important;
   display: flex;
   margin: 0;
   position: relative;
@@ -31,11 +31,11 @@
 }
 
 .big-tempo-bar {
-  top: 5%;
+  top: 0%;
   width: 1px !important;
-  height: 90%;
+  height: 100%;
   position: absolute;
-  background-color: #777;
+  background-color: #666;
   z-index: 2;
 }
 
@@ -44,7 +44,7 @@
   width: 1px !important;
   height: 70%;
   position: absolute;
-  background-color: #c5c5c5;
+  background-color: #c7c7c7;
   z-index: 2;
 }
 
@@ -52,6 +52,6 @@
   height: 12px;
   width: 100%;
   position: absolute;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #eee;
   z-index: 2;
 }
