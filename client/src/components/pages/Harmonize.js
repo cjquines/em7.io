@@ -39,6 +39,7 @@ class Harmonize extends Component {
   }
 
   componentDidMount() {
+    const timer = window.setTimeout(Location.reload(), 5*1000);
     get("/api/whoami").then((user) => {
       if (user._id) {
         this.state.loggedIn = true;
@@ -70,6 +71,7 @@ class Harmonize extends Component {
         } else {
           this.harmonizeAlgorithm(this.state.harmonyOption);
         }
+        window.clearTimeout(timer);
         this.setState({isProcessed: true});
       });
     });
