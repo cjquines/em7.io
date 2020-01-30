@@ -20,6 +20,7 @@ class SongBlock extends Component {
 
   render() {
     console.log(this.props)
+    console.log(user._id);
     return (
       <Link to={`/listen/${this.props.song_id}`}>
       <div className = "smallSongContainer">
@@ -42,7 +43,7 @@ class SongBlock extends Component {
               Reharmonize
             </button>
           </Link>
-          // <button type="button" className="greyButton" onClick={this.delete}}>Delete</button>
+        
           </>)
         }
       </div>
