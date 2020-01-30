@@ -206,13 +206,19 @@ class Compose extends Component {
     }));
     const duration = Math.max(...this.state.song.notes.map((notes) => notes.onset+notes.length));
     this.timeout = setTimeout(this.stop, duration);
+    this.curTimeInterval = setInterval(this.updateCurTime, 30);
   };
 
   stop = () => {
     this.setState({isPlayingBack: false});
-    clearTimeout(this.timeout)
+    clearTimeout(this.timeout);
+    clearInterval(this.curTimeInterval);
     this.piano.stop();
   };
+
+  updateCurTime = () => {
+    this.curTime = Date.now() - this.state.start;
+  }
 
   componentWillUnmount() {
     clearTimeout(this.timeout)
@@ -283,7 +289,7 @@ class Compose extends Component {
             song={this.state.song}
             snapInterval={this.state.snapInterval}
             onChange={(song) => {this.setState({song: song}); this.render(); }}
-            startTime={this.state.isPlayingBack ? this.state.start : 0}
+            curTime={this.curTime}
           />
         </div>
       </div>
