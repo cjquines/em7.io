@@ -29,6 +29,7 @@ class Harmonize extends Component {
       chordArray: {},
       harmony: undefined,
       isProcessed: false,
+      isKeyChanged: false,
       saving: false,
       isPlayingBack: false,
       song: undefined,
@@ -53,23 +54,31 @@ class Harmonize extends Component {
         harmony: {...song.content, notes: []},
         song: song.content,
       }, () => {
-        let success = false;
-        if(song.key.includes('m')){
-          this.changeChordMinorMaps();
-        }
-        else{
-          this.changeChordMajorMaps();
-        }
-        for (const note of this.chordChoices[0]) {
-          if (this.harmonizeHelper([[note, 0]])) {
-            success = true;
-            break;
-          }
-        }
-        if (!success) {
-          console.log("no harmonies found!");
+        if (this.attemptHarmonize()) {
+          this.harmonizeAlgorithm();
         } else {
-          this.harmonizeAlgorithm(this.state.harmonyOption);
+          console.log("no harmonies found; trying different keys");
+          const originalKey = this.state.song.key;
+          const success = false;
+          for (const tonic of this.state.pitch) {
+            this.setState({ song: {...this.state.song, key: tonic}}, () => {
+              if (this.attemptHarmonize()) {
+                success = true;
+                break;
+              }
+            })
+            this.setState({ song: {...this.state.song, key: tonic + "m"}}, () => {
+              if (this.attemptHarmonize()) {
+                success = true;
+                break;
+              }
+            })
+          }
+          if (success) {
+            this.setState({isKeyChanged: true});
+            this.harmonizeAlgorithm();
+          }
+          console.log("no key found where the song has a harmony");
         }
         window.clearTimeout(timer);
         this.setState({isProcessed: true});
@@ -84,6 +93,20 @@ class Harmonize extends Component {
       this.harmonyPiano = piano;
     });
   }
+
+  attemptHarmonize = () => {
+    if (this.state.song.key.includes('m')) {
+      this.changeChordMinorMaps();
+    } else {
+      this.changeChordMajorMaps();
+    }
+    for (const note of this.chordChoices[0]) {
+      if (this.harmonizeHelper([[note, 0]])) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   // saveSong = () => {
   //   get("/api/whoami").then((user) => {
@@ -172,7 +195,7 @@ class Harmonize extends Component {
     return false;
   };
 
-  harmonizeAlgorithm = (harmonyOption) => {
+  harmonizeAlgorithm = () => {
     //TODO: base chordChoices on notes timing and not note ID to account for editing
     //TODO: also add more chords progressions and stuff
     //account for major/minor changes in the secondary harmony chords (only major is accounted for for now)
@@ -358,8 +381,7 @@ class Harmonize extends Component {
       />
 
       <div className = "u-flex-spaceBetween u-flexColumn">
-        <p style= {{lineHeight: 1.7}}> No harmonies found! Your song is still saved, but we couldn't automatically find a harmony for you. 
-        <br></br>Try changing the key of the song.</p>
+        <p style= {{lineHeight: 1.7}}> No harmonies found! Your song is still saved, but we couldn't automatically find a harmony for you.</p>
         <div className = "titles">
           <h1>{this.state.song.title}</h1>
         </div>
@@ -409,6 +431,7 @@ class Harmonize extends Component {
           <h2>Harmonize</h2>
           <h1>{this.state.song.title}</h1>
         </div>
+        {this.state.isKeyChanged ? (<p style= {{lineHeight: 1.7}}> No harmonies found! Your song is still saved, but we couldn't automatically find a harmony for you.</p>) : ()}
         <div className="big-noteblock-container">
           <NoteBlock
             harmony={this.state.harmony}
