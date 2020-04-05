@@ -1,23 +1,5 @@
 # em7.io
 
-## notes to contributors
+A web app for turning melodies into harmonies. [Demo here,](http://em7.herokuapp.com/)
 
-- start commit messages with verbs (like all these lists)
-- use 2 spaces for tabs
-- write state/props documentation for all components
-- sort things alphabetically when it makes sense
-- push only if nothing is broken (preferred, but not necessary)
-
-## todo
-
-- make harmonize actually work
-- fix bugs:
-    - the interaction between time signature, snap interval, tempo, and snapping, is wrong
-    - what happens when you try to snap after editting? at least show a message saying this is bad
-
-## things to change in skeleton
-
-- change the Frontend CLIENT_ID for Google Auth (Skeleton.js) (we'll talk about it at the end of week 2)
-- change the Server CLIENT_ID for Google Auth (auth.js) (we'll talk about it at the end of week 2)
-- change the Database SRV for Atlas (server.js)
-- change the Database Name for MongoDB (server.js)
+Made by team abcde (Dylan Liu, Carl Joshua Quines, Emma Qin) for [web.lab 2020](http://weblab.mit.edu/), and [won fourth place in the competition](http://weblab.mit.edu/winners/).
